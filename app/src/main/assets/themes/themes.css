@@ -1,0 +1,17 @@
+/* SteadyDay Theme Studio */
+:root {
+  --sd-accent: #3155ba;
+  --sd-bg: #f3f5fa;
+}
+body[data-theme="premium-minimal"] {
+  --sd-accent: #50775b;
+  --sd-bg: #f2f6f0;
+}
+body[data-theme="modern-colorful"] {
+  --sd-accent: #805de0;
+  --sd-bg: #f4efff;
+}
+body[data-theme] {
+  --accent: var(--sd-accent);
+  background: var(--sd-bg);
+}
