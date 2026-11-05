@@ -43,7 +43,12 @@ public class ReminderScheduler {
   PendingIntent pi=PendingIntent.getBroadcast(c,id(key),intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
   AlarmManager am=(AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
   // Inexact alarms require no special exact-alarm permission; OS may delay them.
-  am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);active.add(key);
+  if(Build.VERSION.SDK_INT >= 31 && !am.canScheduleExactAlarms()){
+   am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);
+  }else{
+   am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);
+  }
+  active.add(key);
  }
  static int minutes(String s){try{String[] p=s.split(":");return Integer.parseInt(p[0])*60+Integer.parseInt(p[1]);}catch(Exception e){return 0;}}
  static void test(Context c,String mode,String lang){ReminderReceiver.show(c,"test","SteadyDay",mode,false,lang);}
