@@ -15,3 +15,99 @@ body[data-theme] {
   --accent: var(--sd-accent);
   background: var(--sd-bg);
 }
+
+/* Free theme visual identities — light mode */
+body:not(.dark)[data-theme="premium-minimal"] {
+  background:linear-gradient(135deg,#edf5ed,#faf9f3)!important;
+  color:#263e34;
+}
+body:not(.dark)[data-theme="premium-minimal"] .side {
+  background:#f5faf4;
+  border-color:#d5e5d6;
+}
+body:not(.dark)[data-theme="premium-minimal"] .panel {
+  background:#fffefa;
+  border-color:#d8e7d8;
+  border-radius:20px;
+}
+body:not(.dark)[data-theme="premium-minimal"] .nav.active,
+body:not(.dark)[data-theme="premium-minimal"] .btn:not(.secondary):not(.danger) {
+  background:#426b56;
+  color:white;
+}
+
+body:not(.dark)[data-theme="modern-colorful"] {
+  background:linear-gradient(125deg,#f1e8ff,#e5f5ff,#ffeafa)!important;
+  color:#30264b;
+}
+body:not(.dark)[data-theme="modern-colorful"] .side {
+  background:#f2eaff;
+  border-color:#dfcafa;
+}
+body:not(.dark)[data-theme="modern-colorful"] .panel {
+  background:#ffffffed;
+  border:1px solid #d8c6ff;
+  border-radius:26px;
+  box-shadow:0 8px 28px #8d5cce20;
+}
+body:not(.dark)[data-theme="modern-colorful"] .nav.active,
+body:not(.dark)[data-theme="modern-colorful"] .btn:not(.secondary):not(.danger) {
+  background:linear-gradient(120deg,#8054df,#b45cc8);
+  color:white;
+}
+
+/* Premium Minimal dashboard */
+body:not(.dark)[data-theme="premium-minimal"] .hero {
+  background:linear-gradient(125deg,#dcebdd,#f8f3e6);
+  border:1px solid #c9dfcb;
+  border-radius:28px;
+  color:#284d3c;
+  box-shadow:0 12px 30px #436b5218;
+}
+body:not(.dark)[data-theme="premium-minimal"] .stat {
+  background:#fffdf7;
+  border:1px solid #d6e7d8;
+  border-radius:22px;
+  box-shadow:0 6px 20px #426b5610;
+}
+body:not(.dark)[data-theme="premium-minimal"] #sProgress {
+  display:grid;
+  place-items:center;
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  background:radial-gradient(closest-side,#fffdf7 78%,transparent 80%),
+             conic-gradient(#56866b 0% 72%,#dcebdd 72% 100%);
+  color:#315d45;
+  margin:12px auto;
+}
+
+/* Dynamic progress ring */
+body:not(.dark)[data-theme="premium-minimal"] #sProgress {
+  background:
+    radial-gradient(closest-side,#fffdf7 78%,transparent 80%),
+    conic-gradient(
+      #56866b 0% var(--sd-progress,0%),
+      #dcebdd var(--sd-progress,0%) 100%
+    );
+}
+
+/* Premium Minimal finishing touches */
+body:not(.dark)[data-theme="premium-minimal"] .stats {
+  gap:14px;
+}
+body:not(.dark)[data-theme="premium-minimal"] .stat {
+  padding:22px;
+}
+body:not(.dark)[data-theme="premium-minimal"] .panel {
+  box-shadow:0 8px 28px #426b5610;
+}
+body:not(.dark)[data-theme="premium-minimal"] .btn.secondary {
+  background:#e6f0e5;
+  color:#315d45;
+  border-radius:14px;
+}
+body:not(.dark)[data-theme="premium-minimal"] .chip {
+  background:#e4efe2;
+  color:#315d45;
+}
