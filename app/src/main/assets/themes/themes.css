@@ -147,3 +147,123 @@ body.dark[data-theme="modern-colorful"] .btn:not(.secondary):not(.danger) {
   background:linear-gradient(120deg,#8961e9,#c16cce);
   color:white;
 }
+
+/* SteadyDay — shared phone-first header */
+@media(max-width:650px) {
+  .main {
+    padding:20px 16px 100px;
+  }
+  .top {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:16px;
+    margin-bottom:22px;
+  }
+  .top h1 {
+    font-size:29px;
+    font-weight:750;
+    letter-spacing:-1px;
+    line-height:1.2;
+  }
+  .langtools {
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+  }
+  .langtools button {
+    border-radius:14px;
+    padding:11px 14px;
+    min-height:44px;
+    font-size:13px;
+    font-weight:600;
+  }
+  .langtools .btn {
+    flex:1;
+  }
+  .hero {
+    padding:25px 22px;
+    border-radius:26px;
+    min-height:145px;
+  }
+  .hero h2 {
+    font-size:23px;
+    line-height:1.25;
+    letter-spacing:-.6px;
+  }
+  .stats {
+    gap:12px;
+  }
+  .stat {
+    min-height:135px;
+    border-radius:20px;
+  }
+}
+
+/* SteadyDay — polished mobile navigation */
+@media(max-width:650px) {
+  .side {
+    height:auto;
+    min-height:70px;
+    padding:8px 6px max(8px,env(safe-area-inset-bottom));
+    border-radius:22px 22px 0 0;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+  }
+  .side .nav {
+    min-height:48px;
+    border-radius:15px;
+    padding:10px 3px;
+    transition:background .2s,color .2s,transform .2s;
+  }
+  .side .nav.active {
+    font-weight:700;
+    transform:translateY(-2px);
+  }
+  .app {
+    padding-bottom:calc(90px + env(safe-area-inset-bottom));
+  }
+}
+
+/* SteadyDay — polished dashboard cards */
+#dashboard .panel,
+#dashboard .stat {
+  transition:box-shadow .2s ease,transform .2s ease;
+}
+#dashboard .stat {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:8px;
+}
+#dashboard .stat strong {
+  font-weight:800;
+  letter-spacing:-1px;
+}
+#dashboard .panel h2 {
+  font-size:18px;
+  letter-spacing:-.4px;
+}
+@media(max-width:650px) {
+  #dashboard .stats {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  #dashboard .stat {
+    padding:16px;
+    min-width:0;
+  }
+  #dashboard .stat strong {
+    font-size:27px;
+  }
+  #dashboard .panel {
+    border-radius:22px;
+    padding:19px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  #dashboard .panel,
+  #dashboard .stat,
+  .side .nav {
+    transition:none;
+  }
+}
