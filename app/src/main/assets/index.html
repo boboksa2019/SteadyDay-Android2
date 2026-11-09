@@ -43,13 +43,13 @@ box.querySelectorAll('[data-ascend-date]').forEach(cell=>{
  const date=cell.dataset.ascendDate,items=data.tasks.filter(t=>t.date===date);
  const completed=items.filter(t=>t.done).length;
  cell.classList.toggle('ascend-all-complete',items.length>0&&completed===items.length);
- cell.classList.toggle('ascend-part-complete',completed>0&&completed<items.length);
+ cell.classList.toggle('ascend-part-complete',completed>0&&completed<items.length);cell.classList.toggle('ascend-has-appointments',items.length>0);
  const pending=items.filter(t=>!t.done);const p=pending.some(t=>ascendPriority(t)==='high')?'high':pending.some(t=>ascendPriority(t)==='normal')?'normal':pending.length?'low':'none';
  cell.classList.remove('ascend-day-priority-high','ascend-day-priority-normal','ascend-day-priority-low');
- if(p!=='none')cell.classList.add('ascend-day-priority-'+p);
+ if(p!=='none')cell.classList.add('ascend-day-priority-'+p);cell.dataset.ascendPriority=p;cell.setAttribute('title',date+' — '+items.length+' appointments, '+completed+' completed'+(p!=='none'?', '+p+' priority':''));
  if(completed>0){
   const badge=document.createElement('span');badge.className='ascend-calendar-status';
-  badge.textContent=completed===items.length?'✓':completed+'/'+items.length;
+  badge.textContent=completed===items.length?'✓ Done':'✓ '+completed+'/'+items.length;
   badge.setAttribute('aria-label',completed+' of '+items.length+' tasks completed');
   cell.append(badge);
  }
@@ -187,7 +187,7 @@ function act(e){
  if(button.dataset.action==='delete'){
   askDelete(t);return;
  }
- if(button.dataset.action==='complete'){t.done=!t.done;render()}
+ if(button.dataset.action==='complete'){t.done=!t.done;render();drawCalendar();decorate();if(dayBox.dataset.selectedDate)showDay(dayBox.dataset.selectedDate);showSearch();return}
 }
 results.addEventListener('click',act);
 dayBox.addEventListener('click',act);
