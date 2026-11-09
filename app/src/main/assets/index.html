@@ -318,6 +318,25 @@ decorate();
 })();
 </script>
 <script>
+/* Ascend 12: more palettes, added before trial controls initialize. */
+(function(){
+ const wrap=document.querySelector('.ascend-theme-previews');
+ if(!wrap)return;
+ [
+  ['Zen Garden','zen','Quiet sage and stone'],
+  ['Emerald Night','emerald','Rich green after dark'],
+  ['Sunset Calm','sunset','Warm evening colors'],
+  ['Polar Aurora','polar','Cool northern glow']
+ ].forEach(([name,key,desc])=>{
+  if(Array.from(wrap.children).some(c=>c.querySelector('b')?.textContent===name))return;
+  const card=document.createElement('div');card.className='ascend-theme-preview ascend-preview-'+key;
+  const title=document.createElement('b');title.textContent=name;
+  const sub=document.createElement('small');sub.textContent=desc+' · Preview';
+  card.append(title,sub);wrap.append(card);
+ });
+})();
+</script>
+<script>
 /* Ascend 11: temporary palette trials; never changes paid entitlement or saved theme. */
 (function(){
  const section=document.querySelector('.ascend-theme-preview-section');
@@ -325,7 +344,8 @@ decorate();
  if(!section||!previews)return;
  const palettes={
   'Midnight Focus':'midnight','Ocean Breeze':'ocean','Desert Harmony':'desert',
-  'Aurora Glass':'aurora','Cherry Blossom':'cherry','Cosmic Focus':'cosmic'
+  'Aurora Glass':'aurora','Cherry Blossom':'cherry','Cosmic Focus':'cosmic',
+  'Zen Garden':'zen','Emerald Night':'emerald','Sunset Calm':'sunset','Polar Aurora':'polar'
  };
  const note=document.createElement('p');note.className='ascend-trial-note';
  const reset=document.createElement('button');reset.type='button';reset.className='btn secondary ascend-trial-reset';
@@ -352,6 +372,68 @@ decorate();
  const observer=new MutationObserver(()=>update());
  observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
  update();
+})();
+</script>
+<script>
+/* Ascend 12: opt-in local backup. Never transmits data or changes it without confirmation. */
+(function(){
+ const settings=document.getElementById('settings');
+ if(!settings||document.getElementById('ascendDataSafety'))return;
+ const section=document.createElement('section');
+ section.id='ascendDataSafety';section.className='panel ascend-data-safety';
+ const title=document.createElement('h2'),desc=document.createElement('p'),actions=document.createElement('div');
+ const exportBtn=document.createElement('button'),importBtn=document.createElement('button');
+ const file=document.createElement('input'),status=document.createElement('p');
+ actions.className='ascend-data-actions';status.className='muted ascend-data-status';status.setAttribute('role','status');
+ file.type='file';file.accept='.json,application/json';file.hidden=true;
+ exportBtn.type=importBtn.type='button';exportBtn.className='btn secondary';importBtn.className='btn secondary';
+ function localize(){
+  const ar=document.documentElement.lang==='ar';
+  title.textContent=ar?'نسخة احتياطية خاصة':'Private data backup';
+  desc.textContent=ar?'احفظ نسخة على جهازك أو استعدها لاحقًا. لن يتم إرسال بياناتك لأي خادم.':'Export a local backup or restore it later. Nothing is uploaded to a server.';
+  exportBtn.textContent=ar?'↓ تصدير نسخة':'↓ Export backup';
+  importBtn.textContent=ar?'↑ استيراد نسخة':'↑ Import backup';
+ }
+ function download(name,contents){
+  const blob=new Blob([JSON.stringify(contents,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;
+  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+ }
+ exportBtn.addEventListener('click',()=>{
+  try{
+   const raw=localStorage.getItem('steadyday2-v1');
+   if(!raw)throw Error('No saved data found');
+   const parsed=JSON.parse(raw);
+   if(!parsed||!Array.isArray(parsed.tasks)||!Array.isArray(parsed.habits))throw Error('Invalid saved data');
+   const prefs={};['steadyday_lang','steadyday_calendar','steadyday-theme'].forEach(k=>{const v=localStorage.getItem(k);if(v!==null)prefs[k]=v});
+   download('Ascend-backup-'+new Date().toISOString().slice(0,10)+'.json',{format:'ascend-backup',version:1,createdAt:new Date().toISOString(),data:parsed,preferences:prefs});
+   status.textContent='Backup prepared. Check your Downloads folder.';
+  }catch(e){status.textContent='Export failed: '+e.message}
+ });
+ importBtn.addEventListener('click',()=>file.click());
+ file.addEventListener('change',async()=>{
+  const chosen=file.files&&file.files[0];if(!chosen)return;
+  try{
+   if(chosen.size>5*1024*1024)throw Error('File too large (5 MB limit)');
+   const payload=JSON.parse(await chosen.text());
+   if(payload.format!=='ascend-backup'||payload.version!==1||!payload.data||!Array.isArray(payload.data.tasks)||!Array.isArray(payload.data.habits))throw Error('Not a compatible Ascend backup');
+   if(!payload.data.tasks.every(t=>t&&typeof t==='object'&&typeof t.name==='string')||!payload.data.habits.every(t=>t&&typeof t==='object'&&typeof t.name==='string'))throw Error('Backup contains invalid entries');
+   const ar=document.documentElement.lang==='ar';
+   if(!confirm(ar?'سيتم استبدال البيانات الحالية بالنسخة المستوردة. هل تريد المتابعة؟':'This will replace your current app data with the selected backup. Continue?'))return;
+   const previous=localStorage.getItem('steadyday2-v1');
+   if(previous!==null)localStorage.setItem('ascend-before-import-'+Date.now(),previous);
+   localStorage.setItem('steadyday2-v1',JSON.stringify(payload.data));
+   const prefs=payload.preferences||{};
+   ['steadyday_lang','steadyday_calendar','steadyday-theme'].forEach(k=>{if(typeof prefs[k]==='string')localStorage.setItem(k,prefs[k])});
+   status.textContent=ar?'تم الاستيراد. جارٍ إعادة تحميل التطبيق.':'Backup restored. Reloading app.';
+   location.reload();
+  }catch(e){status.textContent='Import failed: '+e.message}
+  finally{file.value=''}
+ });
+ actions.append(exportBtn,importBtn,file);section.append(title,desc,actions,status);settings.append(section);
+ localize();
+ const langBtn=document.getElementById('langBtn');
+ if(langBtn)langBtn.addEventListener('click',()=>queueMicrotask(localize));
 })();
 </script>
 </body></html>
