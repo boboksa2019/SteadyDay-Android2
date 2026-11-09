@@ -481,4 +481,57 @@ decorate();
  draw();
 })();
 </script>
+
+<script>
+/* Ascend 14: schedule-aware habit history and goal milestones; no new stored schema. */
+(function(){
+ const habitsPage=document.getElementById('habits'),goalsPage=document.getElementById('goals');
+ if(!habitsPage||!goalsPage)return;
+ const habitsPanel=document.createElement('section');habitsPanel.className='panel ascend-weekly-panel';habitsPanel.id='ascendWeeklyHabits';habitsPage.append(habitsPanel);
+ const goalsPanel=document.createElement('section');goalsPanel.className='panel ascend-goals-panel';goalsPanel.id='ascendGoalMilestones';goalsPage.append(goalsPanel);
+ const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+ const localKey=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+ const el=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
+ function refresh(){
+  if(typeof data==='undefined'||!data)return;
+  habitsPanel.replaceChildren();goalsPanel.replaceChildren();
+  habitsPanel.append(el('h2','',tr('7-day habit consistency','انتظام العادات خلال ٧ أيام')));
+  habitsPanel.append(el('p','muted',tr('Only scheduled days count. Today is included.','تُحسب الأيام المجدولة فقط، بما فيها اليوم.')));
+  const dates=Array.from({length:7},(_,i)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-(6-i));return d});
+  const hs=Array.isArray(data.habits)?data.habits:[];
+  if(!hs.length)habitsPanel.append(el('p','muted',tr('Add a habit to see its weekly history.','أضف عادة لعرض سجلها الأسبوعي.')));
+  hs.forEach(h=>{
+   if(!h||!Array.isArray(h.days))return;
+   const scheduled=dates.filter(d=>h.days.includes(d.getDay()));
+   const completed=scheduled.filter(d=>h.log&&h.log[localKey(d)]).length;
+   const percent=scheduled.length?Math.round(completed/scheduled.length*100):0;
+   const row=el('div','ascend-weekly-row');const head=el('div','ascend-weekly-head');
+   head.append(el('strong','',String(h.name||'')),el('span','',completed+'/'+scheduled.length+' · '+percent+'%'));row.append(head);
+   const days=el('div','ascend-weekly-days');
+   dates.forEach(d=>{const planned=h.days.includes(d.getDay()),finished=planned&&!!(h.log&&h.log[localKey(d)]);
+    const dot=el('span','ascend-weekly-day '+(!planned?'is-rest':finished?'is-done':'is-missed'),d.toLocaleDateString(document.documentElement.lang==='ar'?'ar-SA':'en-US',{weekday:'short'}).slice(0,2));
+    dot.title=localKey(d)+' · '+(planned?(finished?tr('Completed','مكتمل'):tr('Not completed','غير مكتمل')):tr('Not scheduled','غير مجدول'));
+    dot.setAttribute('aria-label',dot.title);days.append(dot);
+   });row.append(days);habitsPanel.append(row);
+  });
+  goalsPanel.append(el('h2','',tr('Goal milestones','مراحل تحقيق الأهداف')));
+  goalsPanel.append(el('p','muted',tr('Your progress, without streak pressure.','تقدمك دون ضغط سلاسل الإنجاز.')));
+  const gs=Array.isArray(data.goals)?data.goals:[];
+  if(!gs.length)goalsPanel.append(el('p','muted',tr('Create a goal to start tracking milestones.','أنشئ هدفًا لبدء متابعة مراحله.')));
+  gs.forEach(g=>{
+   if(!g)return;const target=Number(g.target),value=Number(g.value);
+   const pct=Number.isFinite(target)&&target>0&&Number.isFinite(value)?Math.max(0,Math.min(100,Math.round(value/target*100))):0;
+   const row=el('div','ascend-milestone');const head=el('div','ascend-weekly-head');head.append(el('strong','',String(g.name||'')),el('span','',pct+'%'));row.append(head);
+   const track=el('div','ascend-milestone-track');track.setAttribute('role','progressbar');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');track.setAttribute('aria-valuenow',String(pct));track.setAttribute('aria-label',String(g.name||''));
+   const fill=el('div','ascend-milestone-fill');fill.style.width=pct+'%';track.append(fill);row.append(track);
+   const note=pct>=100?tr('Goal achieved!','تم تحقيق الهدف!'):pct>=75?tr('Final stretch','المرحلة الأخيرة'):pct>=50?tr('Halfway there','وصلت إلى المنتصف'):pct>=25?tr('Building momentum','تقدم مستمر'):tr('Getting started','بداية الطريق');
+   row.append(el('small','muted',note));goalsPanel.append(row);
+  });
+ }
+ const prior=window.render;if(typeof prior==='function')window.render=function(){prior();refresh()};
+ const priorLang=window.switchLanguage;if(typeof priorLang==='function')window.switchLanguage=function(){priorLang();refresh()};
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
+ refresh();
+})();
+</script>
 </body></html>

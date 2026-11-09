@@ -708,3 +708,20 @@ body[data-ascend-trial] .ascend-data-safety .btn{background:var(--ascend-trial-a
 body.dark .ascend-focus-item{color:inherit}
 body[data-ascend-trial] .ascend-focus-queue{background:var(--ascend-trial-card)!important;color:var(--ascend-trial-fg)!important}
 @media(max-width:650px){.ascend-focus-item{padding:11px}.ascend-focus-edit{padding:8px}}
+
+/* Ascend 14: schedule-aware history and milestone visuals */
+.ascend-weekly-panel,.ascend-goals-panel{margin-top:18px}
+.ascend-weekly-row,.ascend-milestone{padding:13px 0;border-bottom:1px solid rgba(128,145,155,.22)}
+.ascend-weekly-row:last-child,.ascend-milestone:last-child{border-bottom:0}
+.ascend-weekly-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.ascend-weekly-head strong{overflow-wrap:anywhere;min-width:0}
+.ascend-weekly-head span{font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ascend-weekly-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.ascend-weekly-day{display:grid;place-items:center;min-height:35px;border-radius:9px;background:rgba(128,145,155,.14);font-size:11px;font-weight:600}
+.ascend-weekly-day.is-done{background:#287d64;color:#fff}
+.ascend-weekly-day.is-missed{background:rgba(194,125,63,.18);color:inherit;border:1px solid rgba(194,125,63,.3)}
+.ascend-weekly-day.is-rest{opacity:.45;border:1px dashed currentColor}
+.ascend-milestone-track{height:12px;border-radius:999px;background:rgba(128,145,155,.2);overflow:hidden;margin-bottom:8px}
+.ascend-milestone-fill{height:100%;border-radius:999px;background:#319b80;transition:width .2s ease}
+body[data-ascend-trial] .ascend-milestone-fill{background:var(--ascend-trial-accent)}
+@media(max-width:420px){.ascend-weekly-days{gap:3px}.ascend-weekly-day{min-height:30px;font-size:10px}}
