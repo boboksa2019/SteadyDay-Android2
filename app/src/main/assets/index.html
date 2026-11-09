@@ -317,4 +317,41 @@ decorate();
  });
 })();
 </script>
+<script>
+/* Ascend 11: temporary palette trials; never changes paid entitlement or saved theme. */
+(function(){
+ const section=document.querySelector('.ascend-theme-preview-section');
+ const previews=document.querySelector('.ascend-theme-previews');
+ if(!section||!previews)return;
+ const palettes={
+  'Midnight Focus':'midnight','Ocean Breeze':'ocean','Desert Harmony':'desert',
+  'Aurora Glass':'aurora','Cherry Blossom':'cherry','Cosmic Focus':'cosmic'
+ };
+ const note=document.createElement('p');note.className='ascend-trial-note';
+ const reset=document.createElement('button');reset.type='button';reset.className='btn secondary ascend-trial-reset';
+ const update=()=>{
+  const ar=document.documentElement.lang==='ar';
+  const active=document.body.dataset.ascendTrial;
+  note.textContent=active?(ar?'معاينة مؤقتة: لن تتغير السمة المحفوظة أو الاشتراك.':'Temporary theme trial. Your saved theme and premium status are unchanged.'):(ar?'اضغط معاينة لتجربة الألوان مؤقتًا.':'Select Try palette to preview colors temporarily.');
+  reset.textContent=ar?'إنهاء المعاينة':'Exit preview';reset.hidden=!active;
+  previews.querySelectorAll('button[data-trial]').forEach(b=>{
+   b.textContent=ar?'معاينة':'Try palette';
+   b.setAttribute('aria-pressed',String(active===b.dataset.trial));
+  });
+ };
+ Object.keys(palettes).forEach(name=>{
+  const card=Array.from(previews.children).find(el=>el.querySelector('b')?.textContent?.trim()===name);
+  if(!card||card.querySelector('[data-trial]'))return;
+  const btn=document.createElement('button');btn.type='button';btn.className='ascend-trial-button';btn.dataset.trial=palettes[name];
+  btn.setAttribute('aria-label','Try '+name+' palette');
+  btn.addEventListener('click',()=>{document.body.dataset.ascendTrial=palettes[name];update()});
+  card.append(btn);
+ });
+ reset.addEventListener('click',()=>{delete document.body.dataset.ascendTrial;update()});
+ section.insertBefore(note,previews);section.insertBefore(reset,previews);
+ const observer=new MutationObserver(()=>update());
+ observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+ update();
+})();
+</script>
 </body></html>
