@@ -239,7 +239,7 @@ decorate();
  // Reconcile after completion, deletion and form saves, after the original handlers run.
  document.addEventListener('click',function(e){
   if(e.target.closest('[data-action="complete"],[data-action="delete"],.ascend-confirm-delete')){
-   setTimeout(refreshView,0);
+   queueMicrotask(()=>{updateSummary()});
   }
  },false);
  document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshView()});
@@ -249,4 +249,72 @@ decorate();
  observer.observe(cal,{childList:true});
  updateSummary();
 })();
-</script></body></html>
+</script><script>
+/* Ascend 10 — local momentum insights and focused daily view. No external services. */
+(function(){
+ const dash=document.getElementById('dashboard');
+ if(!dash||document.getElementById('ascendMomentum'))return;
+ const panel=document.createElement('section');
+ panel.className='panel ascend-momentum';panel.id='ascendMomentum';
+ panel.setAttribute('aria-live','polite');
+ dash.appendChild(panel);
+ const dateKey=d=>{const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+day};
+ const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+ function update(){
+  if(typeof data==='undefined'||!data)return;
+  const now=new Date(),todayKey=dateKey(now);
+  const tasks=Array.isArray(data.tasks)?data.tasks:[];
+  const habits=Array.isArray(data.habits)?data.habits:[];
+  const dueToday=tasks.filter(t=>t.date===todayKey);
+  const finished=dueToday.filter(t=>t.done).length;
+  const overdue=tasks.filter(t=>t.date&&t.date<todayKey&&!t.done).length;
+  const next=tasks.filter(t=>t.date>=todayKey&&!t.done).sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')))[0];
+  const percent=dueToday.length?Math.round(finished/dueToday.length*100):0;
+  panel.replaceChildren();
+  const title=document.createElement('h2');title.textContent=tr('Your momentum','زخم إنجازك');panel.append(title);
+  const hint=document.createElement('p');hint.className='muted';hint.textContent=tr('A private snapshot calculated on your device.','لمحة خاصة تُحسب على جهازك فقط.');panel.append(hint);
+  const stats=document.createElement('div');stats.className='ascend-momentum-grid';
+  [[tr('Today completed','مكتمل اليوم'),finished+' / '+dueToday.length],
+   [tr('Today progress','تقدم اليوم'),percent+'%'],
+   [tr('Needs attention','يحتاج متابعة'),String(overdue)],
+   [tr('Habits tracked','العادات المتابعة'),String(habits.length)]].forEach(([label,value])=>{
+   const item=document.createElement('div');item.className='ascend-momentum-stat';
+   const num=document.createElement('strong');num.textContent=value;
+   const cap=document.createElement('span');cap.textContent=label;
+   item.append(num,cap);stats.append(item);
+  });
+  panel.append(stats);
+  const track=document.createElement('div');track.className='ascend-momentum-track';
+  track.setAttribute('role','progressbar');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');track.setAttribute('aria-valuenow',String(percent));
+  const bar=document.createElement('span');bar.style.width=percent+'%';track.append(bar);panel.append(track);
+  const note=document.createElement('p');note.className='ascend-momentum-next';
+  note.textContent=next?tr('Next up: ','التالي: ')+next.name+' · '+next.date+(next.time?' · '+next.time:''):tr('No upcoming unfinished dated tasks.','لا توجد مهام مؤرخة قادمة غير مكتملة.');
+  panel.append(note);
+ }
+ const original=window.render;
+ window.render=function(){original();update()};
+ const originalLang=window.switchLanguage;
+ window.switchLanguage=function(){originalLang();update()};
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)update()});
+ update();
+})();
+</script>
+<script>
+(function(){
+ const wrap=document.querySelector('.ascend-theme-previews');
+ if(!wrap)return;
+ const themes=[
+  ['Aurora Glass','ascend-preview-aurora','Soft northern lights'],
+  ['Cherry Blossom','ascend-preview-cherry','Gentle spring'],
+  ['Cosmic Focus','ascend-preview-cosmic','Deep-space clarity']
+ ];
+ themes.forEach(([name,klass,desc])=>{
+  if(wrap.querySelector('.'+klass))return;
+  const card=document.createElement('div');card.className='ascend-theme-preview '+klass;
+  const title=document.createElement('b');title.textContent=name;
+  const caption=document.createElement('small');caption.textContent=desc+' · Preview';
+  card.append(title,caption);wrap.append(card);
+ });
+})();
+</script>
+</body></html>

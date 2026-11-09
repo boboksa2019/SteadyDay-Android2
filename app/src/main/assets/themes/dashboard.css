@@ -632,3 +632,18 @@ body.dark #calendar [data-ascend-date].ascend-selected{outline-color:#b0bfff!imp
 body.dark .ascend-calendar-summary{background:rgba(235,245,255,.09)}
 body.dark #ascendRefreshNow{border-color:rgba(255,255,255,.45)}
 @media(max-width:650px){.ascend-refresh-tools{align-items:flex-start}.ascend-theme-previews{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}}
+
+/* Ascend 10 — device-only momentum dashboard and additional theme previews */
+.ascend-momentum{margin-top:18px}
+.ascend-momentum-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0}
+.ascend-momentum-stat{padding:13px;border-radius:14px;background:rgba(119,148,134,.11);min-width:0;display:flex;flex-direction:column;gap:5px}
+.ascend-momentum-stat strong{font-size:21px;line-height:1.1;font-variant-numeric:tabular-nums}
+.ascend-momentum-stat span{font-size:11px;opacity:.82}
+.ascend-momentum-track{height:9px;border-radius:99px;background:rgba(119,148,134,.22);overflow:hidden}
+.ascend-momentum-track span{display:block;height:100%;border-radius:99px;background:var(--accent,#478b70);transition:width .25s}
+.ascend-momentum-next{font-size:13px;line-height:1.5;overflow-wrap:anywhere;margin-top:12px}
+.ascend-preview-aurora{background:linear-gradient(140deg,#142e45,#357a78,#a5c4c5);color:#fff}
+.ascend-preview-cherry{background:linear-gradient(140deg,#ffe9ed,#ecafc6);color:#623149}
+.ascend-preview-cosmic{background:linear-gradient(140deg,#14142c,#444a86,#785a9c);color:#fff}
+body.dark .ascend-momentum-stat{background:rgba(200,225,215,.1)}
+@media(max-width:720px){.ascend-momentum-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
