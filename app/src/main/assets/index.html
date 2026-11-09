@@ -176,7 +176,7 @@ function askDelete(t){
  const yes=document.createElement('button');yes.type='button';yes.className='ascend-confirm-delete';yes.textContent=tr('Delete','حذف');
  const close=()=>shade.remove();
  cancel.onclick=close;
- yes.onclick=()=>{data.tasks=data.tasks.filter(x=>String(x.id)!==String(t.id));close();render()};
+ yes.onclick=()=>{const before=data.tasks.length;data.tasks=data.tasks.filter(x=>String(x.id)!==String(t.id));if(data.tasks.length===before){close();return}save();close();render();drawCalendar();decorate();if(dayBox.dataset.selectedDate)showDay(dayBox.dataset.selectedDate);showSearch()};
  shade.onclick=e=>{if(e.target===shade)close()};
  actions.append(cancel,yes);panel.append(heading,desc,actions);shade.append(panel);document.body.append(shade);cancel.focus();
 }
@@ -187,7 +187,7 @@ function act(e){
  if(button.dataset.action==='delete'){
   askDelete(t);return;
  }
- if(button.dataset.action==='complete'){t.done=!t.done;render();drawCalendar();decorate();if(dayBox.dataset.selectedDate)showDay(dayBox.dataset.selectedDate);showSearch();return}
+ if(button.dataset.action==='complete'){t.done=!t.done;save();render();drawCalendar();decorate();if(dayBox.dataset.selectedDate)showDay(dayBox.dataset.selectedDate);showSearch();return}
 }
 results.addEventListener('click',act);
 dayBox.addEventListener('click',act);
