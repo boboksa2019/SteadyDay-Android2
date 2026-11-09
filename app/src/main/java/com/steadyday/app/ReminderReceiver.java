@@ -18,10 +18,10 @@ public class ReminderReceiver extends android.content.BroadcastReceiver {
  }
  static void show(Context c,String key,String name,String mode,boolean hide,String lang){
   if("inapp".equals(mode))return;
-  boolean ar="ar".equals(lang);String title=ar?"تذكير لطيف من SteadyDay":"A friendly SteadyDay reminder";
+  boolean ar="ar".equals(lang);String title=ar?"تذكير لطيف من أسيند":"A friendly Ascend reminder";
   String message=hide||name.isEmpty()?(ar?"لديك شيء مخطط له اليوم.":"You have something planned today."):(ar?"حان وقت: ":"Time for: ")+name;
   String channel="steadyday_"+mode;NotificationManager nm=(NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
-  if(Build.VERSION.SDK_INT>=26){NotificationChannel ch=new NotificationChannel(channel,"SteadyDay "+mode,NotificationManager.IMPORTANCE_DEFAULT);ch.enableVibration(mode.equals("vibrate")||mode.equals("both"));if(mode.equals("silent")||mode.equals("vibrate"))ch.setSound(null,null);nm.createNotificationChannel(ch);}
+  if(Build.VERSION.SDK_INT>=26){NotificationChannel ch=new NotificationChannel(channel,"Ascend "+mode,NotificationManager.IMPORTANCE_DEFAULT);ch.enableVibration(mode.equals("vibrate")||mode.equals("both"));if(mode.equals("silent")||mode.equals("vibrate"))ch.setSound(null,null);nm.createNotificationChannel(ch);}
   Intent open=new Intent(c,MainActivity.class);PendingIntent pi=PendingIntent.getActivity(c,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
   Notification.Builder b=Build.VERSION.SDK_INT>=26?new Notification.Builder(c,channel):new Notification.Builder(c);
   b.setSmallIcon(android.R.drawable.ic_popup_reminder).setContentTitle(title).setContentText(message).setAutoCancel(true).setContentIntent(pi);

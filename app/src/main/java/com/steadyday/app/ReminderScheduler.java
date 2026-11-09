@@ -51,5 +51,5 @@ public class ReminderScheduler {
   active.add(key);
  }
  static int minutes(String s){try{String[] p=s.split(":");return Integer.parseInt(p[0])*60+Integer.parseInt(p[1]);}catch(Exception e){return 0;}}
- static void test(Context c,String mode,String lang){ReminderReceiver.show(c,"test","SteadyDay",mode,false,lang);}
+ static void test(Context c,String mode,String lang){ReminderReceiver.show(c,"test","Ascend",mode,false,lang);}
 }
