@@ -293,3 +293,125 @@ body.dark[data-theme="modern-colorful"] #dashboard .hero {
     padding:24px 20px;
   }
 }
+
+/* SteadyDay — weekly activity chart */
+#dashboard #chart {
+  min-height:175px;
+  padding:18px 12px 10px;
+  border-radius:18px;
+  align-items:end;
+}
+
+#dashboard #chart > * {
+  min-width:0;
+}
+
+#dashboard #chart .bar {
+  border-radius:9px 9px 5px 5px;
+  transition:height .3s ease;
+}
+
+body[data-theme="premium-minimal"] #dashboard #chart {
+  background:#e9eee5;
+}
+
+body.dark[data-theme="premium-minimal"] #dashboard #chart {
+  background:#203a2f;
+}
+
+body[data-theme="modern-colorful"] #dashboard #chart {
+  background:linear-gradient(135deg,#f4e8ff,#e7f4ff);
+}
+
+body.dark[data-theme="modern-colorful"] #dashboard #chart {
+  background:linear-gradient(135deg,#332747,#263951);
+}
+
+/* More comfortable dashboard spacing */
+#dashboard .columns {
+  gap:20px;
+}
+
+#dashboard .panel {
+  overflow:hidden;
+}
+
+#dashboard .toolbar {
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* Tablet-friendly statistics */
+@media(min-width:651px) and (max-width:1100px) {
+  #dashboard .columns {
+    grid-template-columns:1fr;
+  }
+
+  #dashboard .stats {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  #dashboard #chart .bar {
+    transition:none;
+  }
+}
+
+/* SteadyDay — premium weekly chart */
+#dashboard #chart.bars {
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  align-items:end;
+  gap:8px;
+  min-height:205px;
+  padding:18px 12px 12px;
+}
+
+#dashboard #chart .barwrap {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  font-size:11px;
+  text-align:center;
+}
+
+#dashboard #chart .barwrap .bar {
+  width:min(100%,30px);
+  min-height:4px;
+  border-radius:10px 10px 5px 5px;
+  background:var(--sd-accent);
+  box-shadow:0 3px 9px #00000012;
+}
+
+#dashboard #chart .barwrap b {
+  font-size:11px;
+  font-weight:700;
+}
+
+body[data-theme="modern-colorful"] #dashboard #chart .bar {
+  background:linear-gradient(180deg,#b38cff,#7e69ed);
+}
+
+body[data-theme="premium-minimal"] #dashboard #chart .bar {
+  background:linear-gradient(180deg,#82b79b,#356e53);
+}
+
+@media(max-width:650px) {
+  #dashboard #chart.bars {
+    gap:4px;
+    padding:14px 6px 10px;
+  }
+
+  #dashboard #chart .barwrap {
+    font-size:10px;
+    gap:6px;
+  }
+
+  #dashboard #chart .barwrap b {
+    font-size:10px;
+  }
+}
