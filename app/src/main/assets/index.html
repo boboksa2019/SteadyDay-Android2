@@ -38,7 +38,20 @@ const getParts=d=>{let a=new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',{
 function translateText(text){if(lang!=='ar')return text;let t=text.trim();if(dict[t])return text.replace(t,dict[t]);let m=t.match(/^(\d+) days\/week$/);if(m)return m[1]+' أيام/أسبوع';m=t.match(/^(\d+) streak$/);if(m)return 'سلسلة '+m[1];m=t.match(/^(\d+) scheduled completions in current streak$/);if(m)return m[1]+' إنجازات متتالية';return text}
 function applyLanguage(){document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.body.classList.toggle('locale-ar',lang==='ar');document.getElementById('langBtn').textContent=lang==='ar'?'English':'العربية';document.getElementById('calModeBtn').textContent=mode==='gregory'?(lang==='ar'?'☪ هجري':'☪ Hijri'):(lang==='ar'?'▦ ميلادي':'▦ Gregorian');document.getElementById('heroTitle').textContent=lang==='ar'?dict['Small steps. Higher goals.']:'Small steps. Higher goals.';document.getElementById('heroText').textContent=lang==='ar'?dict['Make room for what matters, one day at a time.']:'Make room for what matters, one day at a time.';document.getElementById('goTodayBtn').textContent=lang==='ar'?'اليوم':'Today';document.querySelectorAll('button, .muted, .stat span, h1, h2, label, .footer, .emptymsg, .chip, .entry small, .modal p, .panel p').forEach(el=>{if(el.closest('#calendar')||el.id==='calLabel'||el.id==='calNote'||el.id==='calTitle'||el.id==='langBtn'||el.id==='calModeBtn'||el.id==='heroTitle'||el.id==='heroText'||el.id==='goTodayBtn')return;Array.from(el.childNodes).filter(n=>n.nodeType===3).forEach(n=>{if(n._steadyOriginal===undefined)n._steadyOriginal=n.nodeValue;n.nodeValue=lang==='ar'?translateText(n._steadyOriginal):n._steadyOriginal})});document.getElementById('today').textContent=gregDate(new Date(),lang)+'  ·  '+hijriFmt(new Date(),lang,{day:'numeric',month:'long',year:'numeric'});drawCalendar()}
 function drawCalendar(){let box=document.getElementById('calendar'),now=new Date(),base=new Date(now.getFullYear(),now.getMonth()+offset,1,12),days=[],label='',secondary='';if(mode==='gregory'){let first=new Date(base.getFullYear(),base.getMonth(),1,12),last=new Date(base.getFullYear(),base.getMonth()+1,0,12);for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1))days.push(new Date(d));label=new Intl.DateTimeFormat(lang==='ar'?'ar-SA-u-ca-gregory':'en-US',{month:'long',year:'numeric'}).format(first);secondary=hijriFmt(first,lang,{month:'long',year:'numeric'})+' — '+hijriFmt(last,lang,{month:'long',year:'numeric'});}else{let anchor=new Date(now.getFullYear(),now.getMonth()+offset,15,12),part=getParts(anchor);let start=new Date(anchor);for(let i=0;i<40;i++){let prev=new Date(start);prev.setDate(start.getDate()-1);if(getParts(prev).month!==part.month||getParts(prev).year!==part.year)break;start=prev}for(let i=0;i<31;i++){let d=new Date(start);d.setDate(start.getDate()+i);let p=getParts(d);if(p.month!==part.month||p.year!==part.year)break;days.push(d)}label=hijriFmt(anchor,lang,{month:'long',year:'numeric'});secondary=lang==='ar'?'حسب تقويم أم القرى • قد تختلف الرؤية الشرعية':'Umm al-Qura calculation • Moon sighting may differ'}
-let dayNames=lang==='ar'?['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];let html=dayNames.map(n=>'<div class="day head">'+n+'</div>').join('');for(let i=0;i<days[0].getDay();i++)html+='<div class="day empty"></div>';for(let d of days){let doneDay=data.habits.some(h=>due(h,d)&&done(h,d)),n=mode==='gregory'?d.getDate():getParts(d).day;html+='<div class="day '+(doneDay?'done ':'')+(iso(d)===today()?'today':'')+'" data-ascend-date="'+iso(d)+'" title="'+pct(d)+'%">'+n+'<span class="ascend-cal-emojis">'+data.tasks.filter(t=>t.date===iso(d)).slice(0,3).map(t=>esc(t.emoji||'📌')).join('')+'</span></div>'}box.innerHTML=html;document.getElementById('calTitle').textContent=lang==='ar'?'التقويم':'Calendar';document.getElementById('calLabel').textContent=label;document.getElementById('calNote').textContent=secondary}
+let dayNames=lang==='ar'?['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];let html=dayNames.map(n=>'<div class="day head">'+n+'</div>').join('');for(let i=0;i<days[0].getDay();i++)html+='<div class="day empty"></div>';for(let d of days){let doneDay=data.habits.some(h=>due(h,d)&&done(h,d)),n=mode==='gregory'?d.getDate():getParts(d).day;html+='<div class="day '+(doneDay?'done ':'')+(iso(d)===today()?'today':'')+'" data-ascend-date="'+iso(d)+'" title="'+pct(d)+'%">'+n+'<span class="ascend-cal-emojis">'+data.tasks.filter(t=>t.date===iso(d)).slice(0,3).map(t=>esc(t.emoji||'📌')).join('')+'</span></div>'}box.innerHTML=html;
+box.querySelectorAll('[data-ascend-date]').forEach(cell=>{
+ const date=cell.dataset.ascendDate,items=data.tasks.filter(t=>t.date===date);
+ const completed=items.filter(t=>t.done).length;
+ cell.classList.toggle('ascend-all-complete',items.length>0&&completed===items.length);
+ cell.classList.toggle('ascend-part-complete',completed>0&&completed<items.length);
+ if(completed>0){
+  const badge=document.createElement('span');badge.className='ascend-calendar-status';
+  badge.textContent=completed===items.length?'✓':completed+'/'+items.length;
+  badge.setAttribute('aria-label',completed+' of '+items.length+' tasks completed');
+  cell.append(badge);
+ }
+});
+document.getElementById('calTitle').textContent=lang==='ar'?'التقويم':'Calendar';document.getElementById('calLabel').textContent=label;document.getElementById('calNote').textContent=secondary}
 window.switchLanguage=()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('steadyday_lang',lang);render();applyLanguage()};window.switchCalendar=()=>{mode=mode==='gregory'?'hijri':'gregory';offset=0;localStorage.setItem('steadyday_calendar',mode);applyLanguage()};window.changeMonth=n=>{offset+=n;drawCalendar()};window.goToday=()=>{offset=0;drawCalendar()};
 const oldRender=window.render;window.render=function(){oldRender();applyLanguage()};const oldPage=window.page;window.page=function(p){oldPage(p);applyLanguage()};const oldOpen=window.openModal;window.openModal=function(k,id){oldOpen(k,id);applyLanguage()};
 applyLanguage();
@@ -132,7 +145,7 @@ function actions(t){
  '<button type="button" data-action="complete" data-id="'+id+'">'+(t.done?tr('Reopen','إعادة فتح'):tr('Complete','إنهاء'))+'</button>'+
  '<button type="button" class="ascend-delete" data-action="delete" data-id="'+id+'">'+tr('Delete','حذف')+'</button></div>';
 }
-function itemLine(t){return '<div class="ascend-result-card"><div class="ascend-result-main"><span class="ascend-result-emoji" aria-hidden="true">'+esc(t.emoji||'📌')+'</span><span class="ascend-result-copy"><strong>'+esc(t.name)+'</strong><small>'+esc(t.date||tr('No date','بدون تاريخ'))+(t.time?' · '+esc(t.time):'')+' · '+esc(t.priority||'Normal')+(t.done?' · '+tr('Completed','مكتمل'):'')+'</small></span></div>'+actions(t)+'</div>'}
+function itemLine(t){return '<div class="ascend-result-card '+(t.done?'ascend-item-completed':'')+'"><div class="ascend-result-main"><span class="ascend-result-emoji" aria-hidden="true">'+esc(t.emoji||'📌')+'</span><span class="ascend-result-copy"><strong>'+esc(t.name)+'</strong><small>'+esc(t.date||tr('No date','بدون تاريخ'))+(t.time?' · '+esc(t.time):'')+' · '+esc(t.priority||'Normal')+(t.done?' · '+tr('Completed','مكتمل'):'')+'</small></span></div>'+actions(t)+'</div>'}
 function sorted(items){return items.sort((a,b)=>(a.date||'9999-99-99').localeCompare(b.date||'9999-99-99')||(a.time||'99:99').localeCompare(b.time||'99:99'))}
 function showSearch(){
  const q=search.value.trim().toLocaleLowerCase();
@@ -147,13 +160,27 @@ function showDay(date){
  document.getElementById('ascendAddDay').onclick=()=>{openModal('task');const field=document.getElementById('taskDate');if(field)field.value=date};
  cal.querySelectorAll('[data-ascend-date]').forEach(c=>{c.classList.toggle('ascend-selected',c.dataset.ascendDate===date);c.setAttribute('aria-pressed',String(c.dataset.ascendDate===date))});
 }
+function askDelete(t){
+ let existing=document.getElementById('ascendDeleteDialog');if(existing)existing.remove();
+ const shade=document.createElement('div');shade.id='ascendDeleteDialog';shade.className='ascend-dialog-shade';
+ const panel=document.createElement('div');panel.className='ascend-dialog';panel.setAttribute('role','alertdialog');panel.setAttribute('aria-modal','true');
+ const heading=document.createElement('h3');heading.textContent=tr('Delete appointment?','حذف الموعد؟');
+ const desc=document.createElement('p');desc.textContent=tr('Permanently delete: ','حذف نهائي: ')+t.name;
+ const actions=document.createElement('div');actions.className='ascend-dialog-actions';
+ const cancel=document.createElement('button');cancel.type='button';cancel.textContent=tr('Cancel','إلغاء');
+ const yes=document.createElement('button');yes.type='button';yes.className='ascend-confirm-delete';yes.textContent=tr('Delete','حذف');
+ const close=()=>shade.remove();
+ cancel.onclick=close;
+ yes.onclick=()=>{data.tasks=data.tasks.filter(x=>String(x.id)!==String(t.id));close();render()};
+ shade.onclick=e=>{if(e.target===shade)close()};
+ actions.append(cancel,yes);panel.append(heading,desc,actions);shade.append(panel);document.body.append(shade);cancel.focus();
+}
 function act(e){
  const button=e.target.closest('[data-action][data-id]');if(!button)return;
  const t=getTask(button.dataset.id);if(!t)return;
  if(button.dataset.action==='edit'){openModal('task',t.id);return}
  if(button.dataset.action==='delete'){
-  if(!confirm(tr('Delete this appointment or task? This cannot be undone.','حذف هذا الموعد أو المهمة؟ لا يمكن التراجع عن ذلك.')))return;
-  data.tasks=data.tasks.filter(x=>String(x.id)!==String(t.id));render();return;
+  askDelete(t);return;
  }
  if(button.dataset.action==='complete'){t.done=!t.done;render()}
 }
