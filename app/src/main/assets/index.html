@@ -542,4 +542,23 @@ decorate();
  refresh();
 })();
 </script>
+<script>
+/* Ascend 17: reconcile calendar after the original form's lexical render(). */
+(function(){
+ const form=document.getElementById('editor'),button=document.getElementById('ascendRefreshNow'),hint=document.getElementById('ascendRefreshHint');
+ if(!button)return;
+ let queued=false;
+ function refreshAll(){queued=false;try{
+   if(typeof window.render==='function')window.render();
+   if(typeof drawCalendar==='function')drawCalendar();
+   const ar=document.documentElement.lang==='ar';
+   if(hint){hint.setAttribute('role','status');hint.textContent=(ar?'تم تحديث التقويم والتقدم · ':'Calendar and progress updated · ')+new Date().toLocaleTimeString(ar?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+  }catch(e){if(hint)hint.textContent='Refresh error: '+String(e.message||e)}
+ }
+ function schedule(){if(queued)return;queued=true;setTimeout(refreshAll,0)}
+ if(form)form.addEventListener('submit',schedule,true);
+ button.addEventListener('click',schedule,true);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule()});
+})();
+</script>
 </body></html>
