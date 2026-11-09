@@ -33,7 +33,7 @@ const dict={
 'Your dashboard':'لوحة التحكم','Your habits':'عاداتك','Your goals':'أهدافك','Daily planner':'المخطط اليومي','Your insights':'إحصاءاتك','Settings':'الإعدادات','⌂ Today':'⌂ الرئيسية','✓ Habits':'✓ العادات','◎ Goals':'◎ الأهداف','▤ Planner':'▤ المخطط','▥ Insights':'▥ التحليلات','⚙ Settings':'⚙ الإعدادات','+ New habit':'+ عادة جديدة','+ Add habit':'+ إضافة عادة','+ Add goal':'+ إضافة هدف','+ Goal':'+ هدف','+ Task':'+ مهمة','See all':'عرض الكل','Today\'s progress':'إنجاز اليوم','Active habits':'العادات النشطة','Done today':'المكتمل اليوم','Open tasks':'المهام المتبقية','Keep going':'استمر','Your routines':'روتينك','Great progress':'تقدم رائع','Your plan':'خطتك','Today\'s habits':'عادات اليوم','Active goals':'الأهداف النشطة','Last 7 days':'آخر ٧ أيام','Daily habit completion (%)':'نسبة إنجاز العادات اليومية (%)','My habits':'عاداتي','My goals':'أهدافي','Daily tasks':'المهام اليومية','Private journal':'مذكرات خاصة','Write a reflection for today. Saved on this device.':'اكتب تأملاتك لهذا اليوم. تحفظ على جهازك.','Save reflection':'حفظ المذكرات','Completion today':'إنجاز اليوم','Last 7 days average':'متوسط آخر ٧ أيام','Completed goals':'الأهداف المكتملة','Tasks finished':'المهام المنجزة','Weekly progress':'التقدم الأسبوعي','Habits and streaks':'العادات والاستمرارية','Appearance':'المظهر','Toggle dark mode':'تبديل الوضع الداكن','Data and privacy':'البيانات والخصوصية','Export backup (JSON)':'تصدير نسخة احتياطية','Import backup':'استيراد نسخة احتياطية','Erase all data':'مسح جميع البيانات','About Ascend':'حول أسيند','Build better habits, one day at a time. No ads, gambling, interest products, or subscriptions.':'ابنِ عادات أفضل يومًا بعد يوم. بدون إعلانات أو قمار أو منتجات ربوية أو اشتراكات.','Interactive browser prototype. Android APK and notifications are not included in this preview.':'نسخة تجريبية للمتصفح. لا تتضمن ملف APK أو الإشعارات.','Ascend · Offline-first · Your progress belongs to you':'أسيند · يعمل دون إنترنت · بياناتك ملكك','Ascend · Offline-first · Your progress belongs to you':'أسيند · يعمل دون إنترنت · بياناتك ملكك','Name':'الاسم','Add habit':'إضافة عادة','Edit habit':'تعديل عادة','Add goal':'إضافة هدف','Edit goal':'تعديل هدف','Add task':'إضافة مهمة','Edit task':'تعديل مهمة','Habit type':'نوع العادة','Positive habit':'عادة إيجابية','Habit to avoid':'عادة أريد تجنبها','Repeat on':'تكرار في','Target number':'الهدف العددي','Current progress':'التقدم الحالي','Priority':'الأولوية','Normal':'عادي','High':'مرتفع','Low':'منخفض','Avoid':'تجنب','Build':'بناء','Daily':'يومي','Not scheduled today':'غير مجدول اليوم','Normal priority':'أولوية عادية','High priority':'أولوية مرتفعة','Low priority':'أولوية منخفضة','No habits scheduled today.':'لا توجد عادات مجدولة اليوم.','Add your first habit.':'أضف أول عادة لك.','Set a goal to get started.':'حدد هدفًا للبدء.','Add your first goal.':'أضف أول هدف لك.','Your task list is clear.':'قائمة مهامك فارغة.','No habits yet.':'لا توجد عادات بعد.','Today':'اليوم','Calendar':'التقويم','Gregorian':'ميلادي','Hijri':'هجري','Small steps. Higher goals.':'خطوات صغيرة. تقدم يستحق.','Make room for what matters, one day at a time.':'خصص وقتًا لما يهمك، يومًا بعد يوم.','Ascend':'Ascend','Save':'حفظ','Cancel':'إلغاء','Delete':'حذف','days/week':'أيام/أسبوع','streak':'سلسلة','scheduled completions in current streak':'إنجازات متتالية في الأيام المجدولة','days':'أيام','No account, ads, analytics trackers or network connection required. Clearing site data may erase your progress.':'لا يتطلب حسابًا أو إعلانات أو اتصالًا بالشبكة. قد يؤدي مسح بيانات المتصفح إلى فقدان تقدمك.'};
 let lang=localStorage.getItem('steadyday_lang')||'en',mode=localStorage.getItem('steadyday_calendar')||'gregory',offset=0;
 const gregDate=(d,l)=>new Intl.DateTimeFormat(l==='ar'?'ar-SA':'en-US',{year:'numeric',month:'long',day:'numeric',weekday:'long',calendar:'gregory'}).format(d);
-const hijriFmt=(d,l,opts)=>new Intl.DateTimeFormat(l==='ar'?'ar-SA-u-ca-islamic-umalqura':'en-US-u-ca-islamic-umalqura',opts).format(d);
+const hijriFmt=(d,l,opts)=>new Intl.DateTimeFormat(l==='ar'?'ar-SA-u-ca-islamic-umalqura':'en-US-u-ca-islamic-umalqura',{...opts,era:undefined}).format(d).replace(/\s*(?:BC|AD)\b/g,' AH');
 const getParts=d=>{let a=new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',{year:'numeric',month:'numeric',day:'numeric'}).formatToParts(d);let obj={};a.forEach(x=>{if(x.type==='year'||x.type==='month'||x.type==='day')obj[x.type]=Number(x.value)});return obj};
 function translateText(text){if(lang!=='ar')return text;let t=text.trim();if(dict[t])return text.replace(t,dict[t]);let m=t.match(/^(\d+) days\/week$/);if(m)return m[1]+' أيام/أسبوع';m=t.match(/^(\d+) streak$/);if(m)return 'سلسلة '+m[1];m=t.match(/^(\d+) scheduled completions in current streak$/);if(m)return m[1]+' إنجازات متتالية';return text}
 function applyLanguage(){document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.body.classList.toggle('locale-ar',lang==='ar');document.getElementById('langBtn').textContent=lang==='ar'?'English':'العربية';document.getElementById('calModeBtn').textContent=mode==='gregory'?(lang==='ar'?'☪ هجري':'☪ Hijri'):(lang==='ar'?'▦ ميلادي':'▦ Gregorian');document.getElementById('heroTitle').textContent=lang==='ar'?dict['Small steps. Higher goals.']:'Small steps. Higher goals.';document.getElementById('heroText').textContent=lang==='ar'?dict['Make room for what matters, one day at a time.']:'Make room for what matters, one day at a time.';document.getElementById('goTodayBtn').textContent=lang==='ar'?'اليوم':'Today';document.querySelectorAll('button, .muted, .stat span, h1, h2, label, .footer, .emptymsg, .chip, .entry small, .modal p, .panel p').forEach(el=>{if(el.closest('#calendar')||el.id==='calLabel'||el.id==='calNote'||el.id==='calTitle'||el.id==='langBtn'||el.id==='calModeBtn'||el.id==='heroTitle'||el.id==='heroText'||el.id==='goTodayBtn')return;Array.from(el.childNodes).filter(n=>n.nodeType===3).forEach(n=>{if(n._steadyOriginal===undefined)n._steadyOriginal=n.nodeValue;n.nodeValue=lang==='ar'?translateText(n._steadyOriginal):n._steadyOriginal})});document.getElementById('today').textContent=gregDate(new Date(),lang)+'  ·  '+hijriFmt(new Date(),lang,{day:'numeric',month:'long',year:'numeric'});drawCalendar()}
@@ -434,6 +434,51 @@ decorate();
  localize();
  const langBtn=document.getElementById('langBtn');
  if(langBtn)langBtn.addEventListener('click',()=>queueMicrotask(localize));
+})();
+</script>
+<script>
+/* Ascend 13: privacy-first Focus Queue. Read-only until user explicitly edits tasks. */
+(function(){
+ const dashboard=document.getElementById('dashboard');
+ if(!dashboard||document.getElementById('ascendFocusQueue'))return;
+ const section=document.createElement('section');section.className='panel ascend-focus-queue';section.id='ascendFocusQueue';
+ dashboard.append(section);
+ const isoLocal=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+ const translate=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+ function draw(){
+  if(typeof data==='undefined'||!data||!Array.isArray(data.tasks))return;
+  section.replaceChildren();
+  const head=document.createElement('div');head.className='ascend-focus-head';
+  const title=document.createElement('h2');title.textContent=translate('Focus Queue · Next 7 days','قائمة التركيز · الأيام السبعة القادمة');
+  const count=document.createElement('span');count.className='ascend-focus-count';head.append(title,count);section.append(head);
+  const hint=document.createElement('p');hint.className='muted';hint.textContent=translate('Your unfinished scheduled tasks, grouped by urgency. No algorithms, accounts, or uploads.','مهامك المجدولة غير المكتملة، مرتبة حسب الأهمية. دون حسابات أو رفع بيانات.');section.append(hint);
+  const now=new Date();now.setHours(12,0,0,0);
+  const end=new Date(now);end.setDate(end.getDate()+7);
+  const startKey=isoLocal(now),endKey=isoLocal(end);
+  const tasks=data.tasks.filter(t=>!t.done&&typeof t.date==='string'&&t.date&&t.date<=endKey);
+  const rank=t=>String(t.priority||'normal').toLowerCase()==='high'?0:String(t.priority||'normal').toLowerCase()==='low'?2:1;
+  tasks.sort((a,b)=>rank(a)-rank(b)||String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')));
+  count.textContent=tasks.length+' '+translate('open','متبقية');
+  const list=document.createElement('div');list.className='ascend-focus-list';
+  if(!tasks.length){const empty=document.createElement('p');empty.className='ascend-focus-empty';empty.textContent=translate('Nothing urgent is scheduled. Enjoy the breathing room.','لا توجد مهام عاجلة مجدولة. استمتع ببعض الراحة.');list.append(empty)}
+  tasks.slice(0,8).forEach(t=>{
+   const priority=rank(t)===0?'high':rank(t)===2?'low':'normal';
+   const item=document.createElement('div');item.className='ascend-focus-item ascend-focus-'+priority;
+   const text=document.createElement('div');text.className='ascend-focus-copy';
+   const name=document.createElement('strong');name.textContent=(t.emoji?t.emoji+'  ':'')+t.name;
+   const info=document.createElement('small');info.textContent=(t.date<startKey?translate('Overdue · ','متأخرة · '):'')+t.date+(t.time?' · '+t.time:'')+' · '+translate(priority==='high'?'High':priority==='low'?'Low':'Normal',priority==='high'?'عالية':priority==='low'?'منخفضة':'عادية');
+   text.append(name,info);
+   const edit=document.createElement('button');edit.type='button';edit.className='btn secondary ascend-focus-edit';edit.textContent=translate('Edit','تعديل');
+   edit.addEventListener('click',()=>{if(typeof window.openModal==='function')window.openModal('task',t.id)});
+   item.append(text,edit);list.append(item);
+  });
+  section.append(list);
+  if(tasks.length>8){const more=document.createElement('p');more.className='muted';more.textContent=translate('Showing 8 of ','عرض ٨ من ')+tasks.length;section.append(more)}
+ }
+ const prev=window.render;window.render=function(){prev();draw()};
+ const prevLang=window.switchLanguage;window.switchLanguage=function(){prevLang();draw()};
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)draw()});
+ draw();
 })();
 </script>
 </body></html>
