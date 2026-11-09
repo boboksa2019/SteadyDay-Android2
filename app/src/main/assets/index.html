@@ -114,21 +114,73 @@ body.dark .reminder-pill{background:#254c41;color:#d9fff0}
 (function(){const dash=document.getElementById('dashboard');if(!dash)return;const nav=document.createElement('div');nav.className='quick-links';nav.innerHTML='<button type="button" onclick="page(\'habits\')" data-en="All habits" data-ar="كل العادات">All habits</button><button type="button" onclick="page(\'planner\')" data-en="Planner & journal" data-ar="المخطط والمذكرات">Planner & journal</button><button type="button" onclick="page(\'insights\')" data-en="Insights" data-ar="التحليلات">Insights</button>';dash.appendChild(nav);const observer=new MutationObserver(()=>{const ar=document.documentElement.lang==='ar';nav.querySelectorAll('button').forEach(b=>b.textContent=b.dataset[ar?'ar':'en'])});observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});})();
 </script>
 <script>
-/* Ascend Calendar 2.0: search, emoji indicators, day details. */
+/* Ascend Calendar 3.0 — accessible search and appointment actions */
 (function(){
 'use strict';
-const search=document.getElementById('ascendSearch'),results=document.getElementById('ascendSearchResults'),dayBox=document.getElementById('ascendDayItems'),cal=document.getElementById('calendar');
+const search=document.getElementById('ascendSearch');
+const results=document.getElementById('ascendSearchResults');
+const dayBox=document.getElementById('ascendDayItems');
+const cal=document.getElementById('calendar');
+if(!search||!results||!dayBox||!cal)return;
 const ar=()=>document.documentElement.lang==='ar';
-function itemLine(t){return '<button type="button" class="ascend-result" data-task="'+esc(t.id)+'"><span class="ascend-result-emoji">'+esc(t.emoji||'📌')+'</span><span><strong>'+esc(t.name)+'</strong><small>'+esc(t.date|| (ar()?'بدون تاريخ':'No date'))+(t.time?' · '+esc(t.time):'')+' · '+esc(t.priority||'Normal')+'</small></span></button>'}
-function wire(container){container.querySelectorAll('[data-task]').forEach(b=>b.addEventListener('click',()=>openModal('task',b.dataset.task)))}
-function showSearch(){const q=search.value.trim().toLocaleLowerCase();if(!q){results.innerHTML='';return}const found=data.tasks.filter(t=>[t.name,t.emoji,t.date,t.time,t.priority].some(v=>String(v||'').toLocaleLowerCase().includes(q))).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')).slice(0,50);results.innerHTML=found.length?found.map(itemLine).join(''):'<p class="ascend-empty">'+(ar()?'لا توجد نتائج':'No matching tasks or appointments')+'</p>';wire(results)}
-function showDay(date){const tasks=data.tasks.filter(t=>t.date===date).sort((a,b)=>(a.time||'').localeCompare(b.time||''));dayBox.innerHTML='<div class="ascend-day-head"><strong>'+esc(date)+'</strong><button class="btn secondary" type="button" id="ascendAddDay">'+(ar()?'+ إضافة موعد':'+ Add appointment')+'</button></div>'+(tasks.length?tasks.map(itemLine).join(''):'<p class="ascend-empty">'+(ar()?'لا توجد مواعيد في هذا اليوم':'No appointments for this day')+'</p>');wire(dayBox);document.getElementById('ascendAddDay').onclick=()=>{openModal('task');document.getElementById('taskDate').value=date};}
+const tr=(en,arabic)=>ar()?arabic:en;
+const getTask=id=>data.tasks.find(t=>String(t.id)===String(id));
+function actions(t){
+ const id=esc(String(t.id));
+ return '<div class="ascend-task-actions">'+
+ '<button type="button" data-action="edit" data-id="'+id+'">'+tr('Edit','تعديل')+'</button>'+
+ '<button type="button" data-action="complete" data-id="'+id+'">'+(t.done?tr('Reopen','إعادة فتح'):tr('Complete','إنهاء'))+'</button>'+
+ '<button type="button" class="ascend-delete" data-action="delete" data-id="'+id+'">'+tr('Delete','حذف')+'</button></div>';
+}
+function itemLine(t){return '<div class="ascend-result-card"><div class="ascend-result-main"><span class="ascend-result-emoji" aria-hidden="true">'+esc(t.emoji||'📌')+'</span><span class="ascend-result-copy"><strong>'+esc(t.name)+'</strong><small>'+esc(t.date||tr('No date','بدون تاريخ'))+(t.time?' · '+esc(t.time):'')+' · '+esc(t.priority||'Normal')+(t.done?' · '+tr('Completed','مكتمل'):'')+'</small></span></div>'+actions(t)+'</div>'}
+function sorted(items){return items.sort((a,b)=>(a.date||'9999-99-99').localeCompare(b.date||'9999-99-99')||(a.time||'99:99').localeCompare(b.time||'99:99'))}
+function showSearch(){
+ const q=search.value.trim().toLocaleLowerCase();
+ if(!q){results.innerHTML='';return}
+ const found=sorted(data.tasks.filter(t=>[t.name,t.emoji,t.date,t.time,t.priority,t.done?tr('completed','مكتمل'):''].some(v=>String(v||'').toLocaleLowerCase().includes(q)))).slice(0,100);
+ results.innerHTML='<p class="ascend-search-count">'+found.length+' '+tr('matching items','نتائج')+'</p>'+(found.length?found.map(itemLine).join(''):'<p class="ascend-empty">'+tr('No matching tasks or appointments','لا توجد نتائج')+'</p>');
+}
+function showDay(date){
+ dayBox.dataset.selectedDate=date;
+ const items=sorted(data.tasks.filter(t=>t.date===date));
+ dayBox.innerHTML='<div class="ascend-day-head"><strong>'+esc(date)+'</strong><button class="btn secondary" type="button" id="ascendAddDay">'+tr('+ Add appointment','+ إضافة موعد')+'</button></div>'+(items.length?items.map(itemLine).join(''):'<p class="ascend-empty">'+tr('No appointments for this day','لا توجد مواعيد في هذا اليوم')+'</p>');
+ document.getElementById('ascendAddDay').onclick=()=>{openModal('task');const field=document.getElementById('taskDate');if(field)field.value=date};
+ cal.querySelectorAll('[data-ascend-date]').forEach(c=>{c.classList.toggle('ascend-selected',c.dataset.ascendDate===date);c.setAttribute('aria-pressed',String(c.dataset.ascendDate===date))});
+}
+function act(e){
+ const button=e.target.closest('[data-action][data-id]');if(!button)return;
+ const t=getTask(button.dataset.id);if(!t)return;
+ if(button.dataset.action==='edit'){openModal('task',t.id);return}
+ if(button.dataset.action==='delete'){
+  if(!confirm(tr('Delete this appointment or task? This cannot be undone.','حذف هذا الموعد أو المهمة؟ لا يمكن التراجع عن ذلك.')))return;
+  data.tasks=data.tasks.filter(x=>String(x.id)!==String(t.id));render();return;
+ }
+ if(button.dataset.action==='complete'){t.done=!t.done;render()}
+}
+results.addEventListener('click',act);
+dayBox.addEventListener('click',act);
 cal.addEventListener('click',e=>{const cell=e.target.closest('[data-ascend-date]');if(cell)showDay(cell.dataset.ascendDate)});
 cal.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-ascend-date]')){e.preventDefault();showDay(e.target.dataset.ascendDate)}});
 search.addEventListener('input',showSearch);
-const oldRender=window.render;window.render=function(){oldRender();showSearch();const selected=dayBox.dataset.selectedDate;if(selected)showDay(selected)};
-const oldShowDay=showDay;showDay=function(date){dayBox.dataset.selectedDate=date;oldShowDay(date)};
-const oldOpen=window.openModal;window.openModal=function(k,id){oldOpen(k,id);if(k==='task'){document.querySelectorAll('.ascend-emoji').forEach(b=>b.classList.toggle('chosen',b.textContent===document.getElementById('taskEmoji').value))}};
+const oldRender=window.render;
+window.render=function(){oldRender();showSearch();if(dayBox.dataset.selectedDate)showDay(dayBox.dataset.selectedDate)};
+const oldOpen=window.openModal;
+window.openModal=function(k,id){oldOpen(k,id);if(k==='task'){document.querySelectorAll('.ascend-emoji').forEach(b=>b.classList.toggle('chosen',b.textContent===document.getElementById('taskEmoji').value))}};
+// Calendar cells can be operated with keyboard, and screen readers get a useful label.
+const oldChange=window.changeMonth;
+window.changeMonth=function(n){oldChange(n);decorate()};
+const oldToday=window.goToday;
+window.goToday=function(){oldToday();decorate()};
+function decorate(){cal.querySelectorAll('[data-ascend-date]').forEach(c=>{c.tabIndex=0;c.setAttribute('role','button');c.setAttribute('aria-label',c.dataset.ascendDate+' · '+data.tasks.filter(t=>t.date===c.dataset.ascendDate).length+' '+tr('appointments','مواعيد'));c.classList.toggle('ascend-selected',c.dataset.ascendDate===dayBox.dataset.selectedDate)})}
+const oldRender2=window.render;
+window.render=function(){oldRender2();decorate()};
+const oldSwitch=window.switchCalendar;
+window.switchCalendar=function(){oldSwitch();decorate()};
+const oldLang=window.switchLanguage;
+window.switchLanguage=function(){oldLang();showSearch();if(dayBox.dataset.selectedDate)showDay(dayBox.dataset.selectedDate);decorate()};
+const observer=new MutationObserver(decorate);
+observer.observe(cal,{childList:true});
+decorate();
 })();
 </script>
 </body></html>

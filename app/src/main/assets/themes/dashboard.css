@@ -542,3 +542,20 @@ body.dark[data-theme] .section .panel { box-shadow:0 10px 35px rgba(0,0,0,.17); 
 
 /* Ascend Calendar 2.0 */
 .ascend-search{margin:14px 0}.ascend-search label{display:block;font-weight:650;margin-bottom:7px}.ascend-search input{width:100%;box-sizing:border-box}.ascend-cal-emojis{display:block;font-size:14px;line-height:1.2;min-height:15px;overflow:hidden;white-space:nowrap}.calendar .day[data-ascend-date]{cursor:pointer;min-height:55px}.calendar .day[data-ascend-date]:focus-visible{outline:3px solid var(--sd-accent,#46775c);outline-offset:2px}.ascend-emojis{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0}.ascend-emoji{border:1px solid rgba(128,128,128,.2);border-radius:12px;padding:8px;font-size:22px;background:transparent;cursor:pointer}.ascend-emoji.chosen{outline:2px solid var(--sd-accent,#46775c)}.ascend-result{display:flex;gap:12px;align-items:center;text-align:start;width:100%;border:1px solid rgba(128,128,128,.16);border-radius:14px;padding:12px;margin:8px 0;background:transparent;color:inherit;cursor:pointer}.ascend-result-emoji{font-size:26px}.ascend-result span:nth-child(2){display:grid;gap:4px}.ascend-result small{opacity:.7}.ascend-day-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0}.ascend-empty{opacity:.7;padding:10px 0}#ascendDayItems{margin-top:12px}body.dark .ascend-result{border-color:rgba(255,255,255,.2)}
+
+/* Ascend Calendar 3.0: actionable appointment cards */
+.ascend-result-card{padding:13px 14px;margin:9px 0;border:1px solid rgba(125,145,150,.25);border-radius:16px;background:var(--card,#fff);min-width:0}
+.ascend-result-main{display:flex;align-items:center;gap:12px;min-width:0}
+.ascend-result-emoji{font-size:25px;flex:none}
+.ascend-result-copy{display:grid;gap:4px;min-width:0;overflow-wrap:anywhere}
+.ascend-result-copy strong{font-size:14px}
+.ascend-result-copy small{font-size:12px;opacity:.75}
+.ascend-task-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ascend-task-actions button{border:1px solid currentColor;border-radius:10px;background:transparent;color:inherit;padding:8px 12px;min-height:36px;font:inherit;font-size:12px;cursor:pointer}
+.ascend-task-actions .ascend-delete{color:#b94444}
+.ascend-task-actions button:focus-visible,[data-ascend-date]:focus-visible{outline:3px solid #4b9477;outline-offset:2px}
+.ascend-search-count{font-size:12px;opacity:.7;margin:8px 0}
+#calendar .ascend-selected{outline:2px solid #548e77;outline-offset:-2px;border-radius:10px}
+body.dark .ascend-result-card{background:#1d2b3b;border-color:#516077;color:#f2f5fa}
+body.dark .ascend-task-actions .ascend-delete{color:#ffaaaa}
+@media(max-width:650px){.ascend-task-actions button{flex:1;min-width:75px}.ascend-result-card{padding:12px}}
