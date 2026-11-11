@@ -569,43 +569,57 @@ function ascendRefreshDirect(){
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)ascendRefreshDirect()});
 </script>
 <script>
-/* Ascend 20: actionable habit and goal overview, no changes to calendar engine. */
+/* Ascend 21: localized, accessible goal/habit insights and useful empty-search states. Calendar untouched. */
 function ascend20Render(){
  try{
   const goals=document.getElementById('allGoals'),habits=document.getElementById('allHabits');
   if(!goals||!habits||typeof data==='undefined')return;
+  const ar=document.documentElement.lang==='ar';
+  const tr=(en,arabic)=>ar?arabic:en;
   function panel(parent,id){
    let el=document.getElementById(id);
    if(!el){el=document.createElement('div');el.id=id;el.className='ascend20-summary';parent.parentElement.insertBefore(el,parent)}
    return el;
   }
-  const g=Array.isArray(data.goals)?data.goals:[], h=Array.isArray(data.habits)?data.habits:[];
+  function progress(value,label){
+   const track=document.createElement('div');track.className='ascend20-track';
+   track.setAttribute('role','progressbar');track.setAttribute('aria-label',label);
+   track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');track.setAttribute('aria-valuenow',String(value));
+   const fill=document.createElement('div');fill.style.width=value+'%';track.append(fill);return track;
+  }
+  const g=Array.isArray(data.goals)?data.goals:[],h=Array.isArray(data.habits)?data.habits:[];
   const finished=g.filter(x=>Number(x.target)>0&&Number(x.value)>=Number(x.target)).length;
   const avg=g.length?Math.round(g.reduce((a,x)=>a+(Number(x.target)>0?Math.min(100,Math.max(0,Number(x.value)/Number(x.target)*100)):0),0)/g.length):0;
   const gd=panel(goals,'ascend20GoalsSummary');gd.replaceChildren();
-  const gt=document.createElement('div');gt.className='ascend20-summary-head';gt.textContent='Goal overview';
-  const gs=document.createElement('p');gs.textContent=finished+' of '+g.length+' goals completed · '+avg+'% average progress';
-  const track=document.createElement('div');track.className='ascend20-track';track.setAttribute('role','progressbar');track.setAttribute('aria-label','Average goal progress');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');track.setAttribute('aria-valuenow',String(avg));
-  const fill=document.createElement('div');fill.style.width=avg+'%';track.append(fill);gd.append(gt,gs,track);
+  const gt=document.createElement('div');gt.className='ascend20-summary-head';gt.textContent=tr('Goal overview','ملخص الأهداف');
+  const gs=document.createElement('p');gs.textContent=ar?`${finished} من ${g.length} أهداف مكتملة · متوسط التقدم ${avg}٪`:`${finished} of ${g.length} goals completed · ${avg}% average progress`;
+  gd.append(gt,gs,progress(avg,tr('Average goal progress','متوسط تقدم الأهداف')));
   const hd=panel(habits,'ascend20HabitsSummary');hd.replaceChildren();
-  const dueToday=h.filter(x=>typeof due==='function'&&due(x,new Date()));
-  const doneToday=dueToday.filter(x=>typeof done==='function'&&done(x,new Date())).length;
-  const ht=document.createElement('div');ht.className='ascend20-summary-head';ht.textContent='Today’s habit plan';
-  const hs=document.createElement('p');hs.textContent=dueToday.length?doneToday+' of '+dueToday.length+' scheduled habits completed': 'No habits scheduled for today';
-  const htrack=document.createElement('div');htrack.className='ascend20-track';const hfill=document.createElement('div');hfill.style.width=(dueToday.length?Math.round(doneToday/dueToday.length*100):0)+'%';htrack.append(hfill);hd.append(ht,hs,htrack);
-  // Search controls live outside the rerendered entry list, so typed queries persist.
+  const today=new Date(),dueToday=h.filter(x=>typeof due==='function'&&due(x,today));
+  const doneToday=dueToday.filter(x=>typeof done==='function'&&done(x,today)).length;
+  const habitPct=dueToday.length?Math.round(doneToday/dueToday.length*100):0;
+  const ht=document.createElement('div');ht.className='ascend20-summary-head';ht.textContent=tr('Today’s habit plan','عادات اليوم');
+  const hs=document.createElement('p');hs.textContent=dueToday.length?(ar?`${doneToday} من ${dueToday.length} عادات مجدولة مكتملة`:`${doneToday} of ${dueToday.length} scheduled habits completed`):tr('No habits scheduled for today','لا توجد عادات مجدولة اليوم');
+  hd.append(ht,hs,progress(habitPct,tr('Today’s habit completion','إنجاز عادات اليوم')));
+  function apply(parent,input){
+   const q=input.value.trim().toLocaleLowerCase();let visible=0;
+   for(const row of parent.querySelectorAll(':scope > .entry')){
+    const name=row.querySelector('.details b');const match=!q||!!(name&&name.textContent.toLocaleLowerCase().includes(q));
+    row.hidden=!match;if(match)visible++;
+   }
+   const empty=document.getElementById(input.id+'Empty');
+   if(empty){empty.hidden=!q||visible>0;empty.textContent=tr('No matching results. Try another search.','لا توجد نتائج مطابقة. جرّب البحث بكلمة أخرى.');}
+  }
   function filter(parent,id,placeholder){
    let input=document.getElementById(id);
-   if(!input){input=document.createElement('input');input.id=id;input.className='field ascend20-search';input.type='search';input.placeholder=placeholder;input.setAttribute('aria-label',placeholder);parent.parentElement.insertBefore(input,parent);input.addEventListener('input',()=>apply(parent,input));}
+   if(!input){input=document.createElement('input');input.id=id;input.className='field ascend20-search';input.type='search';parent.parentElement.insertBefore(input,parent);input.addEventListener('input',()=>apply(parent,input));}
+   input.placeholder=placeholder;input.setAttribute('aria-label',placeholder);input.dir=ar?'rtl':'ltr';
+   let empty=document.getElementById(id+'Empty');
+   if(!empty){empty=document.createElement('p');empty.id=id+'Empty';empty.className='ascend21-empty';empty.hidden=true;parent.parentElement.insertBefore(empty,parent.nextSibling);}
    apply(parent,input);
   }
-  function apply(parent,input){
-   const q=input.value.trim().toLocaleLowerCase();
-   for(const row of parent.querySelectorAll(':scope > .entry')){
-    const name=row.querySelector('.details b');row.hidden=!!q&&!(name&&name.textContent.toLocaleLowerCase().includes(q));
-   }
-  }
-  filter(goals,'ascend20GoalSearch','Search goals');filter(habits,'ascend20HabitSearch','Search habits');
+  filter(goals,'ascend20GoalSearch',tr('Search goals','ابحث في الأهداف'));
+  filter(habits,'ascend20HabitSearch',tr('Search habits','ابحث في العادات'));
  }catch(err){console.warn('Ascend overview unavailable',err)}
 }
 </script>

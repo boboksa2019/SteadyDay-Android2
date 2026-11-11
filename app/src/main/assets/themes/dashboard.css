@@ -746,3 +746,7 @@ body[data-ascend-trial] .ascend-milestone-fill{background:var(--ascend-trial-acc
 body[data-ascend-trial] .ascend20-summary{background:var(--ascend-trial-card)!important;color:var(--ascend-trial-fg)!important}
 body[data-ascend-trial] .ascend20-track>div{background:var(--ascend-trial-accent)!important}
 @media(max-width:480px){.ascend20-summary{padding:12px}.ascend20-search{max-width:100%}}
+
+/* Ascend 21: search feedback and accessible visibility */
+.ascend21-empty{margin:8px 0 14px;padding:12px;border:1px dashed var(--line,#9996);border-radius:12px;opacity:.8;text-align:center}
+.ascend21-empty[hidden],#allGoals>.entry[hidden],#allHabits>.entry[hidden]{display:none!important}
