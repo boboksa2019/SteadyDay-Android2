@@ -734,3 +734,15 @@ body[data-ascend-trial] .ascend-milestone-fill{background:var(--ascend-trial-acc
 #calendar .ascend-cal-emojis{min-height:14px;line-height:1.1;font-size:11px;overflow:hidden;max-width:100%;white-space:nowrap}
 #calendar .day.today .ascend-cal-secondary-day{opacity:1}
 @media(max-width:430px){#calendar .day[data-ascend-date]{min-height:57px;padding:4px 1px}#calendar .ascend-cal-main-day{font-size:13px}#calendar .ascend-cal-secondary-day{font-size:10px}}
+
+/* Ascend 20: responsive goal/habit overview and quick search */
+.ascend20-summary{margin:12px 0 14px;padding:15px;border-radius:14px;background:var(--card,rgba(117,139,149,.08));border:1px solid rgba(127,143,151,.18)}
+.ascend20-summary-head{font-weight:750;font-size:14px;letter-spacing:.01em}
+.ascend20-summary p{font-size:12px;opacity:.82;margin:7px 0 10px}
+.ascend20-track{height:9px;border-radius:999px;background:rgba(126,141,150,.18);overflow:hidden}
+.ascend20-track>div{height:100%;background:#319b80;border-radius:999px;transition:width .2s ease}
+.ascend20-search{width:100%;max-width:420px;margin:0 0 14px;min-height:42px}
+#allGoals>.entry[hidden],#allHabits>.entry[hidden]{display:none!important}
+body[data-ascend-trial] .ascend20-summary{background:var(--ascend-trial-card)!important;color:var(--ascend-trial-fg)!important}
+body[data-ascend-trial] .ascend20-track>div{background:var(--ascend-trial-accent)!important}
+@media(max-width:480px){.ascend20-summary{padding:12px}.ascend20-search{max-width:100%}}
