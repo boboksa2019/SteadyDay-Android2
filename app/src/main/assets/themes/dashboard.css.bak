@@ -1,0 +1,475 @@
+
+/* SteadyDay — circular daily progress */
+#dashboard .stat:first-child {
+  position:relative;
+  min-height:190px;
+  align-items:flex-start;
+  padding-right:155px;
+}
+
+#dashboard #sProgress {
+  position:absolute;
+  right:22px;
+  top:50%;
+  transform:translateY(-50%);
+  width:112px;
+  height:112px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:27px;
+  font-weight:800;
+  letter-spacing:-1px;
+  background:
+    radial-gradient(
+      circle,
+      var(--sd-ring-center) 0 59%,
+      transparent 60%
+    ),
+    conic-gradient(
+      var(--sd-accent) var(--sd-progress,0%),
+      var(--sd-ring-track) 0
+    );
+}
+
+body[data-theme="premium-minimal"] {
+  --sd-ring-center:#f4f0e7;
+  --sd-ring-track:#d9e3d9;
+}
+
+body[data-theme="modern-colorful"] {
+  --sd-ring-center:#f3eaff;
+  --sd-ring-track:#ddd2f3;
+}
+
+body.dark[data-theme="premium-minimal"] {
+  --sd-ring-center:#203b30;
+  --sd-ring-track:#39574a;
+}
+
+body.dark[data-theme="modern-colorful"] {
+  --sd-ring-center:#2b2143;
+  --sd-ring-track:#51416b;
+}
+
+#dashboard .stat:first-child .chip {
+  max-width:145px;
+}
+
+@media(max-width:650px) {
+  #dashboard .stat:first-child {
+    grid-column:1 / -1;
+    min-height:170px;
+    padding:22px 150px 22px 20px;
+  }
+
+  #dashboard #sProgress {
+    right:18px;
+    width:105px;
+    height:105px;
+  }
+}
+
+/* SteadyDay — compact dashboard statistics */
+#dashboard .stats {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+#dashboard .stat:first-child {
+  grid-column:1 / -1;
+}
+
+#dashboard .stat:not(:first-child) {
+  min-width:0;
+  min-height:115px;
+  padding:17px;
+  border-radius:20px;
+  justify-content:space-between;
+}
+
+#dashboard .stat:not(:first-child) strong {
+  font-size:30px;
+  line-height:1.1;
+}
+
+#dashboard .stat .muted {
+  font-size:12px;
+}
+
+@media(max-width:650px) {
+  #dashboard .stats {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+  }
+
+  #dashboard .stat:not(:first-child) {
+    min-height:105px;
+    padding:12px 9px;
+    border-radius:17px;
+  }
+
+  #dashboard .stat:not(:first-child) strong {
+    font-size:25px;
+  }
+
+  #dashboard .stat:not(:first-child) .muted {
+    font-size:11px;
+    overflow-wrap:anywhere;
+  }
+}
+
+/* SteadyDay — redesigned habit cards */
+#dashHabits .entry {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px;
+  margin:10px 0;
+  border-radius:20px;
+  transition:background .2s ease;
+}
+
+#dashHabits .tick {
+  appearance:none;
+  -webkit-appearance:none;
+  flex:0 0 30px;
+  width:30px;
+  height:30px;
+  margin:0;
+  border:2px solid var(--sd-accent);
+  border-radius:11px;
+  background:transparent;
+  cursor:pointer;
+  position:relative;
+}
+
+#dashHabits .tick:checked {
+  background:var(--sd-accent);
+}
+
+#dashHabits .tick:checked::after {
+  content:"✓";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-size:19px;
+  font-weight:800;
+}
+
+#dashHabits .tick:disabled {
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+#dashHabits .details {
+  flex:1;
+  min-width:0;
+}
+
+#dashHabits .details b {
+  display:block;
+  font-size:15px;
+  line-height:1.4;
+}
+
+#dashHabits .details small {
+  display:block;
+  margin-top:5px;
+  font-size:11px;
+  line-height:1.5;
+  opacity:.75;
+}
+
+#dashHabits .actions {
+  display:flex;
+  gap:5px;
+}
+
+#dashHabits .iconbtn {
+  width:36px;
+  height:36px;
+  min-width:36px;
+  border-radius:12px;
+}
+
+body[data-theme="premium-minimal"] #dashHabits .entry {
+  background:#e9e5dc;
+}
+
+body.dark[data-theme="premium-minimal"] #dashHabits .entry {
+  background:#294438;
+}
+
+body[data-theme="modern-colorful"] #dashHabits .entry {
+  background:linear-gradient(120deg,#f3e8ff,#e7f4ff);
+}
+
+body.dark[data-theme="modern-colorful"] #dashHabits .entry {
+  background:linear-gradient(120deg,#38294f,#293a59);
+}
+
+@media(max-width:650px) {
+  #dashHabits .entry {
+    padding:13px 11px;
+    gap:10px;
+  }
+
+  #dashHabits .actions {
+    gap:3px;
+  }
+
+  #dashHabits .iconbtn {
+    width:32px;
+    min-width:32px;
+    height:36px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  #dashHabits .entry {
+    transition:none;
+  }
+}
+
+/* SteadyDay — distinctive dashboard hero designs */
+#dashboard .hero {
+  position:relative;
+  overflow:hidden;
+  border-radius:26px;
+  padding:28px;
+  border:1px solid transparent;
+}
+
+#dashboard .hero h2 {
+  position:relative;
+  z-index:1;
+  font-size:clamp(22px,3vw,30px);
+  line-height:1.2;
+  letter-spacing:-.7px;
+}
+
+#dashboard .hero p {
+  position:relative;
+  z-index:1;
+  line-height:1.6;
+  max-width:360px;
+}
+
+body[data-theme="premium-minimal"] #dashboard .hero {
+  background:linear-gradient(135deg,#e8eee3,#d5e3d5);
+  color:#244b3a;
+  border-color:#cbdcc9;
+}
+
+body.dark[data-theme="premium-minimal"] #dashboard .hero {
+  background:linear-gradient(135deg,#254c3b,#18362b);
+  color:#f1f5eb;
+  border-color:#42634e;
+}
+
+body[data-theme="modern-colorful"] #dashboard .hero {
+  background:linear-gradient(125deg,#f8dff1,#e5e4ff 55%,#d7f5ff);
+  color:#49316f;
+  border-color:#e8d9f8;
+}
+
+body.dark[data-theme="modern-colorful"] #dashboard .hero {
+  background:linear-gradient(125deg,#533566,#35355f 55%,#254b64);
+  color:#f8efff;
+  border-color:#6b5285;
+}
+
+#dashboard .hero .spark {
+  opacity:.55;
+  font-size:42px;
+}
+
+@media(max-width:650px) {
+  #dashboard .hero {
+    padding:24px 20px;
+  }
+}
+
+/* SteadyDay — weekly activity chart */
+#dashboard #chart {
+  min-height:175px;
+  padding:18px 12px 10px;
+  border-radius:18px;
+  align-items:end;
+}
+
+#dashboard #chart > * {
+  min-width:0;
+}
+
+#dashboard #chart .bar {
+  border-radius:9px 9px 5px 5px;
+  transition:height .3s ease;
+}
+
+body[data-theme="premium-minimal"] #dashboard #chart {
+  background:#e9eee5;
+}
+
+body.dark[data-theme="premium-minimal"] #dashboard #chart {
+  background:#203a2f;
+}
+
+body[data-theme="modern-colorful"] #dashboard #chart {
+  background:linear-gradient(135deg,#f4e8ff,#e7f4ff);
+}
+
+body.dark[data-theme="modern-colorful"] #dashboard #chart {
+  background:linear-gradient(135deg,#332747,#263951);
+}
+
+/* More comfortable dashboard spacing */
+#dashboard .columns {
+  gap:20px;
+}
+
+#dashboard .panel {
+  overflow:hidden;
+}
+
+#dashboard .toolbar {
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* Tablet-friendly statistics */
+@media(min-width:651px) and (max-width:1100px) {
+  #dashboard .columns {
+    grid-template-columns:1fr;
+  }
+
+  #dashboard .stats {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  #dashboard #chart .bar {
+    transition:none;
+  }
+}
+
+/* SteadyDay — premium weekly chart */
+#dashboard #chart.bars {
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  align-items:end;
+  gap:8px;
+  min-height:205px;
+  padding:18px 12px 12px;
+}
+
+#dashboard #chart .barwrap {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  font-size:11px;
+  text-align:center;
+}
+
+#dashboard #chart .barwrap .bar {
+  width:min(100%,30px);
+  min-height:4px;
+  border-radius:10px 10px 5px 5px;
+  background:var(--sd-accent);
+  box-shadow:0 3px 9px #00000012;
+}
+
+#dashboard #chart .barwrap b {
+  font-size:11px;
+  font-weight:700;
+}
+
+body[data-theme="modern-colorful"] #dashboard #chart .bar {
+  background:linear-gradient(180deg,#b38cff,#7e69ed);
+}
+
+body[data-theme="premium-minimal"] #dashboard #chart .bar {
+  background:linear-gradient(180deg,#82b79b,#356e53);
+}
+
+@media(max-width:650px) {
+  #dashboard #chart.bars {
+    gap:4px;
+    padding:14px 6px 10px;
+  }
+
+  #dashboard #chart .barwrap {
+    font-size:10px;
+    gap:6px;
+  }
+
+  #dashboard #chart .barwrap b {
+    font-size:10px;
+  }
+}
+
+/* SteadyDay — premium weekly chart */
+#dashboard #chart.bars {
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  align-items:end;
+  gap:8px;
+  min-height:205px;
+  padding:18px 12px 12px;
+}
+
+#dashboard #chart .barwrap {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  font-size:11px;
+  text-align:center;
+}
+
+#dashboard #chart .barwrap .bar {
+  width:min(100%,30px);
+  min-height:4px;
+  border-radius:10px 10px 5px 5px;
+  background:var(--sd-accent);
+  box-shadow:0 3px 9px #00000012;
+}
+
+#dashboard #chart .barwrap b {
+  font-size:11px;
+  font-weight:700;
+}
+
+body[data-theme="modern-colorful"] #dashboard #chart .bar {
+  background:linear-gradient(180deg,#b38cff,#7e69ed);
+}
+
+body[data-theme="premium-minimal"] #dashboard #chart .bar {
+  background:linear-gradient(180deg,#82b79b,#356e53);
+}
+
+@media(max-width:650px) {
+  #dashboard #chart.bars {
+    gap:4px;
+    padding:14px 6px 10px;
+  }
+
+  #dashboard #chart .barwrap {
+    font-size:10px;
+    gap:6px;
+  }
+
+  #dashboard #chart .barwrap b {
+    font-size:10px;
+  }
+}
