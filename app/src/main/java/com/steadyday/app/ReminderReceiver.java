@@ -20,11 +20,12 @@ public class ReminderReceiver extends android.content.BroadcastReceiver {
   if("inapp".equals(mode))return;
   boolean ar="ar".equals(lang);String title=ar?"تذكير لطيف من أسيند":"A friendly Ascend reminder";
   String message=hide||name.isEmpty()?(ar?"لديك شيء مخطط له اليوم.":"You have something planned today."):(ar?"حان وقت: ":"Time for: ")+name;
-  String channel="steadyday_"+mode;NotificationManager nm=(NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
-  if(Build.VERSION.SDK_INT>=26){NotificationChannel ch=new NotificationChannel(channel,"Ascend "+mode,NotificationManager.IMPORTANCE_DEFAULT);ch.enableVibration(mode.equals("vibrate")||mode.equals("both"));if(mode.equals("silent")||mode.equals("vibrate"))ch.setSound(null,null);nm.createNotificationChannel(ch);}
+  String channel="ascend40_alert_"+mode;NotificationManager nm=(NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
+  if(Build.VERSION.SDK_INT>=26){NotificationChannel ch=new NotificationChannel(channel,"Ascend "+mode,NotificationManager.IMPORTANCE_HIGH);ch.enableVibration(mode.equals("vibrate")||mode.equals("both"));if(mode.equals("vibrate")||mode.equals("both"))ch.setVibrationPattern(new long[]{0,350,180,350});if(mode.equals("vibrate")||mode.equals("silent"))ch.setSound(null,null);else ch.setSound(android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_NOTIFICATION),new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build());nm.createNotificationChannel(ch);}
   Intent open=new Intent(c,MainActivity.class);PendingIntent pi=PendingIntent.getActivity(c,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
   Notification.Builder b=Build.VERSION.SDK_INT>=26?new Notification.Builder(c,channel):new Notification.Builder(c);
-  b.setSmallIcon(android.R.drawable.ic_popup_reminder).setContentTitle(title).setContentText(message).setAutoCancel(true).setContentIntent(pi);
-  try{nm.notify(ReminderScheduler.id(key),b.build());}catch(SecurityException ignored){}
+  b.setSmallIcon(android.R.drawable.ic_popup_reminder).setContentTitle(title).setContentText(message).setAutoCancel(true).setContentIntent(pi).setPriority(Notification.PRIORITY_HIGH);
+  if(Build.VERSION.SDK_INT<26){if("sound".equals(mode)||"both".equals(mode))b.setDefaults(Notification.DEFAULT_SOUND);if("vibrate".equals(mode)||"both".equals(mode))b.setVibrate(new long[]{0,250,150,250});}
+  try{nm.notify(ReminderScheduler.id(key),b.build());}catch(SecurityException denied){android.util.Log.e("AscendReminder","Notification permission denied",denied);}
  }
 }

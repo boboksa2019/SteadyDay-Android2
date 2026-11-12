@@ -8,6 +8,7 @@ import java.util.*;
 
 public class ReminderScheduler {
  static final String PREF="reminders";
+ static final String CHANNEL_PREFIX="ascend40_alert_";
  static final String[] MODES={"silent","sound","vibrate","both"};
  static void saveAndSchedule(Context c,String config,String data,String lang){c.getSharedPreferences(PREF,0).edit().putString("config",config).putString("data",data).putString("lang",lang).apply();schedule(c);}
  static void schedule(Context c){
@@ -30,12 +31,13 @@ public class ReminderScheduler {
  static void cancel(Context c,String key){AlarmManager a=(AlarmManager)c.getSystemService(Context.ALARM_SERVICE);Intent i=new Intent(c,ReminderReceiver.class).setAction("steadyday."+key);PendingIntent pi=PendingIntent.getBroadcast(c,id(key),i,PendingIntent.FLAG_IMMUTABLE|PendingIntent.FLAG_NO_CREATE);if(pi!=null){a.cancel(pi);pi.cancel();}}
  static void add(Context c,JSONObject cfg,JSONObject items,JSONObject item,boolean habit,Set<String> active,String lang)throws Exception{
   String key=item.optString("id");JSONObject opt=items.optJSONObject(key);if(key.isEmpty()||opt==null||!opt.optBoolean("enabled"))return;
-  if(!habit&&item.optBoolean("done"))return;
+  if(!habit&&(item.optBoolean("done")||item.optBoolean("cancelled")||"cancelled".equalsIgnoreCase(item.optString("status"))))return;
   if(habit){JSONArray days=item.optJSONArray("days");if(days==null||days.length()==0)return;}
   String mode=cfg.optString("mode","inapp");if(mode.equals("inapp"))return;
   String clock=opt.optString("time",cfg.optString("time","19:00"));String[] parts=clock.split(":");if(parts.length!=2)return;
   Calendar at=Calendar.getInstance();at.set(Calendar.HOUR_OF_DAY,Integer.parseInt(parts[0]));at.set(Calendar.MINUTE,Integer.parseInt(parts[1]));at.set(Calendar.SECOND,0);at.set(Calendar.MILLISECOND,0);
-  if(at.getTimeInMillis()<=System.currentTimeMillis())at.add(Calendar.DAY_OF_YEAR,1);
+  if(at.getTimeInMillis()<=System.currentTimeMillis()+1000)at.add(Calendar.DAY_OF_YEAR,1);
+  if(habit){JSONArray days=item.optJSONArray("days");boolean found=false;for(int offset=0;offset<8;offset++){int weekday=at.get(Calendar.DAY_OF_WEEK)-1;for(int j=0;j<days.length();j++)if(days.optInt(j,-1)==weekday)found=true;if(found)break;at.add(Calendar.DAY_OF_YEAR,1);}if(!found)return;}
   // Quiet hours shift the reminder to the end of quiet hours.
   if(cfg.optBoolean("quiet")){String start=cfg.optString("start","22:00"),end=cfg.optString("end","07:00");int t=at.get(Calendar.HOUR_OF_DAY)*60+at.get(Calendar.MINUTE);int a=minutes(start),b=minutes(end);if(a!=b&&(a<b?(t>=a&&t<b):(t>=a||t<b))){String[] endparts=end.split(":");at.set(Calendar.HOUR_OF_DAY,Integer.parseInt(endparts[0]));at.set(Calendar.MINUTE,Integer.parseInt(endparts[1]));if(at.getTimeInMillis()<=System.currentTimeMillis())at.add(Calendar.DAY_OF_YEAR,1);}}
   Intent intent=new Intent(c,ReminderReceiver.class).setAction("steadyday."+key);
@@ -43,13 +45,14 @@ public class ReminderScheduler {
   PendingIntent pi=PendingIntent.getBroadcast(c,id(key),intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
   AlarmManager am=(AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
   // Inexact alarms require no special exact-alarm permission; OS may delay them.
-  if(Build.VERSION.SDK_INT >= 31 && !am.canScheduleExactAlarms()){
-   am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);
-  }else{
-   am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);
-  }
+  try {
+   if(Build.VERSION.SDK_INT>=31 && !am.canScheduleExactAlarms())am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);
+   else if(Build.VERSION.SDK_INT>=23)am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);
+   else am.setExact(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);
+  }catch(SecurityException denied){am.set(AlarmManager.RTC_WAKEUP,at.getTimeInMillis(),pi);}
   active.add(key);
  }
  static int minutes(String s){try{String[] p=s.split(":");return Integer.parseInt(p[0])*60+Integer.parseInt(p[1]);}catch(Exception e){return 0;}}
  static void test(Context c,String mode,String lang){ReminderReceiver.show(c,"test","Ascend",mode,false,lang);}
+ static void scheduleAfterBoot(Context c){schedule(c);}
 }
