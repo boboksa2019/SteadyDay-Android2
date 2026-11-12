@@ -794,3 +794,31 @@ body[data-ascend-trial] button:focus-visible,body[data-ascend-trial] input:focus
 body[data-ascend-trial] .modal{background:var(--ascend-trial-card)!important;color:var(--ascend-trial-fg)!important}
 body[data-ascend-trial] .footer{color:var(--ascend-trial-fg)!important}
 @media(prefers-reduced-motion:reduce){body[data-ascend-trial] *,body[data-ascend-trial] *::before,body[data-ascend-trial] *::after{transition:none!important}}
+
+/* Ascend 34: original illustrated premium theme scenes. All 10 with distinct day/night art. */
+body[data-ascend-trial]{--ascend34-art:none;--ascend34-soft:rgba(255,255,255,.13)}
+body[data-ascend-trial="midnight"]:not(.dark){--ascend34-art:url("backgrounds/midnight-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="midnight"].dark{--ascend34-art:url("backgrounds/midnight-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="ocean"]:not(.dark){--ascend34-art:url("backgrounds/ocean-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="ocean"].dark{--ascend34-art:url("backgrounds/ocean-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="desert"]:not(.dark){--ascend34-art:url("backgrounds/desert-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="desert"].dark{--ascend34-art:url("backgrounds/desert-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="aurora"]:not(.dark){--ascend34-art:url("backgrounds/aurora-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="aurora"].dark{--ascend34-art:url("backgrounds/aurora-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="cherry"]:not(.dark){--ascend34-art:url("backgrounds/cherry-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="cherry"].dark{--ascend34-art:url("backgrounds/cherry-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="cosmic"]:not(.dark){--ascend34-art:url("backgrounds/cosmic-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="cosmic"].dark{--ascend34-art:url("backgrounds/cosmic-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="zen"]:not(.dark){--ascend34-art:url("backgrounds/zen-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="zen"].dark{--ascend34-art:url("backgrounds/zen-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="emerald"]:not(.dark){--ascend34-art:url("backgrounds/emerald-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="emerald"].dark{--ascend34-art:url("backgrounds/emerald-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="sunset"]:not(.dark){--ascend34-art:url("backgrounds/sunset-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="sunset"].dark{--ascend34-art:url("backgrounds/sunset-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial="polar"]:not(.dark){--ascend34-art:url("backgrounds/polar-light.svg");--ascend34-soft:rgba(255,255,255,.36);}
+body[data-ascend-trial="polar"].dark{--ascend34-art:url("backgrounds/polar-dark.svg");--ascend34-soft:rgba(10,17,29,.24);}
+body[data-ascend-trial] .hero{background-image:linear-gradient(90deg,var(--ascend-trial-card) 0%,var(--ascend34-soft) 100%),var(--ascend34-art)!important;background-position:center,center!important;background-size:cover,cover!important;background-repeat:no-repeat!important;min-height:185px!important;isolation:isolate}
+body[data-ascend-trial] .hero h1,body[data-ascend-trial] .hero h2,body[data-ascend-trial] .hero p{position:relative;z-index:1;text-shadow:0 1px 3px var(--ascend-trial-card)}
+body[data-ascend-trial] main,body[data-ascend-trial] .main{background-image:linear-gradient(var(--ascend34-soft),var(--ascend34-soft)),var(--ascend34-art)!important;background-size:cover!important;background-position:center!important;background-attachment:fixed!important}
+body[data-ascend-trial] .panel,body[data-ascend-trial] .stat{backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+@media(max-width:720px){body[data-ascend-trial] .hero{min-height:150px!important;background-position:60% center!important}body[data-ascend-trial] main,body[data-ascend-trial] .main{background-attachment:scroll!important}}
