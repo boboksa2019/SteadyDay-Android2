@@ -822,3 +822,14 @@ body[data-ascend-trial] .hero h1,body[data-ascend-trial] .hero h2,body[data-asce
 body[data-ascend-trial] main,body[data-ascend-trial] .main{background-image:linear-gradient(var(--ascend34-soft),var(--ascend34-soft)),var(--ascend34-art)!important;background-size:cover!important;background-position:center!important;background-attachment:fixed!important}
 body[data-ascend-trial] .panel,body[data-ascend-trial] .stat{backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
 @media(max-width:720px){body[data-ascend-trial] .hero{min-height:150px!important;background-position:60% center!important}body[data-ascend-trial] main,body[data-ascend-trial] .main{background-attachment:scroll!important}}
+
+/* Ascend 38: accessible hero supporting copy in light mode. */
+body:not(.dark) #dashboard .hero #heroText,
+body:not(.dark) #dashboard .hero p {
+ color:#29493e !important; opacity:1 !important; text-shadow:none !important;
+}
+body:not(.dark)[data-theme="modern-colorful"] #dashboard .hero #heroText,
+body:not(.dark)[data-theme="modern-colorful"] #dashboard .hero p {color:#49325f !important;}
+body:not(.dark)[data-ascend-trial] #dashboard .hero #heroText,
+body:not(.dark)[data-ascend-trial] #dashboard .hero p {color:var(--ascend33-ink,#293b38) !important;opacity:1 !important;text-shadow:none !important;}
+body.dark #dashboard .hero #heroText,body.dark #dashboard .hero p {opacity:1 !important;}

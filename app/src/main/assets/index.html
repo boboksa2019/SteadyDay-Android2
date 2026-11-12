@@ -252,13 +252,20 @@ decorate();
  const refresh=document.getElementById('ascendRefreshNow');
  if(!cal||!day||!refresh)return;
  function updateSummary(){
-  let cells=Array.from(cal.querySelectorAll('[data-ascend-date]'));
-  const count={high:0,normal:0,low:0,done:0};
-  cells.forEach(c=>{if(c.classList.contains('ascend-all-complete'))count.done++;else for(const p of ['high','normal','low'])if(c.classList.contains('ascend-day-priority-'+p)){count[p]++;break}});
+  // Count appointments, not calendar squares. Cancelled items are excluded from active priorities.
+  const dates=new Set(Array.from(cal.querySelectorAll('[data-ascend-date]')).map(c=>c.dataset.ascendDate));
+  const count={high:0,normal:0,low:0,done:0,cancelled:0};
+  (data.tasks||[]).forEach(t=>{
+   if(!dates.has(t.date))return;
+   if(t.cancelled){count.cancelled++;return}
+   if(t.done){count.done++;return}
+   const p=ascendPriority(t);
+   count[p]=(count[p]||0)+1;
+  });
   let el=document.getElementById('ascendCalendarSummary');
-  if(!el){el=document.createElement('div');el.id='ascendCalendarSummary';el.className='ascend-calendar-summary';el.setAttribute('aria-label','Calendar priority overview');cal.parentNode.insertBefore(el,cal)}
+  if(!el){el=document.createElement('div');el.id='ascendCalendarSummary';el.className='ascend-calendar-summary';el.setAttribute('aria-label','Task priority summary');cal.parentNode.insertBefore(el,cal)}
   const ar=document.documentElement.lang==='ar';
-  el.textContent=(ar?'أيام الشهر: ':'Month: ')+(ar?'عالية ':'High ')+count.high+' · '+(ar?'عادية ':'Normal ')+count.normal+' · '+(ar?'منخفضة ':'Low ')+count.low+' · '+(ar?'مكتملة ':'Done ')+count.done;
+  el.textContent=(ar?'أولوية المهام: ':'Task priority: ')+(ar?'عالية ':'High ')+count.high+' · '+(ar?'عادية ':'Normal ')+count.normal+' · '+(ar?'منخفضة ':'Low ')+count.low+' · '+(ar?'مكتملة ':'Done ')+count.done+' · '+(ar?'ملغاة ':'Cancelled ')+count.cancelled;
   if(hint)hint.textContent=ar?'يُحدَّث التقدم تلقائيًا. إذا لم يظهر التغيير، اضغط تحديث.':'Progress updates automatically. If a change does not appear, tap Refresh.';
   refresh.textContent=ar?'↻ تحديث التقدم':'↻ Refresh progress';
  }
@@ -266,7 +273,7 @@ decorate();
  refresh.addEventListener('click',()=>{if(typeof ascendRefreshDirect==='function')ascendRefreshDirect();else refreshView()});
  // Reconcile after completion, deletion and form saves, after the original handlers run.
  document.addEventListener('click',function(e){
-  if(e.target.closest('[data-action="complete"],[data-action="delete"],.ascend-confirm-delete')){
+  if(e.target.closest('[data-action="complete"],[data-action="cancel"],[data-action="delete"],.ascend-confirm-delete')){
    queueMicrotask(()=>{updateSummary()});
   }
  },false);
