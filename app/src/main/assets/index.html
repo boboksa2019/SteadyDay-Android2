@@ -366,8 +366,13 @@ decorate();
   note.textContent=active?(ar?'معاينة مؤقتة: لن تتغير السمة المحفوظة أو الاشتراك.':'Temporary theme trial. Your saved theme and premium status are unchanged.'):(ar?'اضغط معاينة لتجربة الألوان مؤقتًا.':'Select Try palette to preview colors temporarily.');
   reset.textContent=ar?'إنهاء المعاينة':'Exit preview';reset.hidden=!active;
   previews.querySelectorAll('button[data-trial]').forEach(b=>{
-   b.textContent=ar?'معاينة':'Try palette';
-   b.setAttribute('aria-pressed',String(active===b.dataset.trial));
+   const themeName=b.closest('.ascend-theme-preview')?.querySelector('b')?.textContent?.trim()||'Theme';
+   const selected=active===b.dataset.trial;
+   b.textContent=ar?(selected?'تتم معاينة '+themeName:'معاينة '+themeName):(selected?'Previewing '+themeName:'Preview '+themeName);
+   b.setAttribute('aria-label',b.textContent);
+   b.setAttribute('title',b.textContent);
+   b.setAttribute('aria-pressed',String(selected));
+   b.classList.toggle('ascend-trial-active',selected);
   });
  };
  Object.keys(palettes).forEach(name=>{
