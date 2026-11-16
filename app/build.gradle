@@ -13,8 +13,8 @@ android {
   applicationId 'com.ascend.planner'
   minSdk 26
   targetSdk 36
-  versionCode 66
-  versionName '66'
+  versionCode 67
+  versionName '67'
  }
  flavorDimensions 'edition'
  productFlavors {
@@ -47,4 +47,7 @@ android {
 dependencies {
  // Google Play Billing Library 9 (Google requires 8 or later for new apps and updates).
  playImplementation 'com.android.billingclient:billing:9.1.0'
+ // The billing library brings kotlin-stdlib 1.8 while another dependency asks for the old split
+ // kotlin-stdlib-jdk7/jdk8 1.6 jars, which duplicate the same classes. The Kotlin BOM aligns them.
+ playImplementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')
 }
