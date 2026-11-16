@@ -11,6 +11,12 @@ public class ReminderReceiver extends BroadcastReceiver {
  @Override public void onReceive(Context c, Intent i) {
   String key = i.getStringExtra("key");
   if (key == null) return;
+  if ("__test__".equals(key)) {
+   boolean ar = "ar".equals(i.getStringExtra("lang"));
+   String at = new java.text.SimpleDateFormat("HH:mm:ss", Locale.US).format(new Date());
+   show(c, key, (ar ? "اختبار مجدول وصل الساعة " : "Scheduled test arrived at ") + at, i.getStringExtra("mode"), false, i.getStringExtra("lang"), i.getStringExtra("sound"), i.getLongExtra("when", 0));
+   return;
+  }
   try {
    // Recheck live data before showing: the item may have been completed, cancelled or deleted.
    SharedPreferences p = c.getSharedPreferences(ReminderScheduler.PREF, 0);
@@ -33,7 +39,7 @@ public class ReminderReceiver extends BroadcastReceiver {
     if (log != null && log.optBoolean(date)) return;
    } else if (item.optBoolean("done") || ReminderScheduler.cancelled(item)) return;
    boolean hide = i.getBooleanExtra("hide", true);
-   show(c, key, hide ? "" : item.optString("name"), i.getStringExtra("mode"), hide, i.getStringExtra("lang"), i.getStringExtra("sound"));
+   show(c, key, hide ? "" : item.optString("name"), i.getStringExtra("mode"), hide, i.getStringExtra("lang"), i.getStringExtra("sound"), i.getLongExtra("when", 0));
   } catch (Exception e) { android.util.Log.e("Ascend", "notify", e); }
   finally { ReminderScheduler.schedule(c); }
  }
@@ -57,11 +63,12 @@ public class ReminderReceiver extends BroadcastReceiver {
   boolean audible = "sound".equals(mode) || "both".equals(mode);
   return "ascend63_" + mode + (audible ? "_" + sound : "");
  }
- static void show(Context c, String key, String name, String mode, boolean hide, String lang, String requestedSound) {
+ static void show(Context c, String key, String name, String mode, boolean hide, String lang, String requestedSound) { show(c, key, name, mode, hide, lang, requestedSound, 0); }
+ static void show(Context c, String key, String name, String mode, boolean hide, String lang, String requestedSound, long when) {
   if (mode == null || "inapp".equals(mode)) return;
   boolean ar = "ar".equals(lang);
   String title = ar ? "تذكير لطيف من أسيند" : "A friendly Ascend reminder";
-  String message = hide || name == null || name.isEmpty() ? (ar ? "لديك شيء مخطط له اليوم." : "You have something planned today.") : (ar ? "حان وقت: " : "Time for: ") + name;
+  String message = "__test__".equals(key) ? name : hide || name == null || name.isEmpty() ? (ar ? "لديك شيء مخطط له اليوم." : "You have something planned today.") : (ar ? "حان وقت: " : "Time for: ") + name;
   String snd = sound(c, requestedSound);
   String channel = channelId(mode, snd);
   NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -81,7 +88,8 @@ public class ReminderReceiver extends BroadcastReceiver {
   PendingIntent pi = PendingIntent.getActivity(c, 0, open, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
   Notification.Builder b = Build.VERSION.SDK_INT >= 26 ? new Notification.Builder(c, channel) : new Notification.Builder(c);
   b.setSmallIcon(R.drawable.ic_stat_ascend).setColor(0xFF2F6B52).setContentTitle(title).setContentText(message)
-   .setAutoCancel(true).setContentIntent(pi).setCategory(Notification.CATEGORY_REMINDER).setPriority(Notification.PRIORITY_HIGH);
+   .setAutoCancel(true).setContentIntent(pi).setCategory(Notification.CATEGORY_REMINDER).setPriority(Notification.PRIORITY_HIGH)
+   .setWhen(when > 0 ? when : System.currentTimeMillis()).setShowWhen(true);
   if (Build.VERSION.SDK_INT < 26) {
    if (sound) b.setSound(soundUri(c, snd));
    if (vibrate) b.setVibrate(new long[]{0, 250, 150, 250});

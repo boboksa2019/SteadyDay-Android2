@@ -155,3 +155,19 @@ html body.at .ascend61-toast{background:var(--at-ink);color:var(--at-bg)}
 .ascend-mot-label{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--at-accent-text)}
 html body.at .ascend-motivation p{margin:4px 0 0;font-size:1.05rem;font-weight:650;color:var(--at-ink);line-height:1.45}
 #ascendJournalExport{margin:10px 0 0;min-height:44px}
+
+/* Reminders: task form, Today warning, scheduled list */
+.ascend-remind-box{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center;margin:4px 0 12px;padding:12px;border-radius:14px;background:var(--at-surface2,#f3f5f2);border:1px solid var(--at-border,#dde)}
+.ascend-remind-toggle{display:flex;align-items:center;gap:8px;font-weight:700;min-height:44px}
+.ascend-remind-toggle input{width:22px;height:22px}
+.ascend-remind-time{display:flex;align-items:center;gap:8px}.ascend-remind-time .field{margin:0;min-height:44px}
+.ascend-remind-box .reminder-note{grid-column:1/-1;margin:0}
+#ascendReminderAlert{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:6px 0 14px;padding:14px 16px;border-radius:16px;background:#fff3cd;color:#4a3500;border:1px solid #e9c46a}
+html body.at #ascendReminderAlert p{margin:0;flex:1 1 220px;color:#4a3500;font-weight:650;line-height:1.45}
+#ascendReminderAlert .btn{min-height:44px}
+html body.at.at-dark #ascendReminderAlert{background:#4a3a10;border-color:#8a6a1a}html body.at.at-dark #ascendReminderAlert p{color:#fff3cf}
+#ascendUpcoming h3{margin:18px 0 6px;font-size:1rem}
+.ascend-upcoming{list-style:none;padding:0;margin:0 0 10px;display:grid;gap:6px}
+.ascend-upcoming li{display:grid;gap:2px;padding:10px 12px;border-radius:12px;background:var(--at-surface2);border:1px solid var(--at-border)}
+.ascend-upcoming li span{font-size:.84rem;color:var(--at-muted)}
+#ascendTestMinute{min-height:44px}

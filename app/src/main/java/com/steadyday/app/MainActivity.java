@@ -72,6 +72,12 @@ public class MainActivity extends Activity {
   if (b != null) web.restoreState(b);
   else web.loadUrl("file:///android_asset/index.html");
   ReminderScheduler.cleanOldChannels(this);
+  // Ask for notification permission once on first launch (Android 13+); later the app shows a clear fix button.
+  if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+      && !getSharedPreferences(ReminderScheduler.PREF, 0).getBoolean("askedNotify", false)) {
+   getSharedPreferences(ReminderScheduler.PREF, 0).edit().putBoolean("askedNotify", true).apply();
+   requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQ_NOTIFY);
+  }
   ReminderScheduler.schedule(this);
  }
 
@@ -166,6 +172,13 @@ public class MainActivity extends Activity {
     o.put("edition", getString(R.string.ascend_edition));
     return o.toString();
    } catch (Exception e) { return "{}"; }
+  }
+  /** What Android has actually scheduled: [{key,name,habit,when,exact}]. */
+  @JavascriptInterface public String scheduled() { return getSharedPreferences(ReminderScheduler.PREF, 0).getString("upcoming", "[]"); }
+  /** Arms a real alarm for the next whole minute; returns its time in millis (0 if notifications are blocked). */
+  @JavascriptInterface public long testScheduled(String language) {
+   if (!notificationsAllowed()) { runOnUiThread(() -> requestPermission()); return 0; }
+   return ReminderScheduler.scheduleTest(MainActivity.this, language);
   }
   /** "full" or "free" — fixed at build time by the product flavour. */
   @JavascriptInterface public String edition() { return getString(R.string.ascend_edition); }

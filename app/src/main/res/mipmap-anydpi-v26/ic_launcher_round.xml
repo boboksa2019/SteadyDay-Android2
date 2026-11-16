@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ascend adaptive launcher icon: the chosen gold-and-green artwork fills the whole shape the
+     launcher uses (circle, squircle or rounded square), with no white tile around it. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_full"/>
+    <foreground android:drawable="@android:color/transparent"/>
+    <!-- Android 13+ "Themed icons": single-colour mountain and check mark. -->
+    <monochrome>
+        <inset android:drawable="@drawable/ic_stat_ascend" android:inset="28%"/>
+    </monochrome>
+</adaptive-icon>

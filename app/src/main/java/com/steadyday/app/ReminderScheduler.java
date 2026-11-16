@@ -26,12 +26,13 @@ public class ReminderScheduler {
    for (String id : prefs.getStringSet("scheduled", Collections.emptySet())) cancel(c, id);
    Set<String> active = new HashSet<>();
    long[] next = {0};
+   JSONArray upcoming = new JSONArray();
    String lang = prefs.getString("lang", "en");
    if (cfg.optBoolean("enabled") && items != null && !"inapp".equals(cfg.optString("mode", "inapp"))) {
-    if (habits != null) for (int i = 0; i < habits.length(); i++) add(c, cfg, items, habits.getJSONObject(i), true, active, lang, next);
-    if (tasks != null) for (int i = 0; i < tasks.length(); i++) add(c, cfg, items, tasks.getJSONObject(i), false, active, lang, next);
+    if (habits != null) for (int i = 0; i < habits.length(); i++) add(c, cfg, items, habits.getJSONObject(i), true, active, lang, next, upcoming);
+    if (tasks != null) for (int i = 0; i < tasks.length(); i++) add(c, cfg, items, tasks.getJSONObject(i), false, active, lang, next, upcoming);
    }
-   prefs.edit().putStringSet("scheduled", active).putLong("nextAt", next[0]).apply();
+   prefs.edit().putStringSet("scheduled", active).putLong("nextAt", next[0]).putString("upcoming", upcoming.toString()).apply();
   } catch (Exception e) { android.util.Log.e("Ascend", "schedule", e); }
  }
 
@@ -94,7 +95,7 @@ public class ReminderScheduler {
   return at.getTimeInMillis();
  }
 
- static void add(Context c, JSONObject cfg, JSONObject items, JSONObject item, boolean habit, Set<String> active, String lang, long[] next) throws Exception {
+ static void add(Context c, JSONObject cfg, JSONObject items, JSONObject item, boolean habit, Set<String> active, String lang, long[] next, JSONArray upcoming) throws Exception {
   String key = item.optString("id");
   JSONObject opt = items.optJSONObject(key);
   if (key.isEmpty() || opt == null || !opt.optBoolean("enabled")) return;
@@ -104,18 +105,46 @@ public class ReminderScheduler {
   String mode = cfg.optString("mode", "inapp");
   Intent intent = new Intent(c, ReminderReceiver.class).setAction("steadyday." + key);
   intent.putExtra("key", key); intent.putExtra("mode", mode); intent.putExtra("hide", cfg.optBoolean("hide", true));
-  intent.putExtra("lang", lang); intent.putExtra("habit", habit); intent.putExtra("sound", cfg.optString("sound", "chime"));
+  intent.putExtra("lang", lang); intent.putExtra("habit", habit); intent.putExtra("sound", cfg.optString("sound", "chime")); intent.putExtra("when", when);
   PendingIntent pi = PendingIntent.getBroadcast(c, id(key), intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-  try {
-   // Without "Alarms & reminders" access Android may deliver a few minutes late; the app explains this in Settings.
-   if (Build.VERSION.SDK_INT >= 31 && !am.canScheduleExactAlarms()) am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, when, pi);
-   else am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, when, pi);
-  } catch (SecurityException denied) { am.set(AlarmManager.RTC_WAKEUP, when, pi); }
+  boolean exact = arm(c, when, pi);
   active.add(key);
   if (next[0] == 0 || when < next[0]) next[0] = when;
+  upcoming.put(new JSONObject().put("key", key).put("name", item.optString("name")).put("habit", habit).put("when", when).put("exact", exact));
  }
 
+ /** Arms one alarm. Uses Android's alarm-clock type, which fires at the exact minute even in
+     battery-saving (Doze) mode. Returns false if only an approximate alarm was possible. */
+ static boolean arm(Context c, long when, PendingIntent pi) {
+  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+  try {
+   if (Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()) {
+    PendingIntent show = PendingIntent.getActivity(c, 7, new Intent(c, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    am.setAlarmClock(new AlarmManager.AlarmClockInfo(when, show), pi);
+    return true;
+   }
+  } catch (SecurityException denied) { /* fall through to an approximate alarm */ }
+  am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, when, pi);
+  return false;
+ }
+ /** Next whole minute (hh:mm:00), at least 20 seconds away. */
+ static long nextWholeMinute(long now) {
+  Calendar at = Calendar.getInstance(); at.setTimeInMillis(now);
+  at.set(Calendar.SECOND, 0); at.set(Calendar.MILLISECOND, 0); at.add(Calendar.MINUTE, 1);
+  if (at.getTimeInMillis() - now < 20000) at.add(Calendar.MINUTE, 1);
+  return at.getTimeInMillis();
+ }
+ /** Schedules a real test through the same alarm path as reminders, so delivery can be checked with the app closed. */
+ static long scheduleTest(Context c, String lang) {
+  JSONObject cfg; try { cfg = new JSONObject(c.getSharedPreferences(PREF, 0).getString("config", "{}")); } catch (Exception e) { cfg = new JSONObject(); }
+  long when = nextWholeMinute(System.currentTimeMillis());
+  Intent intent = new Intent(c, ReminderReceiver.class).setAction("steadyday.__test__");
+  intent.putExtra("key", "__test__"); intent.putExtra("mode", cfg.optString("mode", "both")); intent.putExtra("lang", lang);
+  intent.putExtra("sound", cfg.optString("sound", "chime")); intent.putExtra("when", when);
+  PendingIntent pi = PendingIntent.getBroadcast(c, id("__test__"), intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+  arm(c, when, pi);
+  return when;
+ }
  static int minutes(String s) { int[] hm = clock(s); return hm == null ? 0 : hm[0] * 60 + hm[1]; }
 
  static void test(Context c, String mode, String lang) {
