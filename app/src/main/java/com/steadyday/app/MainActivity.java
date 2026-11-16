@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
  WebView web;
  FrameLayout root;
  ValueCallback<Uri[]> pendingChooser;
+ android.media.Ringtone preview;
  String pendingSaveContent, pendingSaveName;
 
  @Override public void onCreate(Bundle b) {
@@ -70,6 +71,7 @@ public class MainActivity extends Activity {
   applyInsets();
   if (b != null) web.restoreState(b);
   else web.loadUrl("file:///android_asset/index.html");
+  ReminderScheduler.cleanOldChannels(this);
   ReminderScheduler.schedule(this);
  }
 
@@ -145,11 +147,12 @@ public class MainActivity extends Activity {
     NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     o.put("permission", runtime);
     o.put("notificationsEnabled", nm.areNotificationsEnabled());
-    String mode = new JSONObject(getSharedPreferences(ReminderScheduler.PREF, 0).getString("config", "{}")).optString("mode", "inapp");
+    JSONObject cfg = new JSONObject(getSharedPreferences(ReminderScheduler.PREF, 0).getString("config", "{}"));
+    String mode = cfg.optString("mode", "inapp");
     o.put("mode", mode);
     boolean channelBlocked = false;
     if (Build.VERSION.SDK_INT >= 26) {
-     NotificationChannel ch = nm.getNotificationChannel(ReminderScheduler.CHANNEL_PREFIX + mode);
+     NotificationChannel ch = nm.getNotificationChannel(ReminderReceiver.channelId(mode, ReminderReceiver.sound(MainActivity.this, cfg.optString("sound", "chime"))));
      channelBlocked = ch != null && ch.getImportance() == NotificationManager.IMPORTANCE_NONE;
     }
     o.put("channelBlocked", channelBlocked);
@@ -160,8 +163,24 @@ public class MainActivity extends Activity {
     o.put("scheduled", getSharedPreferences(ReminderScheduler.PREF, 0).getStringSet("scheduled", java.util.Collections.emptySet()).size());
     o.put("nextAt", getSharedPreferences(ReminderScheduler.PREF, 0).getLong("nextAt", 0));
     o.put("version", getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+    o.put("edition", getString(R.string.ascend_edition));
     return o.toString();
    } catch (Exception e) { return "{}"; }
+  }
+  /** "full" or "free" — fixed at build time by the product flavour. */
+  @JavascriptInterface public String edition() { return getString(R.string.ascend_edition); }
+  /** Plays a reminder sound so the user can choose one. */
+  @JavascriptInterface public void previewSound(String name) {
+   runOnUiThread(() -> {
+    try {
+     if (preview != null && preview.isPlaying()) preview.stop();
+     preview = android.media.RingtoneManager.getRingtone(MainActivity.this, ReminderReceiver.soundUri(MainActivity.this, ReminderReceiver.SOUNDS_CONTAINS(name) ? name : "chime"));
+     if (preview != null) {
+      if (Build.VERSION.SDK_INT >= 28) preview.setAudioAttributes(new android.media.AudioAttributes.Builder().setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT).setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+      preview.play();
+     }
+    } catch (Exception e) { toast("Could not play the sound"); }
+   });
   }
   @JavascriptInterface public void test(String mode, String language) {
    runOnUiThread(() -> {

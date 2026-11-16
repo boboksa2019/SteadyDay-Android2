@@ -34,7 +34,16 @@ jobs:
           ASCEND_KEYSTORE_PASSWORD: ${{ secrets.ASCEND_KEYSTORE_PASSWORD }}
           ASCEND_KEY_ALIAS: ${{ secrets.ASCEND_KEY_ALIAS }}
           ASCEND_KEY_PASSWORD: ${{ secrets.ASCEND_KEY_PASSWORD }}
+      - name: Name the APKs
+        run: |
+          mkdir -p out
+          cp app/build/outputs/apk/full/debug/*.apk out/Ascend-Full.apk
+          cp app/build/outputs/apk/free/debug/*.apk out/Ascend-Free.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: Ascend-APK
-          path: app/build/outputs/apk/debug/*.apk
+          name: Ascend-Full-APK
+          path: out/Ascend-Full.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ascend-Free-APK
+          path: out/Ascend-Free.apk

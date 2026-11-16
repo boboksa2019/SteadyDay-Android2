@@ -8,7 +8,13 @@ def hasReleaseKey = ks != null && new File(ks).exists()
 android {
  namespace 'com.steadyday.app'
  compileSdk 35
- defaultConfig { applicationId 'com.steadyday.app'; minSdk 26; targetSdk 35; versionCode 62; versionName '62' }
+ defaultConfig { applicationId 'com.steadyday.app'; minSdk 26; targetSdk 35; versionCode 63; versionName '63' }
+ // Two editions from one codebase. Same app id + same signing key, so Full installs over Free and keeps data.
+ flavorDimensions 'edition'
+ productFlavors {
+  free { dimension 'edition' }
+  full { dimension 'edition'; versionNameSuffix ' Full' }
+ }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
  signingConfigs {
   if (hasReleaseKey) {

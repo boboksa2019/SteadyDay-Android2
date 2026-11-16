@@ -104,7 +104,7 @@ public class ReminderScheduler {
   String mode = cfg.optString("mode", "inapp");
   Intent intent = new Intent(c, ReminderReceiver.class).setAction("steadyday." + key);
   intent.putExtra("key", key); intent.putExtra("mode", mode); intent.putExtra("hide", cfg.optBoolean("hide", true));
-  intent.putExtra("lang", lang); intent.putExtra("habit", habit);
+  intent.putExtra("lang", lang); intent.putExtra("habit", habit); intent.putExtra("sound", cfg.optString("sound", "chime"));
   PendingIntent pi = PendingIntent.getBroadcast(c, id(key), intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
   AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
   try {
@@ -118,5 +118,15 @@ public class ReminderScheduler {
 
  static int minutes(String s) { int[] hm = clock(s); return hm == null ? 0 : hm[0] * 60 + hm[1]; }
 
- static void test(Context c, String mode, String lang) { ReminderReceiver.show(c, "test", "Ascend", mode, false, lang); }
+ static void test(Context c, String mode, String lang) {
+  String sound = "chime";
+  try { sound = new JSONObject(c.getSharedPreferences(PREF, 0).getString("config", "{}")).optString("sound", "chime"); } catch (Exception ignored) {}
+  ReminderReceiver.show(c, "test", "Ascend", mode, false, lang, sound);
+ }
+ /** Remove channels from older versions so Android settings only lists current ones. */
+ static void cleanOldChannels(Context c) {
+  if (Build.VERSION.SDK_INT < 26) return;
+  NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+  for (NotificationChannel ch : nm.getNotificationChannels()) if (ch.getId().startsWith("ascend40_")) nm.deleteNotificationChannel(ch.getId());
+ }
 }

@@ -28,10 +28,15 @@ const byId=Object.fromEntries(T.map(t=>[t.id,t]));
 const KEY='steadyday-theme';
 const ar=()=>document.documentElement.lang==='ar';const tr=(en,a)=>ar()?a:en;
 
-/* ---------- Premium entitlement ----------
-   Purchases are not implemented yet, so nothing is unlocked. When the store purchase flow is added,
-   it must set this from a verified purchase — never from a local flag the user could edit. */
-window.AscendPremium=window.AscendPremium||{isUnlocked:()=>false,available:false};
+/* ---------- Edition ----------
+   Ascend is built twice: "full" (everything unlocked) and "free". The edition is fixed when the APK is
+   built (Android product flavour) and read from the app — never from storage the user could edit.
+   A future store purchase would also unlock here, from a verified purchase only. */
+const EDITION=(()=>{try{return window.SteadyDayNative&&typeof SteadyDayNative.edition==='function'&&SteadyDayNative.edition()==='full'?'full':'free'}catch(e){return'free'}})();
+window.AscendPremium={edition:EDITION,isUnlocked:()=>EDITION==='full'};
+const PREVIEW_SECONDS=8;
+const ACCENTS=['#2f7a5a','#1a6ab8','#6a4cd0','#b0367a','#c0482e','#a86a12','#0f8a8a','#4a5a6a','#8a3ab8','#d0477a','#3a8a2a','#24315e'];
+const accentPref=()=>{const a=localStorage.getItem('ascend-accent');return AscendPremium.isUnlocked()&&/^#[0-9a-f]{6}$/i.test(a||'')?a:null};
 const unlocked=t=>t.free||AscendPremium.isUnlocked();
 
 /* ---------- Colour maths & contrast guarantee ---------- */
@@ -41,8 +46,9 @@ const mix=(a,b,t)=>{const x=hx(a),y=hx(b);return toHex(x.map((v,i)=>v+(y[i]-v)*t
 const lum=h=>{const c=hx(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]};
 const contrast=(a,b)=>{const x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
 function ensure(fg,bg,min,dark){let c=fg;for(let i=0;i<40&&contrast(c,bg)<min;i++)c=mix(c,dark?'#ffffff':'#000000',.08);return c}
-function palette(t,dark){
- const m=(t.darkOnly||dark)?t.D:t.L,D=t.darkOnly||dark;
+function palette(t,dark,noCustom){
+ const m0=(t.darkOnly||dark)?t.D:t.L,D=t.darkOnly||dark,acc=noCustom?null:accentPref();
+ const m=acc?{...m0,accent:D?mix(acc,'#ffffff',.35):acc}:m0;
  const surface=D?mix(m.bg,'#ffffff',.07):mix(m.bg,'#ffffff',.8);
  const surface2=D?mix(m.bg,'#ffffff',.12):mix(mix(m.bg,'#ffffff',.55),m.accent,.06);
  const ink=ensure(m.ink,surface,7,D);
@@ -84,8 +90,10 @@ function apply(){
 }
 window.ascendThemeChrome=()=>{const t=current(),p=palette(t,t.darkOnly||wantDark());return{color:p.top,dark:p.topDark}};
 function choose(id){const t=byId[id];if(!t)return;if(!unlocked(t)){startPreview(id);return}preview=null;saved=id;try{localStorage.setItem(KEY,id)}catch(e){}apply();drawStudio();toastMsg(tr('Theme applied: ','تم تطبيق السمة: ')+t.name[ar()?1:0])}
-function startPreview(id){preview=id;apply();drawStudio();window.scrollTo({top:0,behavior:'smooth'})}
-function endPreview(){preview=null;apply();drawStudio()}
+let previewTimer=null,previewLeft=0;
+function startPreview(id){clearInterval(previewTimer);preview=id;previewLeft=PREVIEW_SECONDS;apply();drawStudio();window.scrollTo({top:0,behavior:'smooth'});
+ previewTimer=setInterval(()=>{previewLeft--;if(previewLeft<=0){endPreview();toastMsg(tr('Preview ended. Premium themes are included in Ascend Full.','انتهت المعاينة. السمات المميزة متاحة في أسيند الكامل.'))}else drawBanner()},1000)}
+function endPreview(){clearInterval(previewTimer);previewTimer=null;preview=null;apply();drawStudio()}
 window.ascendSetTheme=choose;window.ascendPreviewTheme=startPreview;window.ascendEndPreview=endPreview;
 window.ascendCurrentTheme=()=>({saved,preview});
 // Older code paths call setSteadyTheme(); route them through the engine.
@@ -99,7 +107,7 @@ function drawBanner(){
  if(!el){el=document.createElement('div');el.id='atPreviewBar';el.setAttribute('role','status');document.body.append(el)}
  document.body.classList.add('at-previewing');
  const t=byId[preview];el.replaceChildren();
- const txt=document.createElement('span');txt.textContent=tr('Preview: ','معاينة: ')+t.name[ar()?1:0];
+ const txt=document.createElement('span');txt.textContent=tr('Preview: ','معاينة: ')+t.name[ar()?1:0]+' · '+previewLeft+tr('s',' ث');
  const b=document.createElement('button');b.type='button';b.textContent=tr('End','إنهاء');b.setAttribute('aria-label',tr('End preview','إنهاء المعاينة'));b.onclick=endPreview;
  el.append(txt,b);
 }
@@ -155,22 +163,34 @@ function drawStudio(){
   </article>`};
  host.innerHTML=`<div class="at-studio-head"><div><h3>${tr('Theme Studio','استوديو السمات')}</h3><p class="muted">${tr('20 themes · 2 free + 18 premium','٢٠ سمة · ٢ مجانية + ١٨ مميزة')}</p></div>
   <div class="at-seg" role="group" aria-label="${tr('Appearance','المظهر')}"><button type="button" data-mode="light" aria-pressed="${!dark}">☀ ${tr('Light','فاتح')}</button><button type="button" data-mode="dark" aria-pressed="${dark}">☾ ${tr('Dark','داكن')}</button></div></div>
+  <div class="at-accents"><span>${tr('Accent colour','لون التمييز')}${AscendPremium.isUnlocked()?'':' 🔒'}</span><div role="group" aria-label="${tr('Accent colour','لون التمييز')}"><button type="button" class="at-acc at-acc-default" data-accent="" aria-pressed="${!accentPref()}" title="${tr('Theme default','لون السمة')}">${tr('Auto','تلقائي')}</button>${ACCENTS.map(c=>`<button type="button" class="at-acc" data-accent="${c}" style="background:${c}" aria-label="${c}" aria-pressed="${accentPref()===c}"></button>`).join('')}</div></div>
   ${cur.darkOnly?`<p class="at-note">${tr(cur.name[0]+' is a dark theme, so it stays dark in both modes.',cur.name[1]+' سمة داكنة، لذلك تبقى داكنة في الوضعين.')}</p>`:''}
   <div class="at-grid">${T.map(card).join('')}</div>`;
  host.querySelectorAll('[data-art-id]').forEach(el=>{const t=byId[el.dataset.artId];el.style.backgroundImage=artURL(t,t.darkOnly||dark)});
  drawPremium();
 }
+const BENEFITS=[
+ ['All 18 premium themes','جميع السمات المميزة الـ١٨','Every design in the Theme Studio, with its own artwork in light and dark.','كل تصاميم استوديو السمات، ولكل منها رسمه الخاص بالوضعين.'],
+ ['Custom accent colour','لون تمييز مخصص','Pick your own button and highlight colour on any theme.','اختر لون الأزرار والتمييز بنفسك مع أي سمة.'],
+ ['5 extra reminder sounds','٥ أصوات تذكير إضافية','Soft Bell, Marimba, Harp Rise, Sparkle and Singing Bowl.','جرس ناعم، ماريمبا، صعود القيثارة، بريق، والوعاء الغنائي.'],
+ ['Insights Pro','إحصاءات متقدمة','30-day habit heatmaps, best streaks, daily trend and focus totals.','خرائط العادات لـ٣٠ يومًا، أفضل السلاسل، اتجاه يومي، ومجموع التركيز.'],
+ ['Focus Pro','تركيز متقدم','Choose focus lengths from 15 to 90 minutes and your own breaks.','اختر مدة التركيز من ١٥ إلى ٩٠ دقيقة والاستراحة التي تناسبك.'],
+ ['Daily motivation','تحفيز يومي','A new encouraging line on your Today screen every day, in English and Arabic.','عبارة مشجعة جديدة كل يوم في شاشة اليوم، بالعربية والإنجليزية.'],
+ ['Journal export','تصدير المذكرات','Save all your journal entries as a text file you can keep or print.','احفظ جميع مذكراتك في ملف نصي للاحتفاظ به أو طباعته.'],
+];
+window.AscendBenefits=BENEFITS;
 function drawPremium(){
  const host=document.getElementById('ascendPremiumPanel');if(!host)return;
- const on=AscendPremium.isUnlocked();
- host.innerHTML=`<h2>♛ ${tr('Ascend Premium','أسيند المميز')}</h2>
- <p class="muted">${tr('One-time purchase · no subscription · no ads','شراء لمرة واحدة · بدون اشتراك · بدون إعلانات')}</p>
- <ul class="at-benefits"><li><b>${tr('All 18 premium themes','جميع السمات المميزة الـ١٨')}</b><span>${tr('Every design in the Theme Studio, unlocked forever.','كل تصاميم استوديو السمات، مفتوحة للأبد.')}</span></li>
- <li><b>${tr('Exclusive illustrated artwork','رسومات حصرية')}</b><span>${tr('Each premium theme has its own scene in light and dark.','لكل سمة مميزة مشهد خاص بالوضعين الفاتح والداكن.')}</span></li>
- <li><b>${tr('Pay once, keep it','ادفع مرة واحدة')}</b><span>${tr('No recurring fees. Everything else in Ascend stays free.','بدون رسوم متكررة. بقية ميزات أسيند تبقى مجانية.')}</span></li></ul>
- ${on?`<p class="at-note">✓ ${tr('Premium is unlocked on this device.','الميزات المميزة مفعّلة على هذا الجهاز.')}</p>`:`<button type="button" class="btn" disabled>${tr('Purchase not available yet','الشراء غير متاح بعد')}</button><p class="at-note">${tr('Purchases will open in the store release. Until then you can preview every premium theme across the whole app.','سيتاح الشراء في إصدار المتجر. حتى ذلك الحين يمكنك معاينة كل سمة مميزة في التطبيق كاملًا.')}</p>`}`;
+ const on=AscendPremium.isUnlocked(),A=ar()?1:0;
+ host.innerHTML=`<h2>♛ ${on?tr('Ascend Full','أسيند الكامل'):tr('Ascend Premium','أسيند المميز')}</h2>
+ <p class="muted">${on?tr('Everything is unlocked in this edition.','كل الميزات مفتوحة في هذا الإصدار.'):tr('Included in Ascend Full · no subscription · no ads','متاح في أسيند الكامل · بدون اشتراك · بدون إعلانات')}</p>
+ <ul class="at-benefits">${BENEFITS.map(b=>`<li class="${on?'on':'off'}"><b>${on?'✓':'🔒'} ${b[A]}</b><span>${b[2+A]}</span></li>`).join('')}</ul>
+ ${on?'':`<p class="at-note">${tr('You can preview premium themes for '+PREVIEW_SECONDS+' seconds. The full features come with the Ascend Full app.','يمكنك معاينة السمات المميزة لمدة '+PREVIEW_SECONDS+' ثوانٍ. الميزات الكاملة تأتي مع تطبيق أسيند الكامل.')}</p>`}`;
 }
 function studioClicks(e){
+ const ac=e.target.closest('[data-accent]');
+ if(ac){if(!AscendPremium.isUnlocked()){toastMsg(tr('Custom accent colours are part of Ascend Full.','ألوان التمييز المخصصة متاحة في أسيند الكامل.'));return}
+  if(ac.dataset.accent)localStorage.setItem('ascend-accent',ac.dataset.accent);else localStorage.removeItem('ascend-accent');apply();drawStudio();return}
  const u=e.target.closest('[data-use]'),pv=e.target.closest('[data-preview]'),a=e.target.closest('[data-art]'),m=e.target.closest('[data-mode]');
  if(u)choose(u.dataset.use);else if(pv)startPreview(pv.dataset.preview);else if(a)openArt(byId[a.dataset.art]);
  else if(m){const want=m.dataset.mode==='dark';if(want!==wantDark()&&typeof toggleTheme==='function')toggleTheme()}

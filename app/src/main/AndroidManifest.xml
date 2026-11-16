@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
  <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
- <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+ <!-- Reminders must fire on the minute. USE_EXACT_ALARM is granted automatically to reminder/calendar apps on Android 13+. -->
+ <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32"/>
+ <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
  <uses-permission android:name="android.permission.VIBRATE"/>
  <application android:icon="@drawable/ascend_launcher" android:roundIcon="@drawable/ascend_launcher" android:label="Ascend" android:supportsRtl="true" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:usesCleartextTraffic="false" android:allowBackup="false">
