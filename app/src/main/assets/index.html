@@ -14,7 +14,7 @@
 .ascend-item-cancelled .ascend-priority-tag{opacity:.6}
 @media(max-width:650px){.ascend-day-journal{padding:14px}}
 </style>
-</head><body><div class="app"><aside class="side"><div class="brand">↗ Ascend</div><button class="nav active" data-page="dashboard">⌂ Today</button><button class="nav" data-page="goals">◎ Goals</button><button class="nav" data-page="calendarPage">▦ Calendar</button><button class="nav" data-page="settings">⚙ Settings</button></aside><main class="main"><div class="top"><div><h1 id="heading">Your dashboard</h1><div class="muted" id="today"></div></div><div class="langtools"><button id="langBtn" onclick="switchLanguage()">العربية</button><button id="calModeBtn" onclick="switchCalendar()">☪ Hijri</button><button class="btn" onclick="openModal('habit')">+ New habit</button></div></div><section id="dashboard" class="section active"><div class="hero"><div><h2 id="heroTitle">Small steps. Higher goals.</h2><p id="heroText">Make room for what matters, one day at a time.</p></div><span class="spark">✦</span></div><div class="stats"><div class="stat"><span class="muted">Today's progress</span><strong id="sProgress">0%</strong><span class="chip">Keep going</span></div><div class="stat"><span class="muted">Active habits</span><strong id="sHabits">0</strong><span class="muted">Your routines</span></div><div class="stat"><span class="muted">Done today</span><strong id="sDone">0</strong><span class="muted">Great progress</span></div><div class="stat"><span class="muted">Open tasks</span><strong id="sTasks">0</strong><span class="muted">Your plan</span></div></div><div class="columns"><div><div class="panel"><div class="toolbar"><h2>Today's habits</h2><button class="btn secondary" onclick="page('habits')">See all</button></div><div id="dashHabits"></div></div><div class="panel"><div class="toolbar"><h2>Active goals</h2><button class="btn secondary" onclick="openModal('goal')">+ Goal</button></div><div id="dashGoals"></div></div></div><div><div class="panel"><h2 id="calTitle">Calendar</h2><div class="calendar-actions"><button onclick="changeMonth(-1)" aria-label="Previous month">‹</button><span id="calLabel"></span><button onclick="changeMonth(1)" aria-label="Next month">›</button><button onclick="goToday()" id="goTodayBtn">Today</button></div><div id="calNote" class="cal-sub"></div><div class="ascend-search"><label for="ascendSearch">Search calendar / بحث في التقويم</label><input class="field" id="ascendSearch" type="search" placeholder="Search tasks, appointments, 🦷 ..." autocomplete="off"><div id="ascendSearchResults" aria-live="polite"></div></div><div class="calendar" id="calendar"></div><div id="ascendDayItems" aria-live="polite"></div><div class="ascend-refresh-tools"><span id="ascendRefreshHint">Progress updates automatically. If the display looks outdated, tap Refresh.</span><button type="button" id="ascendRefreshNow" onclick="ascendRefreshDirect()">↻ Refresh progress</button></div></div><div class="panel"><h2>Last 7 days</h2><div id="chart" class="bars"></div><div class="muted" style="margin-top:12px">Daily habit completion (%)</div></div></div></div></section><section id="calendarPage" class="section"><div id="calendarDestination"></div></section><section id="habits" class="section"><div class="panel"><div class="toolbar"><h2>My habits</h2><button class="btn" onclick="openModal('habit')">+ Add habit</button></div><div id="allHabits"></div></div></section><section id="goals" class="section"><div class="panel"><div class="toolbar"><h2>My goals</h2><button class="btn" onclick="openModal('goal')">+ Add goal</button></div><div id="allGoals"></div></div></section><section id="planner" class="section"><div class="panel"><div class="toolbar"><h2>Daily tasks</h2><button class="btn" onclick="openModal('task')">+ Task</button></div><div id="allTasks"></div></div><div class="panel"><h2>Private journal</h2><div class="muted">Write a reflection for today. Saved on this device.</div><textarea class="field" rows="7" id="journal" placeholder="What went well today?"></textarea><button class="btn" onclick="saveJournal()">Save reflection</button></div></section><section id="insights" class="section"><div class="stats"><div class="stat"><span class="muted">Completion today</span><strong id="iToday">0%</strong></div><div class="stat"><span class="muted">Last 7 days average</span><strong id="iWeek">0%</strong></div><div class="stat"><span class="muted">Completed goals</span><strong id="iGoals">0</strong></div><div class="stat"><span class="muted">Tasks finished</span><strong id="iTasks">0</strong></div></div><div class="panel"><h2>Weekly progress</h2><div id="insightChart" class="bars"></div></div><div class="panel"><h2>Habits and streaks</h2><div id="streaks"></div></div></section><section id="settings" class="section"><div class="panel"><h2>Appearance</h2>
+</head><body><div class="app"><aside class="side"><div class="brand">↗ Ascend</div><button class="nav active" data-page="dashboard">⌂ Today</button><button class="nav" data-page="tasksPage">☑ Tasks</button><button class="nav" data-page="calendarPage">▦ Calendar</button><button class="nav" data-page="progress">◎ Progress</button><button class="nav" data-page="settings">⚙ Settings</button></aside><main class="main"><div class="top"><div><h1 id="heading">Your dashboard</h1><div class="muted" id="today"></div></div><div class="langtools"><button id="langBtn" onclick="switchLanguage()">العربية</button><button id="calModeBtn" onclick="switchCalendar()">☪ Hijri</button><button class="btn" onclick="openModal('habit')">+ New habit</button></div></div><section id="dashboard" class="section active"><div class="hero"><div><h2 id="heroTitle">Small steps. Higher goals.</h2><p id="heroText">Make room for what matters, one day at a time.</p></div><span class="spark">✦</span></div><div class="stats"><div class="stat"><span class="muted">Today's progress</span><strong id="sProgress">0%</strong><span class="chip">Keep going</span></div><div class="stat"><span class="muted">Active habits</span><strong id="sHabits">0</strong><span class="muted">Your routines</span></div><div class="stat"><span class="muted">Done today</span><strong id="sDone">0</strong><span class="muted">Great progress</span></div><div class="stat"><span class="muted">Open tasks</span><strong id="sTasks">0</strong><span class="muted">Your plan</span></div></div><div class="columns"><div><div class="panel"><div class="toolbar"><h2>Today's habits</h2><button class="btn secondary" onclick="page('habits')">See all</button></div><div id="dashHabits"></div></div><div class="panel"><div class="toolbar"><h2>Active goals</h2><button class="btn secondary" onclick="openModal('goal')">+ Goal</button></div><div id="dashGoals"></div></div></div><div><div class="panel"><h2 id="calTitle">Calendar</h2><div class="calendar-actions"><button onclick="changeMonth(-1)" aria-label="Previous month">‹</button><span id="calLabel"></span><button onclick="changeMonth(1)" aria-label="Next month">›</button><button onclick="goToday()" id="goTodayBtn">Today</button></div><div id="calNote" class="cal-sub"></div><div class="ascend-search"><label for="ascendSearch">Search calendar</label><input class="field" id="ascendSearch" type="search" placeholder="Search tasks, appointments, 🦷 ..." autocomplete="off"><div id="ascendSearchResults" aria-live="polite"></div></div><div class="calendar" id="calendar"></div><div id="ascendDayItems" aria-live="polite"></div><div class="ascend-refresh-tools"><span id="ascendRefreshHint">Progress updates automatically. If the display looks outdated, tap Refresh.</span><button type="button" id="ascendRefreshNow" onclick="ascendRefreshDirect()">↻ Refresh progress</button></div></div><div class="panel"><h2>Last 7 days</h2><div id="chart" class="bars"></div><div class="muted" style="margin-top:12px">Daily habit completion (%)</div></div></div></div></section><section id="tasksPage" class="section"></section><section id="calendarPage" class="section"><div id="calendarDestination"></div></section><section id="progress" class="section"></section><section id="habits" class="section"><div class="panel"><div class="toolbar"><h2>My habits</h2><button class="btn" onclick="openModal('habit')">+ Add habit</button></div><div id="allHabits"></div></div></section><section id="goals" class="section"><div class="panel"><div class="toolbar"><h2>My goals</h2><button class="btn" onclick="openModal('goal')">+ Add goal</button></div><div id="allGoals"></div></div></section><section id="planner" class="section"><div class="panel"><div class="toolbar"><h2>Daily tasks</h2><button class="btn" onclick="openModal('task')">+ Task</button></div><div id="allTasks"></div></div><div class="panel"><h2>Private journal</h2><div class="muted">Write a reflection for today. Saved on this device.</div><textarea class="field" rows="7" id="journal" placeholder="What went well today?"></textarea><button class="btn" onclick="saveJournal()">Save reflection</button></div></section><section id="insights" class="section"><div class="stats"><div class="stat"><span class="muted">Completion today</span><strong id="iToday">0%</strong></div><div class="stat"><span class="muted">Last 7 days average</span><strong id="iWeek">0%</strong></div><div class="stat"><span class="muted">Completed goals</span><strong id="iGoals">0</strong></div><div class="stat"><span class="muted">Tasks finished</span><strong id="iTasks">0</strong></div></div><div class="panel"><h2>Weekly progress</h2><div id="insightChart" class="bars"></div></div><div class="panel"><h2>Habits and streaks</h2><div id="streaks"></div></div></section><section id="settings" class="section"><div class="panel"><h2>Appearance</h2>
 <label for="sdTheme">Choose your theme</label>
 <select id="sdTheme" onchange="setSteadyTheme(this.value)">
 <option value="premium-minimal">Premium Minimal (Free)</option>
@@ -31,21 +31,21 @@ document.addEventListener('DOMContentLoaded',()=>{
   setSteadyTheme(saved);
   document.getElementById('sdTheme').value=saved;
 });
-</script><button class="btn secondary" onclick="toggleTheme()">Toggle dark mode</button><div class="ascend-theme-preview-section"><h3>Upcoming premium themes</h3><p class="muted">Explore the palettes. These are previews only; premium activation is not yet available.</p><div class="ascend-theme-previews" role="group" aria-label="Upcoming premium theme previews"><div class="ascend-theme-preview ascend-preview-midnight"><b>Midnight Focus</b><small>Indigo · blue · clarity</small></div><div class="ascend-theme-preview ascend-preview-ocean"><b>Ocean Breeze</b><small>Teal · sky · calm</small></div><div class="ascend-theme-preview ascend-preview-desert"><b>Desert Harmony</b><small>Sand · copper · warmth</small></div></div></div></div><div class="panel"><h2>Data and privacy</h2><p class="muted">Your information stays in this browser's local storage. No account, ads, analytics trackers or network connection required. Clearing site data may erase your progress.</p><div class="row" style="flex-wrap:wrap"><button class="btn" onclick="exportData()">Export backup (JSON)</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)"><button class="btn danger" onclick="resetData()">Erase all data</button></div></div><div class="panel"><h2>About Ascend</h2><p>Build better habits, one day at a time. No ads, gambling, interest products, or subscriptions.</p><p class="muted">Interactive browser prototype. Android APK and notifications are not included in this preview.</p></div></section><div class="footer">Ascend · Offline-first · Your progress belongs to you</div></main></div><div class="modalback" id="modalBack"><div class="modal"><div class="toolbar"><h2 id="modalTitle">Add</h2><button class="iconbtn" onclick="closeModal()">✕</button></div><form id="editor"><input type="hidden" id="kind"><input type="hidden" id="editId"><label>Name</label><input id="name" class="field" required maxlength="80" placeholder="e.g. Read for 15 minutes"><div id="extra"></div><div class="row" style="justify-content:flex-end"><button type="button" class="btn secondary" onclick="closeModal()">Cancel</button><button type="submit" class="btn">Save</button></div></form></div></div><script>
+</script><button class="btn secondary" onclick="toggleTheme()">Toggle dark mode</button><div class="ascend-theme-preview-section"><h3>Upcoming premium themes</h3><p class="muted">Explore the palettes. These are previews only; premium activation is not yet available.</p><div class="ascend-theme-previews" role="group" aria-label="Upcoming premium theme previews"><div class="ascend-theme-preview ascend-preview-midnight"><b>Midnight Focus</b><small>Indigo · blue · clarity</small></div><div class="ascend-theme-preview ascend-preview-ocean"><b>Ocean Breeze</b><small>Teal · sky · calm</small></div><div class="ascend-theme-preview ascend-preview-desert"><b>Desert Harmony</b><small>Sand · copper · warmth</small></div></div></div></div><div class="panel"><h2>Data and privacy</h2><p class="muted">Your information stays on this device. No account, ads, analytics or internet connection needed. Uninstalling Ascend or clearing its storage erases it, so keep a backup.</p><div class="row" style="flex-wrap:wrap"><button class="btn danger" onclick="resetData()">Erase all data</button></div></div><div class="panel"><h2>About Ascend</h2><p>Build better habits, one day at a time. No ads, gambling, interest products, or subscriptions.</p><p class="muted">Version 61 · Works offline · Your data stays on this device.</p></div></section><div class="footer">Ascend · Offline-first · Your progress belongs to you</div></main></div><div class="modalback" id="modalBack"><div class="modal"><div class="toolbar"><h2 id="modalTitle">Add</h2><button class="iconbtn" onclick="closeModal()">✕</button></div><form id="editor"><input type="hidden" id="kind"><input type="hidden" id="editId"><label>Name</label><input id="name" class="field" required maxlength="80" placeholder="e.g. Read for 15 minutes"><div id="extra"></div><div class="row" style="justify-content:flex-end"><button type="button" class="btn secondary" onclick="closeModal()">Cancel</button><button type="submit" class="btn">Save</button></div></form></div></div><script>
 function ascendPriority(t){const p=String((t&&t.priority)||'Normal').trim().toLowerCase();return ['high','urgent','critical'].includes(p)?'high':p==='low'?'low':'normal'}
 function ascendPriorityText(t){const p=ascendPriority(t);const ar=document.documentElement.lang==='ar';return p==='high'?(ar?'أولوية عالية':'High priority'):p==='low'?(ar?'أولوية منخفضة':'Low priority'):(ar?'أولوية عادية':'Normal priority')}
 
-const KEY='steadyday2-v1';const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const today=()=>iso(new Date());const id=()=>String(Date.now())+Math.random().toString(36).slice(2,6);let data;try{data=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!data||!Array.isArray(data.habits))data={habits:[{id:id(),name:'Drink water',type:'positive',days:[0,1,2,3,4,5,6],log:{}},{id:id(),name:'Read for 15 minutes',type:'positive',days:[0,1,2,3,4,5,6],log:{}},{id:id(),name:'Exercise',type:'positive',days:[1,3,5],log:{}}],goals:[{id:id(),name:'Read 12 books',target:12,value:2}],tasks:[],journal:{},dark:false};data.goals??=[];data.tasks??=[];data.journal??={};const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){alert('Unable to save. Check browser storage settings.')}};const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const due=(h,date)=>h.days.includes(date.getDay());const done=(h,date)=>!!h.log[iso(date)];const dateAt=n=>{let d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return d};const pct=d=>{let hs=data.habits.filter(h=>due(h,d));return hs.length?Math.round(hs.filter(h=>done(h,d)).length/hs.length*100):0};function streak(h){let n=0;for(let i=0;i<365;i++){let d=dateAt(-i);if(!due(h,d))continue;if(done(h,d))n++;else if(i!==0)return n;else if(i===0&&done(h,dateAt(-1)))continue;else if(i===0)continue;}return n}function habitRow(h){let active=due(h,new Date());return `<div class="entry"><input aria-label="Complete ${esc(h.name)}" class="tick" type="checkbox" ${done(h,new Date())?'checked':''} ${active?'':'disabled'} onchange="toggleHabit('${h.id}')"><div class="details"><b>${esc(h.name)}</b><small>${h.type==='negative'?'Avoid':'Build'} · ${h.days.length===7?'Daily':h.days.length+' days/week'} · ${streak(h)} streak ${!active?'· Not scheduled today':''}</small></div><div class="actions"><button class="iconbtn" aria-label="Edit" onclick="openModal('habit','${h.id}')">✎</button><button class="iconbtn" aria-label="Delete" onclick="remove('habit','${h.id}')">×</button></div></div>`}function goalRow(g){let p=Math.min(100,Math.round(g.value/g.target*100));return `<div class="entry"><div class="details"><b>${esc(g.name)}</b><small>${g.value} / ${g.target} · ${p}%</small><div class="progress"><div style="width:${p}%"></div></div></div><div class="actions"><button class="iconbtn" onclick="stepGoal('${g.id}',-1)">−</button><button class="iconbtn" onclick="stepGoal('${g.id}',1)">+</button><button class="iconbtn" onclick="openModal('goal','${g.id}')">✎</button><button class="iconbtn" onclick="remove('goal','${g.id}')">×</button></div></div>`}function taskRow(t){return `<div class="entry ascend-task-row ascend-priority-${ascendPriority(t)} ${t.done?'ascend-item-completed':''}"><input class="tick" type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${t.id}')"><div class="details"><b style="${t.done?'text-decoration:line-through;color:#8d96a7':''}">${esc(t.emoji||'')} ${esc(t.name)}</b><small>${ascendPriorityText(t)} ${t.date?' · '+esc(t.date):''} ${t.time?' · '+esc(t.time):''}</small></div><button class="iconbtn" onclick="remove('task','${t.id}')">×</button></div>`}function calendar(){let now=new Date(),first=new Date(now.getFullYear(),now.getMonth(),1),days=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();document.getElementById('calTitle').textContent=now.toLocaleString('en',{month:'long',year:'numeric'});let s=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(x=>`<div class="day head">${x}</div>`).join('');for(let i=0;i<first.getDay();i++)s+='<div class="day empty"></div>';for(let i=1;i<=days;i++){let d=new Date(now.getFullYear(),now.getMonth(),i),complete=data.habits.some(h=>due(h,d)&&done(h,d));s+=`<div class="day ${complete?'done':''} ${iso(d)===today()?'today':''}" title="${pct(d)}% complete">${i}</div>`}document.getElementById('calendar').innerHTML=s}function bars(){return Array.from({length:7},(_,i)=>{let d=dateAt(i-6),p=pct(d);return `<div class="barwrap"><div class="bar" title="${p}%" style="height:${Math.max(3,p*1.35)}px"></div><div>${d.toLocaleDateString('en',{weekday:'short'})}</div><b>${p}%</b></div>`}).join('')}function render(){let hs=data.habits.filter(h=>due(h,new Date())),completed=hs.filter(h=>done(h,new Date())).length;document.getElementById('today').textContent=new Date().toLocaleDateString('en',{weekday:'long',day:'numeric',month:'long',year:'numeric'});document.getElementById('sProgress').textContent=pct(new Date())+'%';document.getElementById('sHabits').textContent=data.habits.length;document.getElementById('sDone').textContent=completed;document.getElementById('sTasks').textContent=data.tasks.filter(t=>!t.done).length;document.getElementById('dashHabits').innerHTML=hs.map(habitRow).join('')||'<div class="emptymsg">No habits scheduled today.</div>';document.getElementById('allHabits').innerHTML=data.habits.map(habitRow).join('')||'<div class="emptymsg">Add your first habit.</div>';document.getElementById('dashGoals').innerHTML=data.goals.slice(0,3).map(goalRow).join('')||'<div class="emptymsg">Set a goal to get started.</div>';document.getElementById('allGoals').innerHTML=data.goals.map(goalRow).join('')||'<div class="emptymsg">Add your first goal.</div>';document.getElementById('allTasks').innerHTML=data.tasks.map(taskRow).join('')||'<div class="emptymsg">Your task list is clear.</div>';document.getElementById('journal').value=data.journal[today()]||'';document.getElementById('chart').innerHTML=bars();document.getElementById('insightChart').innerHTML=bars();calendar();document.getElementById('iToday').textContent=pct(new Date())+'%';document.getElementById('iWeek').textContent=Math.round(Array.from({length:7},(_,i)=>pct(dateAt(-i))).reduce((a,b)=>a+b,0)/7)+'%';document.getElementById('iGoals').textContent=data.goals.filter(g=>g.value>=g.target).length;document.getElementById('iTasks').textContent=data.tasks.filter(t=>t.done).length;document.getElementById('streaks').innerHTML=data.habits.map(h=>`<div class="entry"><div class="details"><b>${esc(h.name)}</b><small>${streak(h)} scheduled completions in current streak</small></div></div>`).join('')||'<div class="emptymsg">No habits yet.</div>';document.body.classList.toggle('dark',!!data.dark);
+const KEY='steadyday2-v1';const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const today=()=>iso(new Date());const id=()=>String(Date.now())+Math.random().toString(36).slice(2,6);let data;try{data=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!data||!Array.isArray(data.habits))window.__ascendFirstRun=true;if(window.__ascendFirstRun)data={habits:[{id:id(),name:'Drink water',type:'positive',days:[0,1,2,3,4,5,6],log:{}},{id:id(),name:'Read for 15 minutes',type:'positive',days:[0,1,2,3,4,5,6],log:{}},{id:id(),name:'Exercise',type:'positive',days:[1,3,5],log:{}}],goals:[{id:id(),name:'Read 12 books',target:12,value:2}],tasks:[],journal:{},dark:false};data.goals??=[];data.tasks??=[];data.journal??={};const L=(en,ar)=>document.documentElement.lang==='ar'?ar:en;const save=()=>{if(window.__ascendFrozen)return;try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){alert(L('Unable to save. Device storage may be full.','تعذر الحفظ. قد تكون مساحة التخزين ممتلئة.'))}};const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const due=(h,date)=>h.days.includes(date.getDay());const done=(h,date)=>!!h.log[iso(date)];const dateAt=n=>{let d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return d};const pct=d=>{let hs=data.habits.filter(h=>due(h,d));return hs.length?Math.round(hs.filter(h=>done(h,d)).length/hs.length*100):0};function streak(h){let n=0;for(let i=0;i<365;i++){let d=dateAt(-i);if(!due(h,d))continue;if(done(h,d))n++;else if(i!==0)return n;else if(i===0&&done(h,dateAt(-1)))continue;else if(i===0)continue;}return n}function habitRow(h){let active=due(h,new Date());return `<div class="entry"><input aria-label="Complete ${esc(h.name)}" class="tick" type="checkbox" ${done(h,new Date())?'checked':''} ${active?'':'disabled'} onchange="toggleHabit('${h.id}')"><div class="details"><b>${esc(h.name)}</b><small>${h.type==='negative'?L('Avoid','تجنب'):L('Build','بناء')} · ${h.days.length===7?L('Daily','يومي'):h.days.length+L(' days/week',' أيام/أسبوع')} · ${L(streak(h)+' streak','سلسلة '+streak(h))} ${!active?L('· Not scheduled today','· غير مجدولة اليوم'):''}</small></div><div class="actions"><button class="iconbtn" aria-label="Edit" onclick="openModal('habit','${h.id}')">✎</button><button class="iconbtn" aria-label="Delete" onclick="remove('habit','${h.id}')">×</button></div></div>`}function goalRow(g){let p=Math.min(100,Math.round(g.value/g.target*100));return `<div class="entry"><div class="details"><b>${esc(g.name)}</b><small>${g.value} / ${g.target} · ${p}%</small><div class="progress"><div style="width:${p}%"></div></div></div><div class="actions"><button class="iconbtn" onclick="stepGoal('${g.id}',-1)">−</button><button class="iconbtn" onclick="stepGoal('${g.id}',1)">+</button><button class="iconbtn" onclick="openModal('goal','${g.id}')">✎</button><button class="iconbtn" onclick="remove('goal','${g.id}')">×</button></div></div>`}function taskRow(t){return `<div class="entry ascend-task-row ascend-priority-${ascendPriority(t)} ${t.done?'ascend-item-completed':''}"><input class="tick" type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${t.id}')"><div class="details"><b style="${t.done?'text-decoration:line-through;color:#8d96a7':''}">${esc(t.emoji||'')} ${esc(t.name)}</b><small>${ascendPriorityText(t)} ${t.date?' · '+esc(t.date):''} ${t.time?' · '+esc(t.time):''}</small></div><button class="iconbtn" onclick="remove('task','${t.id}')">×</button></div>`}function calendar(){let now=new Date(),first=new Date(now.getFullYear(),now.getMonth(),1),days=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();document.getElementById('calTitle').textContent=now.toLocaleString('en',{month:'long',year:'numeric'});let s=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(x=>`<div class="day head">${x}</div>`).join('');for(let i=0;i<first.getDay();i++)s+='<div class="day empty"></div>';for(let i=1;i<=days;i++){let d=new Date(now.getFullYear(),now.getMonth(),i),complete=data.habits.some(h=>due(h,d)&&done(h,d));s+=`<div class="day ${complete?'done':''} ${iso(d)===today()?'today':''}" title="${pct(d)}% complete">${i}</div>`}document.getElementById('calendar').innerHTML=s}function bars(){return Array.from({length:7},(_,i)=>{let d=dateAt(i-6),p=pct(d);return `<div class="barwrap"><div class="bar" title="${p}%" style="height:${Math.max(3,p*1.35)}px"></div><div>${d.toLocaleDateString(document.documentElement.lang==='ar'?'ar-SA':'en-US',{weekday:'short'})}</div><b>${p}%</b></div>`}).join('')}function render(){let hs=data.habits.filter(h=>due(h,new Date())),completed=hs.filter(h=>done(h,new Date())).length;document.getElementById('today').textContent=new Date().toLocaleDateString('en',{weekday:'long',day:'numeric',month:'long',year:'numeric'});document.getElementById('sProgress').textContent=pct(new Date())+'%';document.getElementById('sHabits').textContent=data.habits.length;document.getElementById('sDone').textContent=completed;document.getElementById('sTasks').textContent=data.tasks.filter(t=>!t.done&&!t.cancelled).length;document.getElementById('dashHabits').innerHTML=hs.map(habitRow).join('')||'<div class="emptymsg">No habits scheduled today.</div>';document.getElementById('allHabits').innerHTML=data.habits.map(habitRow).join('')||'<div class="emptymsg">Add your first habit.</div>';document.getElementById('dashGoals').innerHTML=data.goals.slice(0,3).map(goalRow).join('')||'<div class="emptymsg">Set a goal to get started.</div>';document.getElementById('allGoals').innerHTML=data.goals.map(goalRow).join('')||'<div class="emptymsg">Add your first goal.</div>';document.getElementById('allTasks').innerHTML=data.tasks.map(taskRow).join('')||'<div class="emptymsg">Your task list is clear.</div>';document.getElementById('journal').value=data.journal[today()]||'';document.getElementById('chart').innerHTML=bars();document.getElementById('insightChart').innerHTML=bars();calendar();document.getElementById('iToday').textContent=pct(new Date())+'%';document.getElementById('iWeek').textContent=Math.round(Array.from({length:7},(_,i)=>pct(dateAt(-i))).reduce((a,b)=>a+b,0)/7)+'%';document.getElementById('iGoals').textContent=data.goals.filter(g=>g.value>=g.target).length;document.getElementById('iTasks').textContent=data.tasks.filter(t=>t.done).length;document.getElementById('streaks').innerHTML=data.habits.map(h=>`<div class="entry"><div class="details"><b>${esc(h.name)}</b><small>${streak(h)} scheduled completions in current streak</small></div></div>`).join('')||'<div class="emptymsg">No habits yet.</div>';document.body.classList.toggle('dark',!!data.dark);
 const ring=document.getElementById('sProgress');
 if(ring){
   const value=Math.max(0,Math.min(100,parseFloat(ring.textContent)||0));
   ring.style.setProperty('--sd-progress',value+'%');
 }
-ascend20Render();save()}function page(p){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));document.getElementById('heading').textContent=({dashboard:'Your dashboard',habits:'Your habits',goals:'Your goals',planner:'Daily planner',insights:'Your insights',settings:'Settings'})[p];render();window.scrollTo(0,0)}document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>page(b.dataset.page));function toggleHabit(x){let h=data.habits.find(h=>h.id===x);if(!h||!due(h,new Date()))return;h.log[today()]=!h.log[today()];render()}function toggleTask(x){let t=data.tasks.find(t=>t.id===x);if(t)t.done=!t.done;render()}function stepGoal(x,delta){let g=data.goals.find(g=>g.id===x);if(g)g.value=Math.min(g.target,Math.max(0,g.value+delta));render()}function remove(k,x){if(!confirm('Delete this item?'))return;let arr=k==='habit'?'habits':k==='goal'?'goals':'tasks';data[arr]=data[arr].filter(o=>o.id!==x);render()}function openModal(kind,edit=''){document.getElementById('editor').reset();document.getElementById('kind').value=kind;document.getElementById('editId').value=edit;let arr=data[kind==='habit'?'habits':kind==='goal'?'goals':'tasks'],obj=arr.find(o=>o.id===edit);document.getElementById('modalTitle').textContent=(edit?'Edit ':'Add ')+kind;document.getElementById('name').value=obj?.name||'';document.getElementById('extra').innerHTML=kind==='habit'?`<label>Habit type</label><select class="field" id="habitType"><option value="positive">Positive habit</option><option value="negative">Habit to avoid</option></select><label>Repeat on</label><div class="row" style="flex-wrap:wrap;margin:10px 0 16px">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d,i)=>`<label style="font-size:12px"><input type="checkbox" class="weekday" value="${i}" ${(!obj||obj.days.includes(i))?'checked':''}>${d}</label>`).join('')}</div>`:kind==='goal'?`<label>Target number</label><input class="field" id="target" type="number" min="1" max="1000000" required value="${obj?.target||10}"><label>Current progress</label><input class="field" id="value" type="number" min="0" max="1000000" required value="${obj?.value||0}">`:`<label>Priority</label><select class="field" id="priority"><option>Normal</option><option>High</option><option>Low</option></select><label>Emoji / الرمز</label><div class="ascend-emojis" id="ascendEmojiChoices">${['🦷','📅','💊','📚','💼','🎂','🏃','🛒','✈️','⭐','❤️','📝'].map(e=>`<button type="button" class="ascend-emoji" onclick="document.getElementById('taskEmoji').value='${e}';document.querySelectorAll('.ascend-emoji').forEach(b=>b.classList.toggle('chosen',b.textContent==='${e}'))">${e}</button>`).join('')}</div><input class="field" id="taskEmoji" maxlength="12" placeholder="Optional emoji" value="${esc(obj?.emoji||'')}"><label>Date / التاريخ</label><input class="field" type="date" id="taskDate" value="${esc(obj?.date||'')}"><label>Time (optional) / الوقت</label><input class="field" type="time" id="taskTime" value="${esc(obj?.time||'')}">`;if(obj&&kind==='habit')document.getElementById('habitType').value=obj.type;if(obj&&kind==='task')document.getElementById('priority').value=obj.priority;document.getElementById('modalBack').classList.add('show')}function closeModal(){document.getElementById('modalBack').classList.remove('show')}document.getElementById('editor').onsubmit=e=>{e.preventDefault();let k=document.getElementById('kind').value,x=document.getElementById('editId').value,n=document.getElementById('name').value.trim();if(!n)return;let arr=data[k==='habit'?'habits':k==='goal'?'goals':'tasks'],obj=arr.find(o=>o.id===x);if(k==='habit'){let days=[...document.querySelectorAll('.weekday:checked')].map(el=>+el.value);if(!days.length){alert('Choose at least one day.');return}if(obj)Object.assign(obj,{name:n,type:document.getElementById('habitType').value,days});else arr.push({id:id(),name:n,type:document.getElementById('habitType').value,days,log:{}})}else if(k==='goal'){let target=+document.getElementById('target').value,value=+document.getElementById('value').value;if(!Number.isFinite(target)||target<1||!Number.isFinite(value)||value<0)return;let item={name:n,target,value:Math.min(value,target)};if(obj)Object.assign(obj,item);else arr.push({id:id(),...item})}else{if(obj){Object.assign(obj,{name:n,priority:document.getElementById('priority').value,emoji:document.getElementById('taskEmoji').value.trim(),date:document.getElementById('taskDate').value,time:document.getElementById('taskTime').value})}else arr.push({id:id(),name:n,priority:document.getElementById('priority').value,emoji:document.getElementById('taskEmoji').value.trim(),date:document.getElementById('taskDate').value,time:document.getElementById('taskTime').value,done:false})}closeModal();render();if(typeof drawCalendar==='function')drawCalendar()};function saveJournal(){data.journal[today()]=document.getElementById('journal').value;save();alert('Reflection saved locally.')}function toggleTheme(){data.dark=!data.dark;render()}function exportData(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Ascend-backup-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let v=JSON.parse(r.result);if(!Array.isArray(v.habits)||!Array.isArray(v.goals)||!Array.isArray(v.tasks)||!v.journal||typeof v.journal!=='object')throw Error('Invalid backup');if(!confirm('Replace your current data with this backup?'))return;data=v;render();alert('Backup restored.')}catch(err){alert('Could not import: invalid Ascend backup.')}};r.readAsText(f);e.target.value=''}function resetData(){if(confirm('Permanently erase ALL Ascend data on this device?')){localStorage.removeItem(KEY);location.reload()}}render();
+if(typeof ascend20Render==='function')ascend20Render();save()}function page(p){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));document.getElementById('heading').textContent=({dashboard:'Today',tasksPage:'Tasks',calendarPage:'Calendar',progress:'Progress',habits:'Your habits',goals:'Your goals',planner:'Daily planner',insights:'Your insights',settings:'Settings'})[p]||'';render();window.scrollTo(0,0)}document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>page(b.dataset.page));function toggleHabit(x){let h=data.habits.find(h=>h.id===x);if(!h||!due(h,new Date()))return;h.log[today()]=!h.log[today()];render()}function toggleTask(x){let t=data.tasks.find(t=>t.id===x);if(t)t.done=!t.done;render()}function stepGoal(x,delta){let g=data.goals.find(g=>g.id===x);if(g)g.value=Math.min(g.target,Math.max(0,g.value+delta));render()}function remove(k,x){if(!confirm(L('Delete this item?','حذف هذا العنصر؟')))return;let arr=k==='habit'?'habits':k==='goal'?'goals':'tasks';data[arr]=data[arr].filter(o=>o.id!==x);render()}function openModal(kind,edit=''){document.getElementById('editor').reset();document.getElementById('kind').value=kind;document.getElementById('editId').value=edit;let arr=data[kind==='habit'?'habits':kind==='goal'?'goals':'tasks'],obj=arr.find(o=>o.id===edit);document.getElementById('modalTitle').textContent=(edit?'Edit ':'Add ')+kind;document.getElementById('name').value=obj?.name||'';document.getElementById('extra').innerHTML=kind==='habit'?`<label>Habit type</label><select class="field" id="habitType"><option value="positive">Positive habit</option><option value="negative">Habit to avoid</option></select><label>Repeat on</label><div class="row" style="flex-wrap:wrap;margin:10px 0 16px">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d,i)=>`<label style="font-size:12px"><input type="checkbox" class="weekday" value="${i}" ${(!obj||obj.days.includes(i))?'checked':''}>${d}</label>`).join('')}</div>`:kind==='goal'?`<label>Target number</label><input class="field" id="target" type="number" min="1" max="1000000" required value="${obj?.target||10}"><label>Current progress</label><input class="field" id="value" type="number" min="0" max="1000000" required value="${obj?.value||0}">`:`<label>Priority</label><select class="field" id="priority"><option>Normal</option><option>High</option><option>Low</option></select><label>Emoji / الرمز</label><div class="ascend-emojis" id="ascendEmojiChoices">${['🦷','📅','💊','📚','💼','🎂','🏃','🛒','✈️','⭐','❤️','📝'].map(e=>`<button type="button" class="ascend-emoji" onclick="document.getElementById('taskEmoji').value='${e}';document.querySelectorAll('.ascend-emoji').forEach(b=>b.classList.toggle('chosen',b.textContent==='${e}'))">${e}</button>`).join('')}</div><input class="field" id="taskEmoji" maxlength="12" placeholder="Optional emoji" value="${esc(obj?.emoji||'')}"><label>Date / التاريخ</label><input class="field" type="date" id="taskDate" value="${esc(obj?.date||'')}"><label>Time (optional) / الوقت</label><input class="field" type="time" id="taskTime" value="${esc(obj?.time||'')}">`;if(obj&&kind==='habit')document.getElementById('habitType').value=obj.type;if(obj&&kind==='task')document.getElementById('priority').value=obj.priority;document.getElementById('modalBack').classList.add('show')}function closeModal(){document.getElementById('modalBack').classList.remove('show')}document.getElementById('editor').onsubmit=e=>{e.preventDefault();let k=document.getElementById('kind').value,x=document.getElementById('editId').value,n=document.getElementById('name').value.trim();if(!n)return;let arr=data[k==='habit'?'habits':k==='goal'?'goals':'tasks'],obj=arr.find(o=>o.id===x);if(k==='habit'){let days=[...document.querySelectorAll('.weekday:checked')].map(el=>+el.value);if(!days.length){alert(L('Choose at least one day.','اختر يومًا واحدًا على الأقل.'));return}if(obj)Object.assign(obj,{name:n,type:document.getElementById('habitType').value,days});else arr.push({id:id(),name:n,type:document.getElementById('habitType').value,days,log:{}})}else if(k==='goal'){let target=+document.getElementById('target').value,value=+document.getElementById('value').value;if(!Number.isFinite(target)||target<1||!Number.isFinite(value)||value<0)return;let item={name:n,target,value:Math.min(value,target)};if(obj)Object.assign(obj,item);else arr.push({id:id(),...item})}else{if(obj){Object.assign(obj,{name:n,priority:document.getElementById('priority').value,emoji:document.getElementById('taskEmoji').value.trim(),date:document.getElementById('taskDate').value,time:document.getElementById('taskTime').value})}else arr.push({id:id(),name:n,priority:document.getElementById('priority').value,emoji:document.getElementById('taskEmoji').value.trim(),date:document.getElementById('taskDate').value,time:document.getElementById('taskTime').value,done:false})}closeModal();render();if(typeof drawCalendar==='function')drawCalendar()};function saveJournal(){data.journal[today()]=document.getElementById('journal').value;save();alert('Reflection saved locally.')}function toggleTheme(){data.dark=!data.dark;render()}function exportData(){if(window.ascendExportBackup)return ascendExportBackup();let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Ascend-backup-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function importData(e){if(window.ascendImportBackupFile){ascendImportBackupFile(e.target.files[0]);e.target.value='';return}let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let v=JSON.parse(r.result);if(!Array.isArray(v.habits)||!Array.isArray(v.goals)||!Array.isArray(v.tasks)||!v.journal||typeof v.journal!=='object')throw Error('Invalid backup');if(!confirm('Replace your current data with this backup?'))return;data=v;render();alert('Backup restored.')}catch(err){alert('Could not import: invalid Ascend backup.')}};r.readAsText(f);e.target.value=''}function resetData(){if(!confirm(L('Permanently erase ALL Ascend data on this device? Export a backup first if you may need it.','هل تريد مسح جميع بيانات أسيند نهائيًا من هذا الجهاز؟ صدّر نسخة احتياطية أولًا إذا كنت قد تحتاجها.')))return;if(!confirm(L('This cannot be undone. Erase everything?','لا يمكن التراجع عن ذلك. مسح كل شيء؟')))return;window.__ascendFrozen=true;Object.keys(localStorage).filter(k=>/^(steadyday|ascend)/.test(k)).forEach(k=>localStorage.removeItem(k));if(window.SteadyDayNative)try{SteadyDayNative.sync('{}','{}','en')}catch(e){}location.reload()}render();
 </script><script>
 (function(){
 const dict={
-'Your dashboard':'لوحة التحكم','Your habits':'عاداتك','Your goals':'أهدافك','Daily planner':'المخطط اليومي','Your insights':'إحصاءاتك','Settings':'الإعدادات','⌂ Today':'⌂ الرئيسية','✓ Habits':'✓ العادات','◎ Goals':'◎ الأهداف','▤ Planner':'▤ المخطط','▥ Insights':'▥ التحليلات','⚙ Settings':'⚙ الإعدادات','+ New habit':'+ عادة جديدة','+ Add habit':'+ إضافة عادة','+ Add goal':'+ إضافة هدف','+ Goal':'+ هدف','+ Task':'+ مهمة','See all':'عرض الكل','Today\'s progress':'إنجاز اليوم','Active habits':'العادات النشطة','Done today':'المكتمل اليوم','Open tasks':'المهام المتبقية','Keep going':'استمر','Your routines':'روتينك','Great progress':'تقدم رائع','Your plan':'خطتك','Today\'s habits':'عادات اليوم','Active goals':'الأهداف النشطة','Last 7 days':'آخر ٧ أيام','Daily habit completion (%)':'نسبة إنجاز العادات اليومية (%)','My habits':'عاداتي','My goals':'أهدافي','Daily tasks':'المهام اليومية','Private journal':'مذكرات خاصة','Write a reflection for today. Saved on this device.':'اكتب تأملاتك لهذا اليوم. تحفظ على جهازك.','Save reflection':'حفظ المذكرات','Completion today':'إنجاز اليوم','Last 7 days average':'متوسط آخر ٧ أيام','Completed goals':'الأهداف المكتملة','Tasks finished':'المهام المنجزة','Weekly progress':'التقدم الأسبوعي','Habits and streaks':'العادات والاستمرارية','Appearance':'المظهر','Toggle dark mode':'تبديل الوضع الداكن','Data and privacy':'البيانات والخصوصية','Export backup (JSON)':'تصدير نسخة احتياطية','Import backup':'استيراد نسخة احتياطية','Erase all data':'مسح جميع البيانات','About Ascend':'حول أسيند','Build better habits, one day at a time. No ads, gambling, interest products, or subscriptions.':'ابنِ عادات أفضل يومًا بعد يوم. بدون إعلانات أو قمار أو منتجات ربوية أو اشتراكات.','Interactive browser prototype. Android APK and notifications are not included in this preview.':'نسخة تجريبية للمتصفح. لا تتضمن ملف APK أو الإشعارات.','Ascend · Offline-first · Your progress belongs to you':'أسيند · يعمل دون إنترنت · بياناتك ملكك','Ascend · Offline-first · Your progress belongs to you':'أسيند · يعمل دون إنترنت · بياناتك ملكك','Name':'الاسم','Add habit':'إضافة عادة','Edit habit':'تعديل عادة','Add goal':'إضافة هدف','Edit goal':'تعديل هدف','Add task':'إضافة مهمة','Edit task':'تعديل مهمة','Habit type':'نوع العادة','Positive habit':'عادة إيجابية','Habit to avoid':'عادة أريد تجنبها','Repeat on':'تكرار في','Target number':'الهدف العددي','Current progress':'التقدم الحالي','Priority':'الأولوية','Normal':'عادي','High':'مرتفع','Low':'منخفض','Avoid':'تجنب','Build':'بناء','Daily':'يومي','Not scheduled today':'غير مجدول اليوم','Normal priority':'أولوية عادية','High priority':'أولوية مرتفعة','Low priority':'أولوية منخفضة','No habits scheduled today.':'لا توجد عادات مجدولة اليوم.','Add your first habit.':'أضف أول عادة لك.','Set a goal to get started.':'حدد هدفًا للبدء.','Add your first goal.':'أضف أول هدف لك.','Your task list is clear.':'قائمة مهامك فارغة.','No habits yet.':'لا توجد عادات بعد.','Today':'اليوم','Calendar':'التقويم','Gregorian':'ميلادي','Hijri':'هجري','Small steps. Higher goals.':'خطوات صغيرة. تقدم يستحق.','Make room for what matters, one day at a time.':'خصص وقتًا لما يهمك، يومًا بعد يوم.','Ascend':'Ascend','Save':'حفظ','Cancel':'إلغاء','Delete':'حذف','days/week':'أيام/أسبوع','streak':'سلسلة','scheduled completions in current streak':'إنجازات متتالية في الأيام المجدولة','days':'أيام','No account, ads, analytics trackers or network connection required. Clearing site data may erase your progress.':'لا يتطلب حسابًا أو إعلانات أو اتصالًا بالشبكة. قد يؤدي مسح بيانات المتصفح إلى فقدان تقدمك.'};
+'Your dashboard':'لوحة التحكم','Your habits':'عاداتك','Your goals':'أهدافك','Daily planner':'المخطط اليومي','Your insights':'إحصاءاتك','Settings':'الإعدادات','⌂ Today':'⌂ الرئيسية','✓ Habits':'✓ العادات','◎ Goals':'◎ الأهداف','▤ Planner':'▤ المخطط','▥ Insights':'▥ التحليلات','⚙ Settings':'⚙ الإعدادات','+ New habit':'+ عادة جديدة','+ Add habit':'+ إضافة عادة','+ Add goal':'+ إضافة هدف','+ Goal':'+ هدف','+ Task':'+ مهمة','See all':'عرض الكل','Today\'s progress':'إنجاز اليوم','Active habits':'العادات النشطة','Done today':'المكتمل اليوم','Open tasks':'المهام المتبقية','Keep going':'استمر','Your routines':'روتينك','Great progress':'تقدم رائع','Your plan':'خطتك','Today\'s habits':'عادات اليوم','Active goals':'الأهداف النشطة','Last 7 days':'آخر ٧ أيام','Daily habit completion (%)':'نسبة إنجاز العادات اليومية (%)','My habits':'عاداتي','My goals':'أهدافي','Daily tasks':'المهام اليومية','Private journal':'مذكرات خاصة','Write a reflection for today. Saved on this device.':'اكتب تأملاتك لهذا اليوم. تحفظ على جهازك.','Save reflection':'حفظ المذكرات','Completion today':'إنجاز اليوم','Last 7 days average':'متوسط آخر ٧ أيام','Completed goals':'الأهداف المكتملة','Tasks finished':'المهام المنجزة','Weekly progress':'التقدم الأسبوعي','Habits and streaks':'العادات والاستمرارية','Appearance':'المظهر','Toggle dark mode':'تبديل الوضع الداكن','Data and privacy':'البيانات والخصوصية','Export backup (JSON)':'تصدير نسخة احتياطية','Import backup':'استيراد نسخة احتياطية','Erase all data':'مسح جميع البيانات','About Ascend':'حول أسيند','Build better habits, one day at a time. No ads, gambling, interest products, or subscriptions.':'ابنِ عادات أفضل يومًا بعد يوم. بدون إعلانات أو قمار أو منتجات ربوية أو اشتراكات.','Interactive browser prototype. Android APK and notifications are not included in this preview.':'نسخة تجريبية للمتصفح. لا تتضمن ملف APK أو الإشعارات.','Ascend · Offline-first · Your progress belongs to you':'أسيند · يعمل دون إنترنت · بياناتك ملكك','Ascend · Offline-first · Your progress belongs to you':'أسيند · يعمل دون إنترنت · بياناتك ملكك','Name':'الاسم','Add habit':'إضافة عادة','Edit habit':'تعديل عادة','Add goal':'إضافة هدف','Edit goal':'تعديل هدف','Add task':'إضافة مهمة','Edit task':'تعديل مهمة','Habit type':'نوع العادة','Positive habit':'عادة إيجابية','Habit to avoid':'عادة أريد تجنبها','Repeat on':'تكرار في','Target number':'الهدف العددي','Current progress':'التقدم الحالي','Priority':'الأولوية','Normal':'عادي','High':'مرتفع','Low':'منخفض','Avoid':'تجنب','Build':'بناء','Daily':'يومي','Not scheduled today':'غير مجدول اليوم','Normal priority':'أولوية عادية','High priority':'أولوية مرتفعة','Low priority':'أولوية منخفضة','No habits scheduled today.':'لا توجد عادات مجدولة اليوم.','Add your first habit.':'أضف أول عادة لك.','Set a goal to get started.':'حدد هدفًا للبدء.','Add your first goal.':'أضف أول هدف لك.','Your task list is clear.':'قائمة مهامك فارغة.','No habits yet.':'لا توجد عادات بعد.','Today':'اليوم','Calendar':'التقويم','Gregorian':'ميلادي','Hijri':'هجري','Small steps. Higher goals.':'خطوات صغيرة. تقدم يستحق.','Make room for what matters, one day at a time.':'خصص وقتًا لما يهمك، يومًا بعد يوم.','Ascend':'Ascend','Save':'حفظ','Cancel':'إلغاء','Delete':'حذف','days/week':'أيام/أسبوع','streak':'سلسلة','scheduled completions in current streak':'إنجازات متتالية في الأيام المجدولة','days':'أيام','No account, ads, analytics trackers or network connection required. Clearing site data may erase your progress.':'لا يتطلب حسابًا أو إعلانات أو اتصالًا بالشبكة. قد يؤدي مسح بيانات المتصفح إلى فقدان تقدمك.','Your information stays on this device. No account, ads, analytics or internet connection needed. Uninstalling Ascend or clearing its storage erases it, so keep a backup.':'تبقى بياناتك على هذا الجهاز. لا حاجة إلى حساب أو إعلانات أو تحليلات أو اتصال بالإنترنت. حذف التطبيق أو مسح تخزينه يمحو البيانات، لذا احتفظ بنسخة احتياطية.','Version 61 · Works offline · Your data stays on this device.':'الإصدار 61 · يعمل دون إنترنت · بياناتك تبقى على هذا الجهاز.','Choose your theme':'اختر السمة','Upcoming premium themes':'السمات المميزة القادمة','Explore the palettes. These are previews only; premium activation is not yet available.':'استكشف الألوان. هذه معاينات فقط؛ تفعيل السمات المميزة غير متاح بعد.'};
 let lang=localStorage.getItem('steadyday_lang')||'en',mode=localStorage.getItem('steadyday_calendar')||'gregory',offset=0;
 const gregDate=(d,l)=>new Intl.DateTimeFormat(l==='ar'?'ar-SA':'en-US',{year:'numeric',month:'long',day:'numeric',weekday:'long',calendar:'gregory'}).format(d);
 const hijriFmt=(d,l,opts)=>new Intl.DateTimeFormat(l==='ar'?'ar-SA-u-ca-islamic-umalqura':'en-US-u-ca-islamic-umalqura',{...opts,era:undefined}).format(d).replace(/\s*(?:BC|AD)\b/g,' AH');
@@ -63,7 +63,7 @@ let secondaryDay=mode==='gregory'?getParts(d).day:d.getDate();
 let secondaryLabel=mode==='gregory'?(lang==='ar'?'هـ':'H'):(lang==='ar'?'م':'G');
 html+='<div class="day '+(doneDay?'done ':'')+(iso(d)===today()?'today':'')+'" data-ascend-date="'+iso(d)+'" title="'+pct(d)+'%"><span class="ascend-cal-main-day">'+n+'</span><span class="ascend-cal-secondary-day" aria-label="'+(mode==='gregory'?'Hijri':'Gregorian')+' '+secondaryDay+'">'+secondaryDay+' <small>'+secondaryLabel+'</small></span><span class="ascend-cal-emojis">'+data.tasks.filter(t=>t.date===iso(d)).slice(0,3).map(t=>esc(t.emoji||'📌')).join('')+'</span></div>'}box.innerHTML=html;
 box.querySelectorAll('[data-ascend-date]').forEach(cell=>{
- const date=cell.dataset.ascendDate,items=data.tasks.filter(t=>t.date===date);
+ const date=cell.dataset.ascendDate,items=data.tasks.filter(t=>t.date===date&&!t.cancelled);
  const completed=items.filter(t=>t.done).length;
  cell.classList.toggle('ascend-all-complete',items.length>0&&completed===items.length);
  cell.classList.toggle('ascend-part-complete',completed>0&&completed<items.length);cell.classList.toggle('ascend-has-appointments',items.length>0);
@@ -80,17 +80,17 @@ box.querySelectorAll('[data-ascend-date]').forEach(cell=>{
 document.getElementById('calTitle').textContent=lang==='ar'?'التقويم':'Calendar';document.getElementById('calLabel').textContent=label;document.getElementById('calNote').textContent=secondary}
 window.switchLanguage=()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('steadyday_lang',lang);render();applyLanguage()};window.switchCalendar=()=>{mode=mode==='gregory'?'hijri':'gregory';offset=0;localStorage.setItem('steadyday_calendar',mode);applyLanguage()};window.changeMonth=n=>{offset+=n;drawCalendar()};window.goToday=()=>{offset=0;drawCalendar()};
 const oldRender=window.render;window.render=function(){oldRender();applyLanguage()};const oldPage=window.page;window.page=function(p){oldPage(p);applyLanguage()};const oldOpen=window.openModal;window.openModal=function(k,id){oldOpen(k,id);applyLanguage()};
-applyLanguage();
+window.drawCalendar=drawCalendar;applyLanguage();
 })();
 </script><style>
 :root{--accent:#527c70}body{background:#f5f7f4;color:#263b36}.side{border-color:#e8eee9}.brand{color:#315e51}.nav.active{background:#365f53;box-shadow:none}.btn{background:#365f53;box-shadow:none}.btn.secondary{background:#edf4ef;color:#315e51}.hero{background:linear-gradient(115deg,#365f53,#71978a)}.stat:nth-child(n){background:white}.stat,.panel{border:1px solid #e5ece7;box-shadow:0 5px 22px #1b42320b}.chip{background:#e8f5ec;color:#38694f}.progress>div{background:#73b79a}.toolbuttons{display:flex;flex-wrap:wrap;gap:10px}.nav{font-weight:650}.top .btn{white-space:nowrap}.hero .spark{opacity:.8}#calendarPage .panel{max-width:780px;margin:0 auto}#calendarPage .day{min-height:52px}.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(n+3){display:none}.columns{grid-template-columns:1fr 1fr}@media(max-width:650px){.stats{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}.side{height:72px}.nav{font-size:12px}.nav::first-letter{font-size:19px}.hero{border-radius:24px}.main{padding:18px 15px}.panel{border-radius:20px}.top .btn{display:none}#calendarPage .day{min-height:43px}}
 </style><script>
 (function(){
 const cal=document.getElementById('calendar');const panel=cal&&cal.closest('.panel');const dest=document.getElementById('calendarDestination');if(panel&&dest)dest.appendChild(panel);
-const names={en:{dashboard:'Today',calendarPage:'Calendar',goals:'Goals',settings:'Settings'},ar:{dashboard:'اليوم',calendarPage:'التقويم',goals:'الأهداف',settings:'الإعدادات'}};
+const names={en:{dashboard:'Today',tasksPage:'Tasks',calendarPage:'Calendar',progress:'Progress',goals:'Goals',settings:'Settings'},ar:{dashboard:'اليوم',tasksPage:'المهام',calendarPage:'التقويم',progress:'التقدم',goals:'الأهداف',settings:'الإعدادات'}};
 const originalPage=window.page;window.page=function(p){originalPage(p);if(p==='calendarPage'){document.getElementById('heading').textContent=document.documentElement.lang==='ar'?'التقويم':'Calendar'};if(p==='dashboard'){document.getElementById('heading').textContent=document.documentElement.lang==='ar'?'اليوم':'Today'};};
 const origApply=window.switchLanguage;window.switchLanguage=function(){origApply();localizeSimple()};
-function localizeSimple(){let ar=document.documentElement.lang==='ar';document.querySelectorAll('.nav').forEach(b=>{let n=names[ar?'ar':'en'][b.dataset.page];if(n)b.textContent=({dashboard:'⌂ ',goals:'◎ ',calendarPage:'▦ ',settings:'⚙ '}[b.dataset.page]||'')+n});let translations={moreToolsTitle:['More tools','أدوات إضافية'],moreToolsHint:['Everything else is here when you need it.','كل الأدوات الأخرى هنا عند الحاجة.'],allHabitsBtn:['All habits','جميع العادات'],plannerBtn:['Planner & journal','المخطط والمذكرات'],insightsBtn:['Insights','التحليلات']};for(let id in translations){let el=document.getElementById(id);if(el)el.textContent=translations[id][ar?1:0]};let selected=document.querySelector('.section.active');if(selected&&(selected.id==='dashboard'||selected.id==='calendarPage'))document.getElementById('heading').textContent=names[ar?'ar':'en'][selected.id];}
+function localizeSimple(){let ar=document.documentElement.lang==='ar';document.querySelectorAll('.nav').forEach(b=>{let n=names[ar?'ar':'en'][b.dataset.page];if(n)b.textContent=({dashboard:'⌂ ',tasksPage:'☑ ',goals:'◎ ',progress:'◎ ',calendarPage:'▦ ',settings:'⚙ '}[b.dataset.page]||'')+n});let translations={moreToolsTitle:['More tools','أدوات إضافية'],moreToolsHint:['Everything else is here when you need it.','كل الأدوات الأخرى هنا عند الحاجة.'],allHabitsBtn:['All habits','جميع العادات'],plannerBtn:['Planner & journal','المخطط والمذكرات'],insightsBtn:['Insights','التحليلات']};for(let id in translations){let el=document.getElementById(id);if(el)el.textContent=translations[id][ar?1:0]};let selected=document.querySelector('.section.active');if(selected&&names[ar?'ar':'en'][selected.id])document.getElementById('heading').textContent=names[ar?'ar':'en'][selected.id];}
 const oldRender=window.render;window.render=function(){oldRender();localizeSimple()};localizeSimple();
 })();
 </script><style>
@@ -100,12 +100,13 @@ const oldRender=window.render;window.render=function(){oldRender();localizeSimpl
 (function(){
 'use strict';
 const RKEY='steadyday-reminders-v1';
+window.ascendNativeSync=function(c){if(!window.SteadyDayNative)return;clearTimeout(window.__ascendSyncT);window.__ascendSyncT=setTimeout(()=>{try{const slim={habits:(data.habits||[]).map(h=>({id:h.id,name:h.name,days:h.days,log:h.log})),tasks:(data.tasks||[]).map(t=>({id:t.id,name:t.name,date:t.date||'',time:t.time||'',done:!!t.done,cancelled:!!t.cancelled}))};SteadyDayNative.sync(JSON.stringify(c),JSON.stringify(slim),document.documentElement.lang)}catch(e){console.warn('Reminder sync failed',e)}},250)};
 const defaults={enabled:false,mode:'inapp',frequency:'once',quiet:true,hide:true,start:'22:00',end:'07:00',time:'19:00',items:{},fired:{},snoozed:{}};
 let cfg;try{cfg=Object.assign({},defaults,JSON.parse(localStorage.getItem(RKEY)||'{}'))}catch(e){cfg={...defaults}};
 cfg.items=cfg.items||{};cfg.fired=cfg.fired||{};cfg.snoozed=cfg.snoozed||{};
 const ar=()=>document.documentElement.lang==='ar';
 const tr=(en,arabic)=>ar()?arabic:en;
-const persist=()=>{try{localStorage.setItem(RKEY,JSON.stringify(cfg)); if(window.SteadyDayNative)window.SteadyDayNative.sync(JSON.stringify(cfg),JSON.stringify(data),document.documentElement.lang)}catch(e){console.warn('Reminder settings could not be saved',e)}};
+const persist=()=>{try{localStorage.setItem(RKEY,JSON.stringify(cfg)); if(window.SteadyDayNative)ascendNativeSync(cfg)}catch(e){console.warn('Reminder settings could not be saved',e)}};
 const settings=document.getElementById('settings');
 const panel=document.createElement('div');panel.className='panel';panel.id='reminderSettings';settings.insertBefore(panel,settings.children[1]||null);
 function option(v,en,arabic,selected){return `<option value="${v}" ${selected===v?'selected':''}>${tr(en,arabic)}</option>`}
@@ -119,23 +120,23 @@ function renderSettings(){panel.innerHTML=`<h2>${tr('Friendly reminders','تذك
 <div><label for="rEnd">${tr('Quiet hours end','نهاية ساعات الهدوء')}</label><input id="rEnd" type="time" value="${cfg.end}"></div></div>
 <div style="margin-top:12px"><label><input id="rQuiet" type="checkbox" ${cfg.quiet?'checked':''}> ${tr('Respect quiet hours','احترام ساعات الهدوء')}</label></div>
 <div><label><input id="rHide" type="checkbox" ${cfg.hide?'checked':''}> ${tr('Hide task names in notifications','إخفاء أسماء المهام في الإشعارات')}</label></div>
-<div class="reminder-actions"><button id="rPermission" type="button">${tr('Allow browser notifications','السماح بإشعارات المتصفح')}</button><button id="rTest" type="button">${tr('Test reminder','تجربة التذكير')}</button></div>
+<div class="reminder-actions"><button id="rPermission" type="button">${window.SteadyDayNative?tr('Allow Android notifications','السماح بإشعارات أندرويد'):tr('Allow browser notifications','السماح بإشعارات المتصفح')}</button><button id="rTest" type="button">${tr('Test reminder','تجربة التذكير')}</button></div>
 <p class="reminder-note">${tr('On Android, scheduled reminders use local device notifications, including when the app is closed. Device permissions and battery settings take priority.','على أندرويد، تعمل التذكيرات المجدولة محليًا حتى عند إغلاق التطبيق. أذونات الجهاز وإعدادات البطارية لها الأولوية.')}</p>
 <h3>${tr('Remind me about','ذكّرني بـ')}</h3><div id="rItems"></div>`;
 ['Enabled','Mode','Freq','Time','Start','End','Quiet','Hide'].forEach(k=>{let el=document.getElementById('r'+k);el.addEventListener('change',()=>{let key={Enabled:'enabled',Mode:'mode',Freq:'frequency',Time:'time',Start:'start',End:'end',Quiet:'quiet',Hide:'hide'}[k];cfg[key]=el.type==='checkbox'?el.checked:el.value;persist();renderSettings()})});
 document.getElementById('rPermission').onclick=async()=>{if(window.SteadyDayNative){window.SteadyDayNative.requestPermission();return;} if(!('Notification' in window)){alert(tr('Notifications are unavailable in this preview. In-app reminders still work.','الإشعارات غير متاحة في هذه المعاينة. التذكيرات داخل التطبيق تعمل.'));return}try{let p=await Notification.requestPermission();alert(tr('Notification permission: ','إذن الإشعارات: ')+p)}catch(e){alert(tr('Browser notifications are unavailable here.','إشعارات المتصفح غير متاحة هنا.'))}};
 document.getElementById('rTest').onclick=()=>{if(window.SteadyDayNative){window.SteadyDayNative.test(cfg.mode,document.documentElement.lang);return;}showReminder(tr('A friendly test reminder','تذكير تجريبي لطيف'),tr('This is how a reminder looks while Ascend is open.','هكذا يظهر التذكير عندما يكون أسيند مفتوحًا.'),null,true);};
 renderItems();}
-function renderItems(){let el=document.getElementById('rItems');if(!el)return;let items=[...data.habits.map(x=>({...x,kind:'habit'})),...data.tasks.map(x=>({...x,kind:'task'}))];el.innerHTML=items.length?items.map(x=>{let item=cfg.items[x.id]||{};return `<div class="reminder-item"><div style="flex:1;min-width:0"><b>${esc(x.name)}</b><div class="reminder-note">${tr(x.kind==='habit'?'Habit':'Task',x.kind==='habit'?'عادة':'مهمة')}</div></div><div><label style="font-size:12px"><input type="checkbox" data-reminder-toggle="${x.id}" ${item.enabled?'checked':''}> ${tr('On','مفعل')}</label><input aria-label="${tr('Reminder time','وقت التذكير')}" data-reminder-time="${x.id}" type="time" value="${item.time||cfg.time}" style="display:block;max-width:135px;padding:6px;border-radius:8px;border:1px solid #abc9b5;margin-top:5px"></div></div>`}).join(''):`<p class="muted">${tr('Add a habit or task first.','أضف عادة أو مهمة أولاً.')}</p>`;
+function renderItems(){let el=document.getElementById('rItems');if(!el)return;let items=[...data.habits.map(x=>({...x,kind:'habit'})),...data.tasks.filter(x=>!x.done&&!x.cancelled).map(x=>({...x,kind:'task'}))];el.innerHTML=items.length?items.map(x=>{let item=cfg.items[x.id]||{};return `<div class="reminder-item"><div style="flex:1;min-width:0"><b>${esc(x.name)}</b><div class="reminder-note">${tr(x.kind==='habit'?'Habit':'Task',x.kind==='habit'?'عادة':'مهمة')}</div></div><div><label style="font-size:12px"><input type="checkbox" data-reminder-toggle="${x.id}" ${item.enabled?'checked':''}> ${tr('On','مفعل')}</label><input aria-label="${tr('Reminder time','وقت التذكير')}" data-reminder-time="${x.id}" type="time" value="${item.time||cfg.time}" style="display:block;max-width:135px;padding:6px;border-radius:8px;border:1px solid #abc9b5;margin-top:5px"></div></div>`}).join(''):`<p class="muted">${tr('Add a habit or task first.','أضف عادة أو مهمة أولاً.')}</p>`;
 el.querySelectorAll('[data-reminder-toggle]').forEach(node=>node.onchange=()=>{let x=node.dataset.reminderToggle;cfg.items[x]={...cfg.items[x],enabled:node.checked,time:cfg.items[x]?.time||cfg.time};persist()});
 el.querySelectorAll('[data-reminder-time]').forEach(node=>node.onchange=()=>{let x=node.dataset.reminderTime;cfg.items[x]={...cfg.items[x],time:node.value};persist()});}
 function isQuiet(now){if(!cfg.quiet)return false;let t=now.getHours()*60+now.getMinutes();let [sh,sm]=cfg.start.split(':').map(Number),[eh,em]=cfg.end.split(':').map(Number),a=sh*60+sm,b=eh*60+em;return a===b?false:a<b?(t>=a&&t<b):(t>=a||t<b)}
 function showReminder(title,message,itemId,test){let old=document.getElementById('reminderToast');if(old)old.remove();let el=document.createElement('div');el.className='reminder-toast';el.id='reminderToast';let heading=document.createElement('b');heading.textContent=title;let p=document.createElement('p');p.textContent=message;el.append(heading,p);let dismiss=document.createElement('button');dismiss.textContent=tr('Close','إغلاق');dismiss.onclick=()=>el.remove();el.append(dismiss);if(itemId){let done=document.createElement('button');done.textContent=tr('Done','تم');done.onclick=()=>{let h=data.habits.find(x=>x.id===itemId),t=data.tasks.find(x=>x.id===itemId);if(h){h.log[today()]=true}else if(t)t.done=true;render();el.remove()};el.append(done);let later=document.createElement('button');later.textContent=tr('Later (15 min)','لاحقًا (15 دقيقة)');later.onclick=()=>{cfg.snoozed[itemId]=Date.now()+15*60000;persist();el.remove()};el.append(later)}document.body.append(el);
 if(!test&&cfg.mode!=='inapp'&&'Notification' in window&&Notification.permission==='granted'){try{new Notification(title,{body:message,tag:'steadyday-'+(itemId||'test'),silent:cfg.mode==='silent'||cfg.mode==='vibrate'})}catch(e){/* WebView may disallow notifications */}}}
-function check(){if(window.SteadyDayNative||!cfg.enabled||document.hidden)return;let now=new Date();if(isQuiet(now))return;let day=today(),hhmm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');let items=[...data.habits.filter(x=>due(x,now)&&!done(x,now)),...data.tasks.filter(x=>!x.done)];let pending=[];for(let x of items){let opt=cfg.items[x.id];if(!opt?.enabled)continue;let stamp=day+':'+x.id;if(cfg.fired[stamp]){if(cfg.frequency==='followup'&&cfg.snoozed[x.id]&&Date.now()>=cfg.snoozed[x.id]&&cfg.fired[stamp]!=='followed'){pending.push(x);cfg.fired[stamp]='followed';delete cfg.snoozed[x.id]}continue}if(hhmm>=(opt.time||cfg.time)){pending.push(x);cfg.fired[stamp]='once'}}if(pending.length){let x=pending[0];let title=tr('A little reminder','تذكير لطيف');let msg=cfg.hide?tr('You have something planned today.','لديك شيء مخطط له اليوم.'):tr('You planned: ','خططت لـ: ')+x.name;showReminder(title,msg,x.id);persist()}if(Object.keys(cfg.fired).length>300){cfg.fired=Object.fromEntries(Object.entries(cfg.fired).filter(([k])=>k.startsWith(day)));persist()}}
-const previousRender=window.render;window.render=function(){previousRender();renderItems();if(window.SteadyDayNative)window.SteadyDayNative.sync(JSON.stringify(cfg),JSON.stringify(data),document.documentElement.lang)};
+function check(){if(window.SteadyDayNative||!cfg.enabled||document.hidden)return;let now=new Date();if(isQuiet(now))return;let day=today(),hhmm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');let items=[...data.habits.filter(x=>due(x,now)&&!done(x,now)),...data.tasks.filter(x=>!x.done&&!x.cancelled)];let pending=[];for(let x of items){let opt=cfg.items[x.id];if(!opt?.enabled)continue;let stamp=day+':'+x.id;if(cfg.fired[stamp]){if(cfg.frequency==='followup'&&cfg.snoozed[x.id]&&Date.now()>=cfg.snoozed[x.id]&&cfg.fired[stamp]!=='followed'){pending.push(x);cfg.fired[stamp]='followed';delete cfg.snoozed[x.id]}continue}if(hhmm>=(opt.time||cfg.time)){pending.push(x);cfg.fired[stamp]='once'}}if(pending.length){let x=pending[0];let title=tr('A little reminder','تذكير لطيف');let msg=cfg.hide?tr('You have something planned today.','لديك شيء مخطط له اليوم.'):tr('You planned: ','خططت لـ: ')+x.name;showReminder(title,msg,x.id);persist()}if(Object.keys(cfg.fired).length>300){cfg.fired=Object.fromEntries(Object.entries(cfg.fired).filter(([k])=>k.startsWith(day)));persist()}}
+const previousRender=window.render;window.render=function(){previousRender();renderItems();if(window.SteadyDayNative)ascendNativeSync(cfg)};
 const previousSwitch=window.switchLanguage;window.switchLanguage=function(){previousSwitch();renderSettings()};
-renderSettings();setTimeout(()=>{if(window.SteadyDayNative)window.SteadyDayNative.sync(JSON.stringify(cfg),JSON.stringify(data),document.documentElement.lang)},600);setInterval(check,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});
+renderSettings();setTimeout(()=>{if(window.SteadyDayNative)ascendNativeSync(cfg)},600);setInterval(check,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});
 window.addEventListener('storage',e=>{if(e.key===RKEY){try{cfg=Object.assign({},defaults,JSON.parse(e.newValue||'{}'));renderSettings()}catch(err){}}});
 })();
 </script><style>
@@ -149,9 +150,7 @@ body.dark #reminderSettings .reminder-item{border-color:#53647d}
 body.dark #reminderSettings .reminder-actions button{border-color:#8294ad;color:#f3f7ff}
 body.dark .reminder-pill{background:#254c41;color:#d9fff0}
 .quick-links{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 18px}.quick-links button{background:#e6f1ec;color:#245847;padding:10px 14px;border-radius:10px;font-weight:600}.dark .quick-links button{background:#294c45;color:#e5fff3}
-</style><script>
-(function(){const dash=document.getElementById('dashboard');if(!dash)return;const nav=document.createElement('div');nav.className='quick-links';nav.innerHTML='<button type="button" onclick="page(\'habits\')" data-en="All habits" data-ar="كل العادات">All habits</button><button type="button" onclick="page(\'planner\')" data-en="Planner & journal" data-ar="المخطط والمذكرات">Planner & journal</button><button type="button" onclick="page(\'insights\')" data-en="Insights" data-ar="التحليلات">Insights</button>';dash.appendChild(nav);const observer=new MutationObserver(()=>{const ar=document.documentElement.lang==='ar';nav.querySelectorAll('button').forEach(b=>b.textContent=b.dataset[ar?'ar':'en'])});observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});})();
-</script>
+</style>
 <script>
 /* Ascend Calendar 3.0 — accessible search and appointment actions */
 (function(){
@@ -284,55 +283,6 @@ decorate();
  observer.observe(cal,{childList:true});
  updateSummary();
 })();
-</script><script>
-/* Ascend 10 — local momentum insights and focused daily view. No external services. */
-(function(){
- const dash=document.getElementById('dashboard');
- if(!dash||document.getElementById('ascendMomentum'))return;
- const panel=document.createElement('section');
- panel.className='panel ascend-momentum';panel.id='ascendMomentum';
- panel.setAttribute('aria-live','polite');
- dash.appendChild(panel);
- const dateKey=d=>{const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+day};
- const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
- function update(){
-  if(typeof data==='undefined'||!data)return;
-  const now=new Date(),todayKey=dateKey(now);
-  const tasks=Array.isArray(data.tasks)?data.tasks:[];
-  const habits=Array.isArray(data.habits)?data.habits:[];
-  const dueToday=tasks.filter(t=>t.date===todayKey);
-  const finished=dueToday.filter(t=>t.done).length;
-  const overdue=tasks.filter(t=>t.date&&t.date<todayKey&&!t.done).length;
-  const next=tasks.filter(t=>t.date>=todayKey&&!t.done).sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')))[0];
-  const percent=dueToday.length?Math.round(finished/dueToday.length*100):0;
-  panel.replaceChildren();
-  const title=document.createElement('h2');title.textContent=tr('Your momentum','زخم إنجازك');panel.append(title);
-  const hint=document.createElement('p');hint.className='muted';hint.textContent=tr('A private snapshot calculated on your device.','لمحة خاصة تُحسب على جهازك فقط.');panel.append(hint);
-  const stats=document.createElement('div');stats.className='ascend-momentum-grid';
-  [[tr('Today completed','مكتمل اليوم'),finished+' / '+dueToday.length],
-   [tr('Today progress','تقدم اليوم'),percent+'%'],
-   [tr('Needs attention','يحتاج متابعة'),String(overdue)],
-   [tr('Habits tracked','العادات المتابعة'),String(habits.length)]].forEach(([label,value])=>{
-   const item=document.createElement('div');item.className='ascend-momentum-stat';
-   const num=document.createElement('strong');num.textContent=value;
-   const cap=document.createElement('span');cap.textContent=label;
-   item.append(num,cap);stats.append(item);
-  });
-  panel.append(stats);
-  const track=document.createElement('div');track.className='ascend-momentum-track';
-  track.setAttribute('role','progressbar');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');track.setAttribute('aria-valuenow',String(percent));
-  const bar=document.createElement('span');bar.style.width=percent+'%';track.append(bar);panel.append(track);
-  const note=document.createElement('p');note.className='ascend-momentum-next';
-  note.textContent=next?tr('Next up: ','التالي: ')+next.name+' · '+next.date+(next.time?' · '+next.time:''):tr('No upcoming unfinished dated tasks.','لا توجد مهام مؤرخة قادمة غير مكتملة.');
-  panel.append(note);
- }
- const original=window.render;
- window.render=function(){original();update()};
- const originalLang=window.switchLanguage;
- window.switchLanguage=function(){originalLang();update()};
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)update()});
- update();
-})();
 </script>
 <script>
 (function(){
@@ -430,7 +380,7 @@ decorate();
  function localize(){
   const ar=document.documentElement.lang==='ar';
   title.textContent=ar?'نسخة احتياطية خاصة':'Private data backup';
-  desc.textContent=ar?'احفظ العادات والمهام والأهداف والمذكرات الخاصة على جهازك أو استعدها لاحقًا. لا تُرسل البيانات إلى أي خادم.':'Export or restore your habits, tasks, goals and private journals locally. Nothing is uploaded to a server.';
+  desc.textContent=ar?'صدّر أو استعد العادات والمهام والأهداف والمذكرات وإعدادات التذكير والمظهر محليًا. لا تُرسل البيانات إلى أي خادم.':'Export or restore habits, tasks, goals, private journals, reminder settings and theme preferences locally. Nothing is uploaded to a server.';
   exportBtn.textContent=ar?'↓ تصدير نسخة':'↓ Export backup';
   importBtn.textContent=ar?'↑ استيراد نسخة':'↑ Import backup';
  }
@@ -439,35 +389,37 @@ decorate();
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;
   document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
  }
- exportBtn.addEventListener('click',()=>{
+ exportBtn.addEventListener('click',()=>{if(window.ascendExportBackup){status.textContent='';ascendExportBackup();return}
   try{
    const raw=localStorage.getItem('steadyday2-v1');
    if(!raw)throw Error('No saved data found');
    const parsed=JSON.parse(raw);
    if(!parsed||!Array.isArray(parsed.tasks)||!Array.isArray(parsed.habits)||!Array.isArray(parsed.goals)||!parsed.journal||typeof parsed.journal!=='object'||Array.isArray(parsed.journal))throw Error('Invalid saved data');
-   const prefs={};['steadyday_lang','steadyday_calendar','steadyday-theme'].forEach(k=>{const v=localStorage.getItem(k);if(v!==null)prefs[k]=v});
+   const prefs={};['steadyday_lang','steadyday_calendar','steadyday-theme','steadyday-reminders-v1'].forEach(k=>{const v=localStorage.getItem(k);if(v!==null)prefs[k]=v});
    download('Ascend-backup-'+new Date().toISOString().slice(0,10)+'.json',{format:'ascend-backup',version:1,createdAt:new Date().toISOString(),data:parsed,preferences:prefs});
-   status.textContent='Backup prepared. Check your Downloads folder.';
-  }catch(e){status.textContent='Export failed: '+e.message}
+   status.textContent=document.documentElement.lang==='ar'?'تم إعداد النسخة الاحتياطية. تحقق من مجلد التنزيلات.':'Backup prepared. Check your Downloads folder.';
+  }catch(e){status.textContent=(document.documentElement.lang==='ar'?'تعذر التصدير: ':'Export failed: ')+e.message}
  });
  importBtn.addEventListener('click',()=>file.click());
  file.addEventListener('change',async()=>{
   const chosen=file.files&&file.files[0];if(!chosen)return;
   try{
    if(chosen.size>5*1024*1024)throw Error('File too large (5 MB limit)');
-   const payload=JSON.parse(await chosen.text());
+   if(window.ascendImportBackupFile){await ascendImportBackupFile(chosen,status);return}const payload=JSON.parse(await chosen.text());
    if(payload.format!=='ascend-backup'||payload.version!==1||!payload.data||!Array.isArray(payload.data.tasks)||!Array.isArray(payload.data.habits)||!Array.isArray(payload.data.goals)||!payload.data.journal||typeof payload.data.journal!=='object'||Array.isArray(payload.data.journal))throw Error('Not a compatible Ascend backup');
-   if(!payload.data.tasks.every(t=>t&&typeof t==='object'&&typeof t.name==='string')||!payload.data.habits.every(t=>t&&typeof t==='object'&&typeof t.name==='string'))throw Error('Backup contains invalid entries');
+   if(!payload.data.tasks.every(t=>t&&typeof t==='object'&&typeof t.name==='string')||!payload.data.habits.every(t=>t&&typeof t==='object'&&typeof t.name==='string')||!payload.data.goals.every(g=>g&&typeof g==='object')||!Object.entries(payload.data.journal).every(([day,note])=>/^\d{4}-\d{2}-\d{2}$/.test(day)&&typeof note==='string'&&note.length<=100000))throw Error('Backup contains invalid entries');
    const ar=document.documentElement.lang==='ar';
-   if(!confirm(ar?'سيتم استبدال البيانات الحالية بالنسخة المستوردة. هل تريد المتابعة؟':'This will replace your current app data with the selected backup. Continue?'))return;
+   const totals=[payload.data.habits.length,payload.data.tasks.length,payload.data.goals.length,Object.values(payload.data.journal).filter(v=>v.trim()).length];
+   const summary=ar?'العادات: '+totals[0]+'، المهام: '+totals[1]+'، الأهداف: '+totals[2]+'، المذكرات: '+totals[3]:'Habits: '+totals[0]+', tasks: '+totals[1]+', goals: '+totals[2]+', journal entries: '+totals[3];
+   if(!confirm((ar?'النسخة المختارة تحتوي على:\n':'Selected backup contains:\n')+summary+'\n\n'+(ar?'سيتم استبدال بيانات التطبيق الحالية. هل تريد المتابعة؟':'This will replace your current app data. Continue?')))return;
    const previous=localStorage.getItem('steadyday2-v1');
    if(previous!==null)localStorage.setItem('ascend-before-import-'+Date.now(),previous);
    localStorage.setItem('steadyday2-v1',JSON.stringify(payload.data));
    const prefs=payload.preferences||{};
-   ['steadyday_lang','steadyday_calendar','steadyday-theme'].forEach(k=>{if(typeof prefs[k]==='string')localStorage.setItem(k,prefs[k])});
+   ['steadyday_lang','steadyday_calendar','steadyday-theme','steadyday-reminders-v1'].forEach(k=>{if(typeof prefs[k]==='string'&&prefs[k].length<200000){if(k==='steadyday-reminders-v1'){const reminder=JSON.parse(prefs[k]);if(!reminder||typeof reminder!=='object'||Array.isArray(reminder))return;}localStorage.setItem(k,prefs[k])}});
    status.textContent=ar?'تم الاستيراد. جارٍ إعادة تحميل التطبيق.':'Backup restored. Reloading app.';
    location.reload();
-  }catch(e){status.textContent='Import failed: '+e.message}
+  }catch(e){status.textContent=(document.documentElement.lang==='ar'?'تعذر الاستيراد: ':'Import failed: ')+e.message}
   finally{file.value=''}
  });
  actions.append(exportBtn,importBtn,file);section.append(title,desc,actions,status);settings.append(section);
@@ -476,51 +428,7 @@ decorate();
  if(langBtn)langBtn.addEventListener('click',()=>queueMicrotask(localize));
 })();
 </script>
-<script>
-/* Ascend 13: privacy-first Focus Queue. Read-only until user explicitly edits tasks. */
-(function(){
- const dashboard=document.getElementById('dashboard');
- if(!dashboard||document.getElementById('ascendFocusQueue'))return;
- const section=document.createElement('section');section.className='panel ascend-focus-queue';section.id='ascendFocusQueue';
- dashboard.append(section);
- const isoLocal=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
- const translate=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
- function draw(){
-  if(typeof data==='undefined'||!data||!Array.isArray(data.tasks))return;
-  section.replaceChildren();
-  const head=document.createElement('div');head.className='ascend-focus-head';
-  const title=document.createElement('h2');title.textContent=translate('Focus Queue · Next 7 days','قائمة التركيز · الأيام السبعة القادمة');
-  const count=document.createElement('span');count.className='ascend-focus-count';head.append(title,count);section.append(head);
-  const hint=document.createElement('p');hint.className='muted';hint.textContent=translate('Your unfinished scheduled tasks, grouped by urgency. No algorithms, accounts, or uploads.','مهامك المجدولة غير المكتملة، مرتبة حسب الأهمية. دون حسابات أو رفع بيانات.');section.append(hint);
-  const now=new Date();now.setHours(12,0,0,0);
-  const end=new Date(now);end.setDate(end.getDate()+7);
-  const startKey=isoLocal(now),endKey=isoLocal(end);
-  const tasks=data.tasks.filter(t=>!t.done&&typeof t.date==='string'&&t.date&&t.date<=endKey);
-  const rank=t=>String(t.priority||'normal').toLowerCase()==='high'?0:String(t.priority||'normal').toLowerCase()==='low'?2:1;
-  tasks.sort((a,b)=>rank(a)-rank(b)||String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')));
-  count.textContent=tasks.length+' '+translate('open','متبقية');
-  const list=document.createElement('div');list.className='ascend-focus-list';
-  if(!tasks.length){const empty=document.createElement('p');empty.className='ascend-focus-empty';empty.textContent=translate('Nothing urgent is scheduled. Enjoy the breathing room.','لا توجد مهام عاجلة مجدولة. استمتع ببعض الراحة.');list.append(empty)}
-  tasks.slice(0,8).forEach(t=>{
-   const priority=rank(t)===0?'high':rank(t)===2?'low':'normal';
-   const item=document.createElement('div');item.className='ascend-focus-item ascend-focus-'+priority;
-   const text=document.createElement('div');text.className='ascend-focus-copy';
-   const name=document.createElement('strong');name.textContent=(t.emoji?t.emoji+'  ':'')+t.name;
-   const info=document.createElement('small');info.textContent=(t.date<startKey?translate('Overdue · ','متأخرة · '):'')+t.date+(t.time?' · '+t.time:'')+' · '+translate(priority==='high'?'High':priority==='low'?'Low':'Normal',priority==='high'?'عالية':priority==='low'?'منخفضة':'عادية');
-   text.append(name,info);
-   const edit=document.createElement('button');edit.type='button';edit.className='btn secondary ascend-focus-edit';edit.textContent=translate('Edit','تعديل');
-   edit.addEventListener('click',()=>{if(typeof window.openModal==='function')window.openModal('task',t.id)});
-   item.append(text,edit);list.append(item);
-  });
-  section.append(list);
-  if(tasks.length>8){const more=document.createElement('p');more.className='muted';more.textContent=translate('Showing 8 of ','عرض ٨ من ')+tasks.length;section.append(more)}
- }
- const prev=window.render;window.render=function(){prev();draw()};
- const prevLang=window.switchLanguage;window.switchLanguage=function(){prevLang();draw()};
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)draw()});
- draw();
-})();
-</script>
+
 
 <script>
 /* Ascend 14: schedule-aware habit history and goal milestones; no new stored schema. */
@@ -549,7 +457,7 @@ decorate();
    head.append(el('strong','',String(h.name||'')),el('span','',completed+'/'+scheduled.length+' · '+percent+'%'));row.append(head);
    const days=el('div','ascend-weekly-days');
    dates.forEach(d=>{const planned=h.days.includes(d.getDay()),finished=planned&&!!(h.log&&h.log[localKey(d)]);
-    const dot=el('span','ascend-weekly-day '+(!planned?'is-rest':finished?'is-done':'is-missed'),d.toLocaleDateString(document.documentElement.lang==='ar'?'ar-SA':'en-US',{weekday:'short'}).slice(0,2));
+    const dot=el('span','ascend-weekly-day '+(!planned?'is-rest':finished?'is-done':'is-missed'),(document.documentElement.lang==='ar'?['ح','ن','ث','ر','خ','ج','س'][d.getDay()]:d.toLocaleDateString('en-US',{weekday:'short'}).slice(0,2)));
     dot.title=localKey(d)+' · '+(planned?(finished?tr('Completed','مكتمل'):tr('Not completed','غير مكتمل')):tr('Not scheduled','غير مجدول'));
     dot.setAttribute('aria-label',dot.title);days.append(dot);
    });row.append(days);habitsPanel.append(row);
@@ -652,4 +560,750 @@ function ascend20Render(){
  }catch(err){console.warn('Ascend overview unavailable',err)}
 }
 </script>
+
+<!-- Ascend 42: mobile preview, keyboard and reminder clarity polish -->
+<style>
+@media (max-width: 700px) {
+  .ascend-theme-previews {display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr))!important;gap:12px!important;overflow:visible!important;}
+  .ascend-theme-preview {min-width:0!important;width:100%!important;box-sizing:border-box!important;overflow:hidden!important;}
+  .ascend-theme-preview button {max-width:100%!important;overflow-wrap:anywhere!important;white-space:normal!important;}
+  body[data-ascend-trial] .hero,body[data-ascend-trial] .panel {background-position:center top!important;}
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after {scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+:focus-visible {outline:3px solid #2c8b70!important;outline-offset:3px!important;}
+body.dark :focus-visible {outline-color:#8be3c3!important;}
+#ascend42ReminderHint {margin:10px 0;padding:11px 13px;border-radius:12px;border:1px solid #b7d3c7;background:#eff8f3;color:#254a3b;font-size:.94rem;line-height:1.5;}
+body.dark #ascend42ReminderHint {background:#1b3530;color:#e3fff2;border-color:#5e9d87;}
+</style>
+<script>
+(function(){
+ 'use strict';
+ // Reminder settings are rebuilt on navigation, so attach one delegated listener.
+ function updateHint(){
+  const root=document.getElementById('reminderSettings');if(!root)return;
+  const select=Array.from(root.querySelectorAll('select')).find(x=>Array.from(x.options).some(o=>o.value==='inapp'));
+  if(!select)return;
+  let hint=document.getElementById('ascend42ReminderHint');
+  if(!hint){hint=document.createElement('div');hint.id='ascend42ReminderHint';hint.setAttribute('role','status');hint.setAttribute('aria-live','polite');select.closest('label')?.after(hint);if(!hint.parentNode)root.appendChild(hint);}
+  const ar=document.documentElement.lang==='ar';
+  hint.textContent=select.value==='inapp'?(ar?'الوضع داخل التطبيق فقط: لا يصدر صوتًا أو اهتزازًا من إشعارات أندرويد. اختر الصوت والاهتزاز لتفعيل التنبيه المسموع.':'In-app only is silent outside Ascend. Choose Sound + vibration for audible Android alerts.'):(ar?'قد تحتاج إلى السماح بإشعارات أندرويد والتأكد من مستوى الصوت وإعدادات الاهتزاز.':'Android notification permission, device volume and vibration settings still apply.');
+ }
+ document.addEventListener('change',e=>{if(e.target.closest('#reminderSettings'))queueMicrotask(updateHint)});
+ const observer=new MutationObserver(()=>{if(document.getElementById('reminderSettings')&&!document.getElementById('ascend42ReminderHint'))updateHint()});
+ observer.observe(document.getElementById('settings')||document.body,{childList:true,subtree:true});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('modalBack')?.classList.contains('show')&&typeof closeModal==='function')closeModal()});
+ updateHint();
+})();
+</script>
+
+<style id="ascend43-polish">
+/* Phone-safe controls, touch targets and resilient layouts */
+@media(max-width:650px){
+  #settings .panel, #calendarPage .panel{max-width:100%;min-width:0}
+  .reminder-grid{grid-template-columns:minmax(0,1fr)!important}
+  .reminder-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reminder-actions button{min-height:44px;overflow-wrap:anywhere}
+  .ascend-data-actions{display:flex;flex-wrap:wrap;gap:10px}
+  .ascend-data-actions button{min-height:44px;flex:1 1 140px}
+  .ascend-theme-preview button{min-height:44px}
+  input,select,textarea{max-width:100%;min-width:0}
+}
+#ascend43BackupOverview{margin:12px 0 14px;line-height:1.65;font-size:14px;overflow-wrap:anywhere}
+#ascend43BackupOverview strong{font-weight:750}
+#ascend43BackupOverview .ascend43-counts{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+#ascend43BackupOverview .ascend43-count{border:1px solid currentColor;border-radius:10px;padding:5px 9px;opacity:.85}
+/* Ascend 44: safer mobile backup controls and RTL text flow */
+@media(max-width:520px){
+ .ascend-data-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
+ .ascend-data-actions button{width:100%!important;min-height:48px!important}
+ #ascend43BackupOverview .ascend43-counts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ #ascend43BackupOverview .ascend43-count{min-width:0;overflow-wrap:anywhere}
+}
+html[dir=rtl] #ascend43BackupOverview,html[dir=rtl] .ascend-data-status{text-align:right}
+</style>
+<script>
+(function(){
+ 'use strict';
+ function init(){
+  const section=document.querySelector('.ascend-data-actions')?.parentElement;
+  if(!section||document.getElementById('ascend43BackupOverview'))return;
+  const box=document.createElement('div');box.id='ascend43BackupOverview';box.setAttribute('aria-live','polite');
+  const desc=section.querySelector('p');
+  if(desc)desc.after(box);else section.prepend(box);
+  function update(){
+   const ar=document.documentElement.lang==='ar';
+   let data={};try{data=JSON.parse(localStorage.getItem('steadyday2-v1')||'{}')||{}}catch(e){}
+   const count=(key)=>Array.isArray(data[key])?data[key].length:0;
+   const journals=data.journal&&typeof data.journal==='object'&&!Array.isArray(data.journal)?Object.values(data.journal).filter(v=>typeof v==='string'&&v.trim()).length:0;
+   const values=[count('habits'),count('tasks'),count('goals'),journals];
+   const labels=ar?['العادات','المهام والمواعيد','الأهداف','المذكرات اليومية']:['Habits','Tasks & appointments','Goals','Daily journal entries'];
+   box.replaceChildren();
+   const title=document.createElement('strong');title.textContent=ar?'ملخص بياناتك الحالية':'Your current data';box.append(title);
+   const row=document.createElement('div');row.className='ascend43-counts';
+   values.forEach((value,i)=>{const item=document.createElement('span');item.className='ascend43-count';item.textContent=labels[i]+': '+value;row.append(item)});box.append(row);
+   const note=document.createElement('p');note.className='muted';note.textContent=ar?'تنبيه: حذف التطبيق قد يمسح البيانات المحفوظة على الجهاز. صدّر نسخة احتياطية قبل الحذف أو تغيير الجهاز.':'Important: Uninstalling may erase data stored on this device. Export a backup before uninstalling or changing devices.';box.append(note);
+  }
+  update();
+  const obs=new MutationObserver(()=>{if(document.getElementById('settings')?.classList.contains('active'))update()});
+  const settings=document.getElementById('settings');if(settings)obs.observe(settings,{attributes:true,attributeFilter:['class']});
+  const lang=document.getElementById('langBtn');if(lang)lang.addEventListener('click',()=>queueMicrotask(update));
+  window.addEventListener('storage',update);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<style id="ascend45FocusStyle">
+.ascend45-focus{margin:18px 0;padding:20px;border:1px solid var(--line,#d9e5df);border-radius:20px;background:var(--card,#ffffff);color:var(--text,#243c33)}
+.ascend45-focus h2{margin:0 0 6px}.ascend45-focus p{margin:0 0 14px;opacity:.85}
+.ascend45-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.ascend45-controls button{min-height:44px}
+.ascend45-clock{font-size:clamp(42px,9vw,72px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-2px;margin:12px 0}
+.ascend45-progress{height:10px;border-radius:30px;background:#b8cfc5;overflow:hidden}.ascend45-progress span{display:block;height:100%;background:#32836a;width:0%;transition:width .3s}
+.ascend45-focus select{max-width:100%;width:100%;padding:12px;border-radius:10px;border:1px solid #8ea99d;background:var(--card,#fff);color:inherit;margin:10px 0}
+body.dark .ascend45-focus,body[data-theme*="night"] .ascend45-focus{background:#203b34;color:#f5fff8;border-color:#587367}
+body.dark .ascend45-focus select{background:#203b34;color:#fff}
+@media(max-width:480px){.ascend45-focus{padding:15px}.ascend45-controls button{flex:1 1 110px}}
+.ascend46-insights{margin-top:16px;padding-top:14px;border-top:1px solid var(--line,#c9dcd2)}
+.ascend46-insights h3,.ascend46-insights h4{margin:4px 0 8px}.ascend46-insights p{margin:4px 0 10px}
+.ascend46-chart{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;align-items:end;min-height:105px;margin:12px 0}
+.ascend46-day{display:flex;flex-direction:column;align-items:center;justify-content:end;gap:5px;min-width:0}
+.ascend46-day strong{font-size:12px}.ascend46-day small{font-size:11px;white-space:nowrap}
+.ascend46-bar{width:min(100%,28px);border-radius:6px 6px 2px 2px;background:#398c70;min-height:5px}
+body.dark .ascend46-bar{background:#88d9b6}
+.ascend46-insights ul{margin:5px 0;padding-inline-start:20px;line-height:1.8;overflow-wrap:anywhere}
+</style><script id="ascend45FocusScript">
+/* Ascend 45: offline focus sessions, using wall-clock deadlines so backgrounding does not pause elapsed time. */
+(()=>{
+ const STORE='ascend-focus-v1';let state={mode:'focus',remaining:1500,until:0,running:false,task:''};
+ try{const v=JSON.parse(localStorage.getItem(STORE)||'null');if(v&&['focus','break'].includes(v.mode)&&Number.isFinite(v.remaining)&&v.remaining>=0&&v.remaining<=1500){state={...state,...v,running:v.running===true&&Number.isFinite(v.until)}}}catch(e){}
+ let root=null;
+ const tr=(en,ar)=>document.documentElement.lang==='ar'||document.body.dir==='rtl'?ar:en;
+ const duration=()=>state.mode==='focus'?1500:300;
+ const persist=()=>{try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){}};
+ function remaining(){return state.running?Math.max(0,Math.ceil((state.until-Date.now())/1000)):state.remaining}
+ function finish(){if(!state.running||remaining()>0)return;state.running=false;state.remaining=0;persist();if(state.mode==='focus'){try{if(typeof data==='object'){data.focusSessions=(Number(data.focusSessions)||0)+1;const task=(data.tasks||[]).find(t=>String(t.id)===String(state.task));const log=Array.isArray(data.focusHistory)?data.focusHistory:[];log.push({at:new Date().toISOString(),minutes:25,task:task?String(task.name||'').slice(0,120):''});data.focusHistory=log.slice(-250);if(typeof save==='function')save()}}catch(e){console.warn('Focus history could not save',e)}}}
+ function draw(){if(!root||!root.isConnected)return;finish();const r=remaining(),clock=root.querySelector('#ascend45Clock');clock.textContent=String(Math.floor(r/60)).padStart(2,'0')+':'+String(r%60).padStart(2,'0');root.querySelector('#ascend45Bar').style.width=(100*(1-r/duration()))+'%';root.querySelector('#ascend45Start').textContent=state.running?tr('Pause','إيقاف مؤقت'):tr(r===0?'Restart':'Start',r===0?'إعادة':'ابدأ');root.querySelector('#ascend45Mode').textContent=state.mode==='focus'?tr('25-minute focus','تركيز ٢٥ دقيقة'):tr('5-minute break','استراحة ٥ دقائق');root.querySelector('#ascend45Count').textContent=tr('Completed focus sessions: ','جلسات التركيز المكتملة: ')+(typeof data==='object'?(Number(data.focusSessions)||0):0);renderInsights();}
+ function renderInsights(){
+  const target=root&&root.querySelector('#ascend46Insights');if(!target)return;
+  const entries=(typeof data==='object'&&Array.isArray(data.focusHistory)?data.focusHistory:[]).filter(e=>e&&typeof e.at==='string'&&Number.isFinite(Date.parse(e.at)));
+  const today=new Date();today.setHours(0,0,0,0);
+  const days=Array.from({length:7},(_,i)=>{const d=new Date(today);d.setDate(today.getDate()-(6-i));const next=new Date(d);next.setDate(d.getDate()+1);return {d,count:entries.filter(e=>{const t=Date.parse(e.at);return t>=d.getTime()&&t<next.getTime()}).length}});
+  const week=days.reduce((n,d)=>n+d.count,0),max=Math.max(1,...days.map(d=>d.count));
+  target.replaceChildren();
+  const heading=document.createElement('h3');heading.textContent=tr('Your focus this week','تركيزك هذا الأسبوع');target.append(heading);
+  const stat=document.createElement('p');stat.textContent=tr('Last 7 days: ','آخر ٧ أيام: ')+week+tr(' sessions · ',' جلسات · ')+(week*25)+tr(' minutes',' دقيقة');target.append(stat);
+  const chart=document.createElement('div');chart.className='ascend46-chart';chart.setAttribute('role','img');chart.setAttribute('aria-label',tr('Completed sessions by day over the last seven days','الجلسات المكتملة يومياً خلال آخر سبعة أيام'));
+  days.forEach(day=>{const col=document.createElement('div');col.className='ascend46-day';const count=document.createElement('strong');count.textContent=String(day.count);const bar=document.createElement('div');bar.className='ascend46-bar';bar.style.height=Math.max(5,Math.round(day.count/max*64))+'px';const label=document.createElement('small');label.textContent=new Intl.DateTimeFormat(document.documentElement.lang==='ar'?'ar-SA':'en-US',{weekday:'short'}).format(day.d);col.append(count,bar,label);chart.append(col)});target.append(chart);
+  const recent=entries.slice(-3).reverse();if(recent.length){const title=document.createElement('h4');title.textContent=tr('Recent sessions','الجلسات الأخيرة');target.append(title);const list=document.createElement('ul');recent.forEach(e=>{const li=document.createElement('li');li.textContent=new Date(e.at).toLocaleDateString(document.documentElement.lang==='ar'?'ar-SA':'en-US')+' · '+(e.task||tr('General focus','تركيز عام'));list.append(li)});target.append(list)}
+  else{const note=document.createElement('p');note.textContent=tr('Finish a 25-minute focus session to start your weekly history.','أكمل جلسة تركيز مدتها ٢٥ دقيقة لبدء سجلّك الأسبوعي.');target.append(note)}
+ }
+ function build(){if(document.getElementById('ascend45Focus'))return;const dashboard=document.getElementById('dashboard');if(!dashboard)return;root=document.createElement('section');root.id='ascend45Focus';root.className='ascend45-focus';root.setAttribute('aria-label','Focus timer');root.innerHTML='<h2>🎯 '+tr('Focus sprint','جلسة تركيز')+'</h2><p>'+tr('A distraction-free timer for one task. Works offline; keep the app open for visual updates.','مؤقت للتركيز على مهمة واحدة. يعمل دون إنترنت؛ أبق التطبيق مفتوحًا للتحديث المرئي.')+'</p><label for="ascend45Task">'+tr('Task to focus on (optional)','المهمة (اختياري)')+'</label><select id="ascend45Task"><option value="">'+tr('No task selected','بدون مهمة')+'</option></select><div id="ascend45Mode"></div><div id="ascend45Clock" class="ascend45-clock" role="timer" aria-live="off">25:00</div><div class="ascend45-progress"><span id="ascend45Bar"></span></div><div class="ascend45-controls" style="margin-top:14px"><button type="button" class="btn" id="ascend45Start">Start</button><button type="button" class="btn secondary" id="ascend45Reset">'+tr('Reset','إعادة ضبط')+'</button><button type="button" class="btn secondary" id="ascend45Switch">'+tr('Focus / Break','تركيز / استراحة')+'</button></div><p id="ascend45Count" style="margin-top:14px"></p><div id="ascend46Insights" class="ascend46-insights" aria-label="Focus insights"></div>';
+ (document.getElementById('tasksPage')||dashboard).appendChild(root);
+ const select=root.querySelector('#ascend45Task');function tasks(){const current=select.value||state.task;select.querySelectorAll('option:not(:first-child)').forEach(o=>o.remove());try{(data.tasks||[]).filter(t=>!t.done&&!t.cancelled).slice(0,100).forEach(t=>{const o=document.createElement('option');o.value=String(t.id);o.textContent=String(t.name||'Task');select.appendChild(o)})}catch(e){}select.value=Array.from(select.options).some(o=>o.value===current)?current:'';}
+ tasks();select.onchange=()=>{state.task=select.value;persist()};root.querySelector('#ascend45Start').onclick=()=>{if(state.running){state.remaining=remaining();state.running=false}else{if(state.remaining===0)state.remaining=duration();state.until=Date.now()+state.remaining*1000;state.running=true}persist();draw()};root.querySelector('#ascend45Reset').onclick=()=>{state.running=false;state.remaining=duration();persist();draw()};root.querySelector('#ascend45Switch').onclick=()=>{state.mode=state.mode==='focus'?'break':'focus';state.running=false;state.remaining=duration();persist();draw()};
+ const priorRender=window.render;window.render=function(){const r=priorRender.apply(this,arguments);try{tasks()}catch(e){}return r};draw();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build,{once:true});else build();setInterval(draw,1000);
+})();
+</script>
+<style id="ascend47Style">
+.ascend47-panel{margin:18px 0;padding:18px;border:1px solid var(--border,#d6dfdb);border-radius:18px;background:var(--card,rgba(128,128,128,.06));color:inherit}
+.ascend47-panel h2{margin:0 0 6px;font-size:1.15rem}.ascend47-panel p{margin:0 0 12px;opacity:.8;font-size:.9rem}
+.ascend47-form{display:flex;flex-wrap:wrap;gap:9px;align-items:end}.ascend47-form label{display:grid;gap:5px;font-size:.85rem;font-weight:600;flex:1 1 130px}.ascend47-form label:first-child{flex:3 1 220px}
+.ascend47-form input,.ascend47-form select{min-width:0;width:100%;padding:11px;border:1px solid #84988e;border-radius:10px;background:var(--bg,#fff);color:var(--text,inherit)}
+.ascend47-form button{padding:12px 17px;border-radius:10px;background:#315f51;color:white;font-weight:700;min-height:44px}
+.ascend47-list{list-style:none;padding:0;margin:12px 0 0}.ascend47-list li{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(120,130,130,.18);overflow-wrap:anywhere}.ascend47-list li:last-child{border:0}
+.ascend47-list button{border:1px solid #84988e;background:transparent;color:inherit;border-radius:8px;padding:7px 11px;min-height:36px}.ascend47-muted{opacity:.72;font-size:.85rem}
+@media(max-width:540px){.ascend47-panel{padding:13px}.ascend47-form label{flex:1 1 100%}.ascend47-form button{width:100%}}
+</style>
+<script id="ascend47QuickCapture">
+(function(){
+ 'use strict';
+ const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+ const prName=p=>({High:tr('High','عالية'),Normal:tr('Normal','عادية'),Low:tr('Low','منخفضة')})[p]||tr('Normal','عادية');
+ let root, todayRoot, filter='All', search='', lastReschedule=null;
+ function taskList(){return Array.isArray(data.tasks)?data.tasks:[]}
+ function make(){
+  const dash=document.getElementById('dashboard');if(!dash||document.getElementById('ascend47Quick'))return;
+  root=document.createElement('section');root.id='ascend47Quick';root.className='ascend47-panel';root.setAttribute('aria-label','Task command center');
+  todayRoot=document.createElement('section');todayRoot.id='ascend61Today';todayRoot.className='ascend47-panel';todayRoot.setAttribute('aria-label','Quick capture and today plan');
+  const hero=dash.querySelector('.hero');if(hero)hero.insertAdjacentElement('afterend',todayRoot);else dash.prepend(todayRoot);(document.getElementById('tasksPage')||dash).append(root);
+  const both=(type,fn)=>{root.addEventListener(type,fn);todayRoot.addEventListener(type,fn)};
+  both('submit',function(e){
+   if(e.target.id!=='ascend47Form')return;e.preventDefault();
+   const name=document.querySelector('#ascend47Name').value.trim(),date=document.querySelector('#ascend47Date').value,priority=document.querySelector('#ascend47Priority').value;
+   if(!name||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date)||!['High','Normal','Low'].includes(priority))return;
+   try{taskList().push({id:id(),name:name.slice(0,200),priority,date,time:'',emoji:'',done:false});save();render();if(typeof drawCalendar==='function')drawCalendar();document.querySelector('#ascend47Name').value='';document.querySelector('#ascend47Name').focus()}catch(err){console.error('Quick capture failed',err);alert(tr('Could not save task.','تعذر حفظ المهمة.'))}
+  });
+  root.addEventListener('change',e=>{if(e.target.id==='ascend48Filter'){filter=e.target.value;refresh()}});
+  root.addEventListener('input',e=>{if(e.target.id==='ascend49Search'){search=e.target.value;applySearch()}});
+  both('click',function(e){
+   const undo=e.target.closest('button[data-ascend55-undo]');
+   if(undo){if(lastReschedule){const t=taskList().find(x=>String(x.id)===lastReschedule.id);if(t){t.date=lastReschedule.date;save();render();if(typeof drawCalendar==='function')drawCalendar()}lastReschedule=null;refresh()}return}
+   const move=e.target.closest('button[data-ascend55-move]');
+   if(move){const task=taskList().find(t=>String(t.id)===move.dataset.ascend55Move);if(!task||task.done||task.cancelled)return;
+    const offset=Number(move.dataset.days);if(offset!==1&&offset!==7)return;
+    const date=new Date();date.setHours(12,0,0,0);date.setDate(date.getDate()+offset);
+    lastReschedule={id:String(task.id),date:task.date||''};task.date=iso(date);
+    save();render();if(typeof drawCalendar==='function')drawCalendar();refresh();return}
+   const edit=e.target.closest('button[data-ascend47-edit]');if(edit){const task=taskList().find(t=>String(t.id)===edit.dataset.ascend47Edit);if(task&&typeof openModal==='function')openModal('task',String(task.id));return}
+   const complete=e.target.closest('button[data-ascend48-done]');if(!complete)return;
+   const task=taskList().find(t=>String(t.id)===complete.dataset.ascend48Done);if(!task||task.done||task.cancelled)return;
+   task.done=true;save();render();if(typeof drawCalendar==='function')drawCalendar();
+  });
+  refresh();
+ }
+ function applySearch(){if(!root)return;const q=search.trim().toLocaleLowerCase();root.querySelectorAll('.ascend48-task').forEach(li=>{li.hidden=!!q&&!li.dataset.searchText.includes(q)});root.querySelectorAll('.ascend47-list').forEach(list=>{const rows=[...list.querySelectorAll('.ascend48-task')];let empty=list.querySelector('.ascend49-noresults');if(!empty){empty=document.createElement('li');empty.className='ascend47-muted ascend49-noresults';empty.textContent=tr('No matching tasks.','لا توجد مهام مطابقة.');empty.hidden=true;list.append(empty)}empty.hidden=!q||!rows.length||rows.some(li=>!li.hidden)})}
+ function refresh(){if(!root||!root.isConnected)return;
+  const oldName=document.querySelector('#ascend47Name')?.value||'',oldDate=document.querySelector('#ascend47Date')?.value||today(),oldPriority=document.querySelector('#ascend47Priority')?.value||'Normal';
+  root.replaceChildren();todayRoot.replaceChildren();
+  const heading=document.createElement('h2');heading.textContent=tr('⚡ Quick capture','⚡ إضافة سريعة');todayRoot.append(heading);const tasksHead=document.createElement('h2');tasksHead.textContent=tr('Task command center','مركز المهام');root.append(tasksHead);const addBtn=document.createElement('button');addBtn.type='button';addBtn.className='btn ascend61-newtask';addBtn.textContent=tr('+ New task with details','+ مهمة جديدة بالتفاصيل');addBtn.onclick=()=>openModal('task');root.append(addBtn);
+  if(lastReschedule){const notice=document.createElement('div');notice.className='ascend55-undo';notice.setAttribute('role','status');const message=document.createElement('span');message.textContent=tr('Task rescheduled.','تم تغيير موعد المهمة.');const undo=document.createElement('button');undo.type='button';undo.dataset.ascend55Undo='1';undo.textContent=tr('Undo','تراجع');notice.append(message,undo);root.append(notice)}
+  const intro=document.createElement('p');intro.textContent=tr('Capture tasks, clear overdue work, and plan your week.','أضف المهام وأنجز المتأخر منها وخطط لأسبوعك.');todayRoot.append(intro);
+  const form=document.createElement('form');form.id='ascend47Form';form.className='ascend47-form';
+  function field(labelText,tag,id,attributes){const label=document.createElement('label');label.textContent=labelText;const el=document.createElement(tag);el.id=id;for(const [key,value] of Object.entries(attributes||{}))el.setAttribute(key,value);label.append(el);form.append(label);return el}
+  const name=field(tr('Task','المهمة'),'input','ascend47Name',{required:'',maxlength:'200',autocomplete:'off',placeholder:tr('What needs doing?','ما المهمة المطلوبة؟')});name.value=oldName;
+  const date=field(tr('Date','التاريخ'),'input','ascend47Date',{type:'date',required:''});date.value=oldDate;
+  const priority=field(tr('Priority','الأولوية'),'select','ascend47Priority');for(const p of ['Normal','High','Low']){const o=document.createElement('option');o.value=p;o.textContent=prName(p);priority.append(o)}priority.value=oldPriority;
+  const add=document.createElement('button');add.type='submit';add.textContent=tr('+ Add task','+ إضافة مهمة');form.append(add);todayRoot.append(form);
+  const current=today(),start=new Date(current+'T12:00:00'),end=new Date(start);end.setDate(end.getDate()+7);
+  const active=taskList().filter(t=>t&&!t.done&&!t.cancelled),overdue=active.filter(t=>typeof t.date==='string'&&t.date&&t.date<current),upcoming=active.filter(t=>typeof t.date==='string'&&t.date>=current&&t.date<iso(end));
+  // Ascend 51: prioritized Today Plan, derived from existing tasks (no duplicate storage).
+  const todayTasks=taskList().filter(t=>t&&!t.cancelled&&typeof t.date==='string'&&t.date===current);
+  const finished=todayTasks.filter(t=>t.done).length;
+  const plan=document.createElement('section');plan.className='ascend51-plan';plan.setAttribute('aria-label',tr('Today plan','خطة اليوم'));
+  const title=document.createElement('h3');title.textContent=tr('Today plan','خطة اليوم');plan.append(title);
+  const progress=document.createElement('p');progress.className='ascend51-progress';progress.textContent=tr('Completed today: ','المكتمل اليوم: ')+finished+' / '+todayTasks.length;plan.append(progress);
+  const meter=document.createElement('progress');meter.max=Math.max(1,todayTasks.length);meter.value=finished;meter.setAttribute('aria-label',tr('Today completion','إنجاز اليوم'));plan.append(meter);
+  const top=todayTasks.filter(t=>!t.done).sort((a,b)=>({High:0,Normal:1,Low:2}[a.priority]??1)-({High:0,Normal:1,Low:2}[b.priority]??1)||String(a.time||'').localeCompare(String(b.time||''))).slice(0,3);
+  if(!top.length){const empty=document.createElement('p');empty.className='ascend51-empty';empty.textContent=tr(todayTasks.length?'All scheduled tasks completed.':'No tasks scheduled for today.','لا توجد مهام متبقية لليوم.');plan.append(empty)}
+  for(const task of top){const line=document.createElement('div');line.className='ascend51-item';const label=document.createElement('span');label.textContent=(task.emoji?task.emoji+' ':'')+String(task.name||'')+' · '+prName(task.priority);const done=document.createElement('button');done.type='button';done.dataset.ascend48Done=String(task.id);done.textContent=tr('Complete','إنجاز');line.append(label,done);plan.append(line)}
+  todayRoot.append(plan);
+  // Ascend 52: seven-day workload map, calculated from saved tasks without new storage.
+  const workload=document.createElement('section');workload.className='ascend52-workload';workload.setAttribute('aria-label',tr('Seven-day workload','عبء العمل للأيام السبعة'));
+  const workloadTitle=document.createElement('h3');workloadTitle.textContent=tr('Your next 7 days','أيامك السبعة القادمة');workload.append(workloadTitle);
+  const workloadIntro=document.createElement('p');workloadIntro.textContent=tr('Scheduled tasks by day · completed tasks shown separately','المهام المجدولة لكل يوم · المكتملة معروضة بشكل منفصل');workload.append(workloadIntro);
+  const workloadDays=document.createElement('div');workloadDays.className='ascend52-days';
+  const days=[];for(let n=0;n<7;n++){const d=new Date(current+'T12:00:00');d.setDate(d.getDate()+n);const date=iso(d);const tasks=taskList().filter(t=>t&&!t.cancelled&&t.date===date);days.push({date,tasks,done:tasks.filter(t=>t.done).length});}
+  const max=Math.max(1,...days.map(d=>d.tasks.length));
+  for(let n=0;n<days.length;n++){const d=days[n],cell=document.createElement('div');cell.className='ascend52-day';
+   const dayLabel=document.createElement('strong');dayLabel.textContent=n===0?tr('Today','اليوم'):new Date(d.date+'T12:00:00').toLocaleDateString(document.documentElement.lang==='ar'?'ar-SA':'en-US',{weekday:'short'});
+   const count=document.createElement('span');count.textContent=String(d.tasks.length);count.setAttribute('aria-label',d.tasks.length+' '+tr('scheduled tasks','مهام مجدولة'));
+   const track=document.createElement('div');track.className='ascend52-track';const bar=document.createElement('div');bar.className='ascend52-bar';bar.style.height=(d.tasks.length/max*100)+'%';track.append(bar);
+   const dateLabel=document.createElement('small');dateLabel.textContent=d.date.slice(5);
+   const completed=document.createElement('small');completed.textContent=d.done+'/'+d.tasks.length+' '+tr('done','تم');
+   cell.append(dayLabel,count,track,dateLabel,completed);workloadDays.append(cell);
+  }
+  workload.append(workloadDays);root.append(workload);
+  const summary=document.createElement('div');summary.className='ascend48-summary';summary.setAttribute('aria-label',tr('Task overview','ملخص المهام'));
+  for(const [number,label] of [[overdue.length,tr('Overdue','متأخرة')],[upcoming.length,tr('Next 7 days','الأيام السبعة القادمة')],[active.filter(t=>t.priority==='High').length,tr('High priority','أولوية عالية')]]){const stat=document.createElement('div');const b=document.createElement('strong');b.textContent=String(number);const small=document.createElement('span');small.textContent=label;stat.append(b,small);summary.append(stat)}root.append(summary);
+  const control=document.createElement('label');control.className='ascend48-filter';control.textContent=tr('Show priority','عرض الأولوية');const select=document.createElement('select');select.id='ascend48Filter';for(const [value,label] of [['All',tr('All priorities','كل الأولويات')],['High',prName('High')],['Normal',prName('Normal')],['Low',prName('Low')]]){const option=document.createElement('option');option.value=value;option.textContent=label;select.append(option)}select.value=filter;control.append(select);root.append(control);
+  const searchLabel=document.createElement('label');searchLabel.className='ascend49-search';searchLabel.textContent=tr('Find a task','ابحث عن مهمة');const searchInput=document.createElement('input');searchInput.id='ascend49Search';searchInput.type='search';searchInput.placeholder=tr('Search all active tasks','ابحث في جميع المهام النشطة');searchInput.autocomplete='off';searchInput.value=search;searchLabel.append(searchInput);root.append(searchLabel);
+  const byPriority=items=>items.filter(t=>filter==='All'||t.priority===filter).sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')));
+  function section(title,items,empty){const h=document.createElement('h3');h.className='ascend48-heading';h.textContent=title;root.append(h);const list=document.createElement('ul');list.className='ascend47-list';list.setAttribute('aria-label',title);const visible=byPriority(items).slice(0,100);if(!visible.length){const li=document.createElement('li');li.className='ascend47-muted';li.textContent=empty;list.append(li)}
+   for(const t of visible){const li=document.createElement('li');li.className='ascend48-task';li.dataset.searchText=String(t.name||'').toLocaleLowerCase();const info=document.createElement('div');info.className='ascend48-task-info';const strong=document.createElement('strong');strong.textContent=(t.emoji?t.emoji+' ':'')+String(t.name||'');const meta=document.createElement('span');meta.className='ascend47-muted';meta.textContent=String(t.date||'')+(t.time?' · '+t.time:'')+' · '+prName(t.priority);info.append(strong,meta);const actions=document.createElement('div');actions.className='ascend48-actions';const done=document.createElement('button');done.type='button';done.dataset.ascend48Done=String(t.id);done.textContent=tr('✓ Done','✓ تم');done.setAttribute('aria-label',tr('Complete ','إنجاز ')+String(t.name||''));const edit=document.createElement('button');edit.type='button';edit.dataset.ascend47Edit=String(t.id);edit.textContent=tr('Edit','تعديل');const tomorrow=document.createElement('button');tomorrow.type='button';tomorrow.dataset.ascend55Move=String(t.id);tomorrow.dataset.days='1';tomorrow.textContent=tr('Tomorrow','غدًا');tomorrow.setAttribute('aria-label',tr('Move to tomorrow: ','نقل إلى الغد: ')+String(t.name||''));const week=document.createElement('button');week.type='button';week.dataset.ascend55Move=String(t.id);week.dataset.days='7';week.textContent=tr('+7 days','بعد ٧ أيام');week.setAttribute('aria-label',tr('Move seven days ahead: ','تأجيل سبعة أيام: ')+String(t.name||''));actions.append(done,edit,tomorrow,week);li.append(info,actions);list.append(li)}root.append(list)}
+  section(tr('Overdue tasks','المهام المتأخرة'),overdue,tr('No overdue tasks.','لا توجد مهام متأخرة.'));
+  section(tr('Coming up · 7 days','القادم · ٧ أيام'),upcoming,tr('Nothing scheduled this week.','لا توجد مهام مجدولة هذا الأسبوع.'));
+  const later=active.filter(t=>typeof t.date==='string'&&t.date>=iso(end));
+  const undated=active.filter(t=>!t.date||typeof t.date!=='string');
+  section(tr('Later tasks','مهام لاحقة'),later,tr('No later tasks.','لا توجد مهام لاحقة.'));
+  section(tr('Without a date','مهام بلا تاريخ'),undated,tr('No undated tasks.','لا توجد مهام بلا تاريخ.'));
+  applySearch();
+ }
+ const oldRender=window.render;if(typeof oldRender==='function')window.render=function(){const result=oldRender.apply(this,arguments);if(root&&root.isConnected)refresh();return result};
+ const oldSwitch=window.switchLanguage;if(typeof oldSwitch==='function')window.switchLanguage=function(){const result=oldSwitch.apply(this,arguments);refresh();return result};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',make);else make();
+})();
+</script>
+<style id="ascend48Polish">
+.ascend48-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:14px 0}.ascend48-summary>div{padding:12px 8px;text-align:center;border:1px solid var(--border,#d4ddd8);border-radius:12px;background:rgba(110,148,125,.08)}.ascend48-summary strong{display:block;font-size:1.45rem;font-variant-numeric:tabular-nums}.ascend48-summary span{font-size:.78rem;opacity:.82}.ascend48-filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.85rem;font-weight:600}.ascend48-filter select{min-height:42px;border:1px solid #84988e;border-radius:9px;padding:8px;background:var(--bg,#fff);color:var(--text,inherit)}.ascend48-heading{margin:19px 0 0;font-size:1rem}.ascend48-task-info{min-width:0;flex:1;display:grid;gap:3px;overflow-wrap:anywhere}.ascend48-actions{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}.ascend48-actions button{min-height:42px}.ascend48-actions button:first-child{background:#315f51;color:#fff;border-color:#315f51}body.dark .ascend48-actions button:first-child{background:#c8e5d3;color:#183b2e;border-color:#c8e5d3}@media(max-width:520px){.ascend48-summary{gap:5px}.ascend48-summary>div{padding:10px 4px}.ascend48-summary strong{font-size:1.2rem}.ascend48-summary span{font-size:.7rem}.ascend48-task{align-items:flex-start!important;flex-wrap:wrap}.ascend48-actions{width:100%}.ascend48-actions button{flex:1}}
+</style>
+<style id="ascend49SearchPolish">
+.ascend49-search{display:grid;gap:6px;margin:12px 0;font-size:.85rem;font-weight:650}.ascend49-search input{width:100%;min-height:46px;border:1px solid var(--border,#84988e);border-radius:10px;padding:10px 12px;background:var(--bg,#fff);color:var(--text,inherit);font:inherit}.ascend49-search input:focus-visible{outline:3px solid #579b81;outline-offset:2px}.ascend48-task[hidden],.ascend49-noresults[hidden]{display:none!important}
+</style>
+
+<style id="ascend51TodayPlan">
+.ascend51-plan{margin:16px 0;padding:16px;border:1px solid var(--border,#cbdad1);border-radius:16px;background:rgba(95,153,123,.09);color:inherit;min-width:0}
+.ascend51-plan h3{margin:0 0 8px;font-size:1.06rem}.ascend51-progress{margin:0 0 7px;font-size:.86rem;opacity:.9}
+.ascend51-plan progress{width:100%;height:12px;accent-color:#347b5b;margin-bottom:9px}
+.ascend51-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(110,148,125,.25)}
+.ascend51-item span{min-width:0;overflow-wrap:anywhere}.ascend51-item button{flex-shrink:0;min-height:44px;border-radius:10px;padding:8px 13px;border:1px solid #326b55;background:#326b55;color:#fff;font:inherit;cursor:pointer}
+.ascend51-empty{margin:4px 0;opacity:.8}body.dark .ascend51-item button{background:#d1e9d8;color:#173e30}
+@media(max-width:450px){.ascend51-plan{padding:12px}.ascend51-item{align-items:flex-start}.ascend51-item button{padding:8px 10px}}
+</style>
+
+<style id="ascend52WorkloadStyle">
+.ascend52-workload{margin:15px 0;padding:15px;border:1px solid var(--border,#cbdad1);border-radius:16px;background:rgba(95,153,123,.07);min-width:0}
+.ascend52-workload h3{margin:0 0 4px;font-size:1.04rem}.ascend52-workload p{margin:0 0 12px;font-size:.83rem;opacity:.85}
+.ascend52-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;direction:ltr}
+.ascend52-day{min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.77rem;text-align:center}
+.ascend52-day strong{font-size:.73rem}.ascend52-day>span{font-weight:700;font-variant-numeric:tabular-nums}
+.ascend52-track{width:100%;max-width:36px;height:64px;background:rgba(120,140,130,.14);border-radius:7px;overflow:hidden;display:flex;align-items:flex-end}
+.ascend52-bar{width:100%;background:#438467;border-radius:6px 6px 0 0;min-height:0}
+.ascend52-day small{font-size:.66rem;overflow-wrap:anywhere;color:inherit;opacity:.85}
+body.dark .ascend52-bar{background:#a3d9b9}
+@media(max-width:390px){.ascend52-workload{padding:10px}.ascend52-days{gap:3px}.ascend52-track{height:50px}.ascend52-day small{font-size:.59rem}}
+</style>
+<!-- Ascend 53: full-art theme inspection, independent of premium entitlement. -->
+<style id="ascend53ThemeGallery">
+.ascend53-view-art{display:block;width:100%;margin-top:8px;padding:10px;border-radius:10px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;cursor:pointer}
+.ascend53-view-art:focus-visible,.ascend53-close:focus-visible{outline:3px solid #56a887;outline-offset:3px}
+.ascend53-overlay[hidden]{display:none!important}
+.ascend53-overlay{position:fixed;inset:0;z-index:99999;background:rgba(5,14,16,.88);display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box}
+.ascend53-dialog{width:min(96vw,560px);max-height:95dvh;overflow:auto;background:#162922;color:#fff;border-radius:18px;padding:14px;box-sizing:border-box;box-shadow:0 20px 70px #0008}
+.ascend53-dialog header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.ascend53-dialog h3{margin:0;font-size:1.08rem;color:#fff}
+.ascend53-close{background:#fff;color:#173328;border:0;border-radius:9px;min-width:44px;min-height:44px;font-size:1.2rem;cursor:pointer}
+.ascend53-art{display:block;width:100%;height:min(66dvh,660px);object-fit:contain;border-radius:10px;background:#243b37}
+.ascend53-caption{margin:10px 0 0;font-size:.86rem;color:#e1ece7}
+@media(max-width:600px){body[data-ascend-trial] .hero{background-size:cover,contain!important;background-color:var(--ascend-trial-card,#dceee5)!important}body[data-ascend-trial] main,body[data-ascend-trial] .main{background-size:cover,contain!important;background-repeat:no-repeat,repeat-y!important;background-attachment:scroll!important}}
+</style>
+<script>
+(function(){
+ 'use strict';
+ const section=document.querySelector('.ascend-theme-preview-section');
+ if(!section)return;
+ const map={'Midnight Focus':'midnight','Ocean Breeze':'ocean','Desert Harmony':'desert','Aurora Glass':'aurora','Cherry Blossom':'cherry','Cosmic Focus':'cosmic','Zen Garden':'zen','Emerald Night':'emerald','Sunset Calm':'sunset','Polar Aurora':'polar'};
+ const overlay=document.createElement('div');overlay.className='ascend53-overlay';overlay.hidden=true;
+ overlay.setAttribute('role','presentation');
+ const dialog=document.createElement('div');dialog.className='ascend53-dialog';dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');dialog.setAttribute('aria-labelledby','ascend53Title');
+ const header=document.createElement('header');const title=document.createElement('h3');title.id='ascend53Title';
+ const close=document.createElement('button');close.type='button';close.className='ascend53-close';close.textContent='×';close.setAttribute('aria-label','Close preview');
+ const img=document.createElement('img');img.className='ascend53-art';img.alt='Full theme illustration';
+ const caption=document.createElement('p');caption.className='ascend53-caption';
+ header.append(title,close);dialog.append(header,img,caption);overlay.append(dialog);document.body.append(overlay);
+ let returnFocus=null;
+ function hide(){overlay.hidden=true;document.body.style.removeProperty('overflow');if(returnFocus&&returnFocus.isConnected)returnFocus.focus();}
+ close.addEventListener('click',hide);overlay.addEventListener('click',e=>{if(e.target===overlay)hide()});
+ document.addEventListener('keydown',e=>{if(overlay.hidden)return;if(e.key==='Escape'){e.preventDefault();hide()}else if(e.key==='Tab'){e.preventDefault();close.focus()}});
+ function open(name,key,button){returnFocus=button;const ar=document.documentElement.lang==='ar';const mode=document.body.classList.contains('dark')?'dark':'light';title.textContent=name;img.src='themes/backgrounds/'+key+'-'+mode+'.svg';img.alt=name+' '+mode+' illustration';caption.textContent=ar?'معاينة كاملة للرسم فقط. لا يتم تفعيل السمة المدفوعة.':'Full artwork preview only. This does not unlock a paid theme.';close.setAttribute('aria-label',ar?'إغلاق المعاينة':'Close preview');overlay.hidden=false;document.body.style.overflow='hidden';close.focus();}
+ function attach(){section.querySelectorAll('.ascend-theme-preview').forEach(card=>{if(card.querySelector('.ascend53-view-art'))return;const name=card.querySelector('b')?.textContent?.trim();const key=map[name];if(!key)return;const button=document.createElement('button');button.type='button';button.className='ascend53-view-art';button.textContent=document.documentElement.lang==='ar'?'عرض الرسم كاملًا':'View full artwork';button.addEventListener('click',()=>open(name,key,button));card.append(button);});}
+ attach();new MutationObserver(attach).observe(section,{childList:true,subtree:true});
+ new MutationObserver(()=>{section.querySelectorAll('.ascend53-view-art').forEach(b=>b.textContent=document.documentElement.lang==='ar'?'عرض الرسم كاملًا':'View full artwork')}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();
+</script>
+<!-- Ascend 54: weekly review; cumulative 44-54 -->
+<style id="ascend54-style">
+#ascend54-review{margin:16px 0;padding:18px;border:1px solid var(--border,#d2ded5);border-radius:20px;background:var(--card,#fff);color:var(--text,inherit);box-shadow:0 8px 25px #0000000b}
+#ascend54-review .a54-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}#ascend54-review h3{margin:0;font-size:1.2rem}#ascend54-review .a54-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:14px 0}#ascend54-review .a54-stat{padding:12px 8px;border-radius:13px;background:rgba(99,148,116,.11);text-align:center;min-width:0}#ascend54-review .a54-stat strong{display:block;font-size:1.45rem;line-height:1.35;font-variant-numeric:tabular-nums}#ascend54-review .a54-stat span{display:block;font-size:.76rem;overflow-wrap:anywhere}#ascend54-review .a54-meter{height:9px;background:rgba(110,135,115,.2);border-radius:20px;overflow:hidden}#ascend54-review .a54-fill{height:100%;width:0;background:#39885f;transition:width .2s}#ascend54-review .a54-sub{font-size:.84rem;opacity:.85;margin:10px 0}#ascend54-review button{border:1px solid currentColor;border-radius:12px;padding:10px 14px;min-height:44px;background:transparent;color:inherit;cursor:pointer;font:inherit}#ascend54-review button:focus-visible{outline:3px solid #5baf86;outline-offset:2px}body.dark #ascend54-review{background:#1b3029;color:#f2fff7;border-color:#527363}body.dark #ascend54-review .a54-stat{background:#ffffff13}body.dark #ascend54-review .a54-fill{background:#8cdeb1}@media(max-width:370px){#ascend54-review{padding:12px}#ascend54-review .a54-stat{padding:9px 4px}#ascend54-review .a54-stat strong{font-size:1.2rem}}
+@media(prefers-reduced-motion:reduce){#ascend54-review .a54-fill{transition:none}}
+</style>
+<script>
+(function(){
+ const dash=document.getElementById('dashboard');if(!dash||document.getElementById('ascend54-review'))return;
+ const card=document.createElement('section');card.id='ascend54-review';card.setAttribute('aria-label','Weekly review');
+ card.innerHTML='<div class="a54-head"><h3 id="a54-title"></h3><button id="a54-planner" type="button"></button></div><div class="a54-stats"><div class="a54-stat"><strong id="a54-done">0</strong><span id="a54-done-label"></span></div><div class="a54-stat"><strong id="a54-left">0</strong><span id="a54-left-label"></span></div><div class="a54-stat"><strong id="a54-habits">0</strong><span id="a54-habits-label"></span></div></div><div class="a54-meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="a54-progress"><div class="a54-fill" id="a54-fill"></div></div><p class="a54-sub" id="a54-caption"></p>';
+ const hero=dash.querySelector('.hero');if(hero)hero.insertAdjacentElement('afterend',card);else dash.prepend(card);
+ const $=id=>document.getElementById(id);
+ function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+ function refresh(){
+  const ar=document.documentElement.lang==='ar'||document.documentElement.dir==='rtl';
+  const now=new Date(),start=new Date(now.getFullYear(),now.getMonth(),now.getDate());start.setDate(start.getDate()-((start.getDay()+1)%7));const end=new Date(start);end.setDate(end.getDate()+7);
+  const lo=iso(start),hi=iso(end);let tasks=[];let habits=[];
+  try{if(typeof data!=='undefined'){tasks=Array.isArray(data.tasks)?data.tasks:[];habits=Array.isArray(data.habits)?data.habits:[]}}catch(e){}
+  const active=tasks.filter(t=>t&&typeof t==='object'&&t.date>=lo&&t.date<hi&&!t.cancelled&&t.status!=='cancelled');
+  const done=active.filter(t=>t.done||t.status==='done'||t.status==='completed').length,left=active.length-done;
+  let checks=0;for(const h of habits){if(!h||!h.log||typeof h.log!=='object')continue;for(let d=new Date(start);d<end&&d<=now;d.setDate(d.getDate()+1)){if(h.log[iso(d)])checks++}}
+  const pct=active.length?Math.round(done/active.length*100):0;
+  $('a54-title').textContent=ar?'مراجعة الأسبوع':'Your weekly review';$('a54-planner').textContent=ar?'افتح المهام':'Open tasks';$('a54-done-label').textContent=ar?'مهام مكتملة':'Tasks completed';$('a54-left-label').textContent=ar?'مهام متبقية':'Tasks remaining';$('a54-habits-label').textContent=ar?'إنجازات العادات':'Habit check-ins';$('a54-done').textContent=done;$('a54-left').textContent=left;$('a54-habits').textContent=checks;$('a54-fill').style.width=pct+'%';$('a54-progress').setAttribute('aria-valuenow',pct);$('a54-caption').textContent=ar?('أُنجز '+pct+'٪ من مهام هذا الأسبوع المجدولة.'): (pct+'% of this week’s scheduled tasks completed.');
+ }
+ $('a54-planner').addEventListener('click',()=>{page('tasksPage')});
+ refresh();document.addEventListener('click',()=>setTimeout(refresh,100));document.addEventListener('change',()=>setTimeout(refresh,100));document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});setInterval(()=>{if(!document.hidden)refresh()},30000);
+})();
+</script>
+
+<style id="ascend55TaskReschedule">
+#ascend47Quick .ascend55-undo{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px;margin:12px 0;border:1px solid #75a58a;border-radius:12px;background:rgba(75,142,101,.12);color:inherit;font-size:.9rem}
+#ascend47Quick .ascend55-undo button{border:1px solid currentColor;border-radius:9px;padding:8px 14px;min-height:44px;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}
+#ascend47Quick .ascend48-actions button[data-ascend55-move]{background:transparent;color:inherit;border:1px solid #829b8c}
+#ascend47Quick .ascend48-actions button:focus-visible,#ascend47Quick .ascend55-undo button:focus-visible{outline:3px solid #5baf86;outline-offset:2px}
+@media(max-width:520px){#ascend47Quick .ascend48-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}#ascend47Quick .ascend48-actions button{min-width:0;white-space:normal;min-height:44px}}
+</style>
+
+<!-- Ascend 56: Quick Capture templates and task duplication -->
+<style id="ascend56Style">
+#ascend56Templates{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:10px 0 14px}
+#ascend56Templates label{font-size:.86rem;font-weight:650}
+#ascend56Templates select{flex:1;min-width:150px;max-width:350px;padding:10px;border-radius:10px;border:1px solid #84988e;background:var(--bg,#fff);color:var(--text,inherit);min-height:44px}
+#ascend47Quick .ascend56-duplicate{border:1px solid #829b8c;background:transparent;color:inherit;min-height:42px}
+#ascend56Notice{font-size:.88rem;margin:7px 0;color:inherit}
+</style>
+<script id="ascend56QuickTemplates">
+(function(){
+ 'use strict';
+ const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+ const templates=[['', 'Choose a template','اختر قالبًا','', 'Normal'],['review','Weekly review','مراجعة أسبوعية','Review my weekly goals','Normal'],['study','Study session','جلسة مذاكرة','Study and review notes','High'],['exercise','Workout','تمرين رياضي','Complete my workout','Normal'],['plan','Plan tomorrow','التخطيط للغد','Plan tomorrow’s priorities','Normal'],['followup','Follow up','متابعة','Follow up on pending tasks','High']];
+ function todayOffset(n){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+ function setup(){const root=document.getElementById('ascend47Quick');if(!root)return;
+  const form=document.querySelector('#ascend47Form');if(form&&!document.getElementById('ascend56Templates')){
+   const wrap=document.createElement('div');wrap.id='ascend56Templates';const label=document.createElement('label');label.htmlFor='ascend56Template';label.textContent=tr('Quick templates','قوالب سريعة');const select=document.createElement('select');select.id='ascend56Template';templates.forEach(t=>{const o=document.createElement('option');o.value=t[0];o.textContent=tr(t[1],t[2]);select.append(o)});wrap.append(label,select);form.before(wrap);
+   select.addEventListener('change',()=>{const t=templates.find(x=>x[0]===select.value);if(!t||!t[0])return;const name=document.querySelector('#ascend47Name'),date=document.querySelector('#ascend47Date'),priority=document.querySelector('#ascend47Priority');if(name)name.value=tr(t[3],t[2]);if(date&&!date.value)date.value=todayOffset(0);if(priority)priority.value=t[4];name?.focus();select.value=''});
+  }
+  root.querySelectorAll('button[data-ascend47-edit]').forEach(edit=>{const parent=edit.parentElement;if(!parent||parent.querySelector('.ascend56-duplicate'))return;const btn=document.createElement('button');btn.type='button';btn.className='ascend56-duplicate';btn.dataset.ascend56Duplicate=edit.dataset.ascend47Edit;btn.textContent=tr('Duplicate','نسخ');btn.setAttribute('aria-label',tr('Duplicate task','نسخ المهمة'));parent.append(btn)});
+ }
+ document.addEventListener('click',e=>{const btn=e.target.closest?.('button[data-ascend56-duplicate]');if(!btn)return;const root=document.getElementById('ascend47Quick');if(!root)return;const original=(Array.isArray(data.tasks)?data.tasks:[]).find(t=>String(t.id)===btn.dataset.ascend56Duplicate);if(!original||original.cancelled)return;
+  const copy={...original,id:(typeof id==='function'?id():Date.now()+Math.random()),date:todayOffset(0),done:false,cancelled:false};data.tasks.push(copy);
+  try{save();render();if(typeof drawCalendar==='function')drawCalendar()}catch(err){data.tasks.pop();console.error('Duplicate failed',err);alert(tr('Could not duplicate task.','تعذر نسخ المهمة.'))}
+ });
+ const obs=new MutationObserver(()=>{if(document.getElementById('ascend47Quick'))setup()});
+ function init(){setup();obs.observe(document.getElementById('dashboard')||document.body,{childList:true,subtree:true});const tp=document.getElementById('tasksPage');if(tp)obs.observe(tp,{childList:true,subtree:true})}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+<!-- Ascend 57: offline planner CSV export and task audit -->
+<style id="ascend57Style">
+#ascend57Tools{margin:18px 0;padding:18px;border:1px solid var(--border,#b6c9c0);border-radius:16px;background:var(--surface,#ffffff);color:inherit;max-width:100%;overflow-wrap:anywhere}
+#ascend57Tools h3{margin:0 0 7px;font-size:1.12rem}#ascend57Tools p{margin:5px 0 12px;line-height:1.5}#ascend57Stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:8px;margin-bottom:12px}#ascend57Stats div{padding:10px;border:1px solid #9caea655;border-radius:10px}#ascend57Stats strong{display:block;font-size:1.35rem}#ascend57Export{padding:11px 15px;border-radius:10px;background:#22684e;color:#fff;font-weight:700;min-height:44px}#ascend57Export:focus-visible{outline:3px solid #e3b54c;outline-offset:3px}body.dark #ascend57Tools{background:#1d332d;border-color:#527267}body.dark #ascend57Export{background:#a9e4c7;color:#132b22}
+</style>
+<script id="ascend57Script">
+(()=>{'use strict';
+ const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+ const root=document.createElement('section');root.id='ascend57Tools';root.setAttribute('aria-label','Planner data tools');
+ root.innerHTML='<h3 id="ascend57Title"></h3><p id="ascend57Desc"></p><div id="ascend57Stats" aria-live="polite"></div><button id="ascend57Export" type="button"></button><p id="ascend57Feedback" role="status" aria-live="polite"></p>';
+ function tasks(){return typeof data!=='undefined'&&Array.isArray(data.tasks)?data.tasks:[]}
+ function refresh(){const ts=tasks(),active=ts.filter(t=>!t.done&&!t.cancelled),overdue=active.filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date||'')&&t.date<(typeof today==='function'?today():new Date().toISOString().slice(0,10)));
+ root.querySelector('#ascend57Title').textContent=tr('Planner data tools','أدوات بيانات المخطط');
+ root.querySelector('#ascend57Desc').textContent=tr('Review your tasks and export a spreadsheet-friendly CSV file. Everything stays on this device until you choose to share the file.','راجع مهامك وصدّر ملف CSV مناسبًا للجداول. تبقى البيانات على جهازك حتى تختار مشاركة الملف.');
+ root.querySelector('#ascend57Stats').innerHTML='';[[tr('All tasks','كل المهام'),ts.length],[tr('Active','نشطة'),active.length],[tr('Overdue','متأخرة'),overdue.length],[tr('Cancelled','ملغاة'),ts.filter(t=>t.cancelled).length]].forEach(([label,n])=>{const box=document.createElement('div'),strong=document.createElement('strong'),small=document.createElement('span');strong.textContent=String(n);small.textContent=label;box.append(strong,small);root.querySelector('#ascend57Stats').append(box)});
+ root.querySelector('#ascend57Export').textContent=tr('Export tasks as CSV','تصدير المهام CSV');}
+ function safeCell(value){let s=String(value==null?'':value).replace(/[\r\n]+/g,' ');if(/^[\s]*[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
+ root.querySelector('#ascend57Export').addEventListener('click',()=>{try{const ts=tasks();const rows=[['Task','Priority','Date','Time','Status','Emoji'],...ts.map(t=>[t.name||'',t.priority||'normal',t.date||'',t.time||'',t.cancelled?'Cancelled':t.done?'Done':'Active',t.emoji||''])];const csv='\ufeff'+rows.map(row=>row.map(safeCell).join(',')).join('\r\n');ascendSaveFile('Ascend-tasks-'+today()+'.csv','text/csv',csv);root.querySelector('#ascend57Feedback').textContent=tr('CSV export prepared.','تم تجهيز ملف CSV.')}catch(err){root.querySelector('#ascend57Feedback').textContent=tr('Export failed. Please try again.','فشل التصدير. حاول مرة أخرى.')}});
+ function mount(){const settings=document.getElementById('settings');if(!settings)return;if(root.parentNode!==settings)settings.append(root);refresh()}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
+ document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('[data-page="settings"]'))setTimeout(refresh,0)});
+ document.addEventListener('change',()=>{if(root.isConnected)refresh()});
+})();
+</script>
+
+<!-- Ascend 58: bilingual, offline-first guided onboarding; opt-in replay and accessible navigation. -->
+<style id="ascend58GuideStyles">
+#ascend58-guide[hidden]{display:none!important}
+#ascend58-guide{position:fixed;inset:0;z-index:99999;background:rgba(9,24,22,.77);display:grid;place-items:center;padding:16px;box-sizing:border-box}
+#ascend58-guide .ascend58-panel{width:min(100%,460px);max-height:calc(100dvh - 32px);overflow:auto;box-sizing:border-box;background:#f9fbf8;color:#183c32;border:1px solid #a9c3b7;border-radius:22px;padding:clamp(20px,5vw,30px);box-shadow:0 22px 70px #0007;text-align:start}
+#ascend58-guide .ascend58-kicker{font-size:12px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;color:#326957}
+#ascend58-guide h2{font-size:clamp(22px,5vw,30px);line-height:1.2;margin:12px 0;color:#143c2e}
+#ascend58-guide p{font-size:15px;line-height:1.65;color:#385a50;margin:0 0 18px}
+#ascend58-guide .ascend58-progress{display:flex;gap:7px;margin:18px 0}
+#ascend58-guide .ascend58-progress span{flex:1;height:6px;border-radius:9px;background:#c9d9d0}
+#ascend58-guide .ascend58-progress span.active{background:#267b5a}
+#ascend58-guide .ascend58-actions{display:flex;flex-wrap:wrap;justify-content:space-between;gap:9px}
+#ascend58-guide button,.ascend58-replay{min-height:44px;padding:10px 16px;border:1px solid #3b7b62;border-radius:12px;font-weight:700;cursor:pointer}
+#ascend58-guide button.primary{background:#1f694f;color:white}
+#ascend58-guide button.secondary{background:transparent;color:#245d49}
+#ascend58-guide button:focus-visible,.ascend58-replay:focus-visible{outline:3px solid #dfaa3d;outline-offset:3px}
+.ascend58-replay{background:transparent;color:inherit;margin-top:12px}
+@media(max-width:400px){#ascend58-guide .ascend58-actions button{flex:1}}
+</style>
+<div id="ascend58-guide" role="dialog" aria-modal="true" aria-labelledby="ascend58-title" aria-describedby="ascend58-description" hidden>
+ <div class="ascend58-panel" dir="auto"><div class="ascend58-kicker" id="ascend58-step"></div><h2 id="ascend58-title"></h2><p id="ascend58-description"></p><div class="ascend58-progress" id="ascend58-progress" aria-hidden="true"></div><div class="ascend58-actions"><button type="button" class="secondary" id="ascend58-skip"></button><button type="button" class="secondary" id="ascend58-back"></button><button type="button" class="primary" id="ascend58-next"></button></div></div>
+</div>
+<script>
+(function(){'use strict';
+ const root=document.getElementById('ascend58-guide');if(!root)return;
+ const steps={en:[
+ ['Welcome to Ascend','Your private, offline-first space for habits, tasks, goals, and reflection. No account is needed.'],
+ ['Plan your day','Add a task, choose its priority and date, then find it in Today Plan, the calendar, or Task Command Center.'],
+ ['Build momentum','Track habits and goals, start a Focus Sprint, and review your progress each week.'],
+ ['Make it yours','Explore light and dark modes, Arabic, and theme previews. Premium previews do not unlock purchases.'],
+ ['Protect your progress','Your data stays on this device. Export a backup from Settings before switching devices or uninstalling.']
+ ],ar:[
+ ['مرحبًا بك في Ascend','مساحتك الخاصة للعادات والمهام والأهداف واليوميات. يعمل التطبيق دون اتصال أو حساب.'],
+ ['نظّم يومك','أضف مهمة وحدد أولويتها وتاريخها، ثم تابعها في خطة اليوم أو التقويم أو مركز المهام.'],
+ ['تابع تقدّمك','سجّل عاداتك وأهدافك، واستخدم جلسات التركيز وراجع إنجازاتك أسبوعيًا.'],
+ ['خصّص تجربتك','جرّب الوضع الفاتح والداكن واللغة العربية ومعاينات السمات. المعاينة لا تفعّل الشراء.'],
+ ['احفظ بياناتك','تبقى بياناتك على جهازك. صدّر نسخة احتياطية من الإعدادات قبل تغيير الجهاز أو حذف التطبيق.']
+ ]};
+ const el=id=>document.getElementById('ascend58-'+id);
+ let index=0,returnFocus=null;
+ const arabic=()=>document.documentElement.lang==='ar'||localStorage.getItem('steadyday_lang')==='ar';
+ function draw(){const ar=arabic(),items=steps[ar?'ar':'en'];root.querySelector('.ascend58-panel').dir=ar?'rtl':'ltr';el('step').textContent=(ar?'الخطوة ':'Step ')+(index+1)+' / '+items.length;el('title').textContent=items[index][0];el('description').textContent=items[index][1];el('progress').replaceChildren(...items.map((_,i)=>{const b=document.createElement('span');if(i<=index)b.className='active';return b}));el('skip').textContent=ar?'تخطي':'Skip';el('back').textContent=ar?'السابق':'Back';el('back').hidden=index===0;el('next').textContent=index===items.length-1?(ar?'إنهاء':'Finish'):(ar?'التالي':'Next');}
+ function open(){if(!root.hidden)return;returnFocus=document.activeElement;index=0;root.hidden=false;draw();el('next').focus()}
+ function close(){root.hidden=true;try{localStorage.setItem('ascend58-guide-seen','1')}catch(e){}if(returnFocus&&returnFocus.isConnected)returnFocus.focus();}
+ el('next').addEventListener('click',()=>{if(index===steps.en.length-1)close();else{index++;draw()}});
+ el('back').addEventListener('click',()=>{index=Math.max(0,index-1);draw()});el('skip').addEventListener('click',close);
+ root.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();close();return}if(e.key==='Tab'){const buttons=[el('skip'),el('back'),el('next')].filter(b=>!b.hidden);const first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+ const settings=document.getElementById('settings');if(settings){const b=document.createElement('button');b.type='button';b.className='btn secondary ascend58-replay';b.textContent=arabic()?'إعادة عرض دليل البداية':'Replay getting started guide';b.addEventListener('click',open);b.id='ascend58Replay';const about=settings.querySelector('.panel:last-of-type');(about||settings).appendChild(b)}
+ // Do not interrupt existing users: new installs only, and never auto-open when there is already saved planner data.
+ try{if(!localStorage.getItem('ascend58-guide-seen')&&window.__ascendFirstRun){setTimeout(open,700)}}catch(e){}
+})();
+</script>
+
+<!-- Ascend 59: offline calendar export, compatible with standard calendar apps. -->
+<style id="ascend59Style">
+#ascend59CalendarExport{margin-top:10px;min-height:44px;border:1px solid #638a77;border-radius:10px;padding:10px 15px;background:transparent;color:inherit;font-weight:700;cursor:pointer}
+#ascend59CalendarExport:focus-visible{outline:3px solid #d7a83c;outline-offset:3px}
+#ascend59CalendarHelp{font-size:.86rem;line-height:1.55;opacity:.85;margin:8px 0}
+</style>
+<script id="ascend59CalendarScript">
+(function(){'use strict';
+ const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+ const validDate=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(s||''))return false;const d=new Date(s+'T12:00:00');return !Number.isNaN(d.getTime())&&[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')===s};
+ const stamp=d=>[d.getUTCFullYear(),String(d.getUTCMonth()+1).padStart(2,'0'),String(d.getUTCDate()).padStart(2,'0')].join('')+'T'+[d.getUTCHours(),d.getUTCMinutes(),d.getUTCSeconds()].map(n=>String(n).padStart(2,'0')).join('')+'Z';
+ const escapeText=s=>String(s||'').split(String.fromCharCode(92)).join(String.fromCharCode(92,92)).replace(/\r?\n/g,String.fromCharCode(92)+'n').replace(/,/g,String.fromCharCode(92)+',').replace(/;/g,String.fromCharCode(92)+';');
+ const fold=s=>{const chunks=[];let line='';for(const ch of s){if(new TextEncoder().encode(line+ch).length>70){chunks.push(line);line=' '+ch}else line+=ch}chunks.push(line);return chunks.join('\r\n')};
+ function exportCalendar(){
+  const tasks=typeof data!=='undefined'&&Array.isArray(data.tasks)?data.tasks:[];
+  const active=tasks.filter(t=>t&&!t.cancelled&&validDate(t.date));
+  if(!active.length){alert(tr('No dated tasks to export.','لا توجد مهام مؤرخة للتصدير.'));return}
+  const now=stamp(new Date()),lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ascend//Offline Task Planner//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
+  for(const t of active){const date=t.date.replace(/-/g,'');const time=/^([01]\d|2[0-3]):[0-5]\d$/.test(t.time||'')?t.time:null;
+   const id=String(t.id||t.name||date).replace(/[^a-zA-Z0-9_-]/g,'').slice(0,70)||date;
+   lines.push('BEGIN:VEVENT','UID:'+id+'-'+date+'@ascend.local','DTSTAMP:'+now);
+   if(time){const start=new Date(t.date+'T'+time+':00');const end=new Date(start.getTime()+30*60000);lines.push('DTSTART:'+stamp(start),'DTEND:'+stamp(end))}
+   else{const d=new Date(t.date+'T12:00:00');d.setDate(d.getDate()+1);const next=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('');lines.push('DTSTART;VALUE=DATE:'+date,'DTEND;VALUE=DATE:'+next)}
+   lines.push('SUMMARY:'+escapeText((t.emoji?t.emoji+' ':'')+String(t.name||tr('Task','مهمة'))),'DESCRIPTION:'+escapeText(tr('Priority: ','الأولوية: ')+String(t.priority||'normal')+(t.done?tr(' (completed)',' (مكتملة)'):'')),'END:VEVENT')
+  }
+  lines.push('END:VCALENDAR');const content=lines.map(fold).join('\r\n')+'\r\n';ascendSaveFile('Ascend-calendar-'+today()+'.ics','text/calendar',content);
+  const feedback=document.getElementById('ascend57Feedback');if(feedback)feedback.textContent=tr('Calendar export prepared: ','تم تجهيز تصدير التقويم: ')+active.length;
+ }
+ function mount(){const root=document.getElementById('ascend57Tools');if(!root||document.getElementById('ascend59CalendarExport'))return;
+  const btn=document.createElement('button');btn.id='ascend59CalendarExport';btn.type='button';btn.textContent=tr('Export to calendar (.ics)','تصدير إلى التقويم (.ics)');btn.addEventListener('click',exportCalendar);
+  const help=document.createElement('p');help.id='ascend59CalendarHelp';help.textContent=tr('Exports dated, non-cancelled tasks to a calendar file. Tasks without a time become all-day events; timed tasks are 30 minutes long. Import the file into your calendar app manually. No online sync.','يصدّر المهام المؤرخة غير الملغاة إلى ملف تقويم. المهام دون وقت تصبح أحداثًا طوال اليوم، والمهام المحددة بوقت مدتها ٣٠ دقيقة. استورد الملف يدويًا إلى تطبيق التقويم. لا توجد مزامنة عبر الإنترنت.');
+  const anchor=root.querySelector('#ascend57Export');anchor?.after(btn,help);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
+})();
+</script>
+
+<!-- Ascend 60: offline reliability center. No network access or telemetry. -->
+<style id="ascend60Style">
+#ascend60Reliability{margin:18px 0;padding:18px;border:1px solid var(--border,#a7bcb2);border-radius:16px;background:var(--surface,#fff);color:inherit}
+#ascend60Reliability h3{margin:0 0 6px}#ascend60Reliability p{line-height:1.55;margin:7px 0 12px}
+#ascend60Results{list-style:none;padding:0;margin:12px 0;display:grid;gap:8px}
+#ascend60Results li{padding:10px 12px;border:1px solid #9aafa977;border-radius:10px;overflow-wrap:anywhere}
+#ascend60Reliability button{min-height:44px;padding:10px 14px;border-radius:10px;border:1px solid #57836c;background:transparent;color:inherit;font-weight:700;cursor:pointer;margin:4px 8px 4px 0}
+#ascend60Reliability button:focus-visible{outline:3px solid #d7a83c;outline-offset:3px}
+body.dark #ascend60Reliability{background:#1d332d;border-color:#527267}
+</style>
+
+<!-- Ascend 61: one shared service layer — Android-aware file saving, validated backup/restore,
+     five-tab navigation, Android reminder status, back button and a truthful Reliability Center. -->
+<style id="ascend61Style">
+.ascend-refresh-tools{display:none!important}
+#habits,#goals,#insights,#planner{display:none!important}
+#progress .stat{display:block!important}
+#progress .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+.ascend61-group{scroll-margin-top:12px}
+.ascend61-group+.ascend61-group{margin-top:8px}
+.ascend61-newtask{margin:2px 0 12px}
+#ascend61Today .ascend47-form{margin-bottom:4px}
+.ascend61-toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:100000;max-width:min(92vw,440px);background:#1d2b27;color:#fff;padding:12px 16px;border-radius:14px;box-shadow:0 10px 30px #0005;font-size:.92rem;line-height:1.45;text-align:center}
+@media(min-width:651px){.ascend61-toast{bottom:28px}}
+.ascend61-status{list-style:none;padding:0;margin:12px 0;display:grid;gap:8px}
+.ascend61-status li{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;padding:11px 12px;border:1px solid rgba(120,135,130,.35);border-radius:12px;overflow-wrap:anywhere}
+.ascend61-status .badge{grid-row:span 2;align-self:center;font-size:.72rem;font-weight:800;letter-spacing:.02em;padding:4px 8px;border-radius:20px;white-space:nowrap;text-align:center;min-width:76px}
+.ascend61-status b{font-size:.95rem}.ascend61-status span.detail{font-size:.84rem;opacity:.85;line-height:1.45}
+.ascend61-status li button{grid-column:2;justify-self:start;margin-top:6px;min-height:40px;padding:8px 12px;border-radius:10px;border:1px solid currentColor;background:transparent;color:inherit;font-weight:700}
+.badge.pass{background:#d7f2e3;color:#145236}.badge.warn{background:#fff0c8;color:#6b4a00}.badge.fail{background:#ffdcdc;color:#8a1c1c}.badge.na{background:#e3e7ee;color:#3b4557}.badge.untested{background:#e6e0ff;color:#3f2d8c}
+body.dark .badge.pass{background:#1f5a3f;color:#e3ffef}body.dark .badge.warn{background:#5a4510;color:#fff3cf}body.dark .badge.fail{background:#6a2424;color:#ffe2e2}body.dark .badge.na{background:#3a4456;color:#e9eef8}body.dark .badge.untested{background:#3e3470;color:#ece7ff}
+#ascend61ReminderStatus h3{margin:18px 0 4px;font-size:1rem}
+#ascend60Reliability .ascend61-run{min-height:44px}
+html[dir=rtl] .ascend61-status li button{justify-self:end}
+@media(max-width:700px){.ascend-theme-previews{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}.ascend-theme-preview{min-height:0!important;padding:12px 10px!important}.ascend-theme-preview small{font-size:.7rem!important}.ascend-theme-preview button{min-height:40px!important;padding:6px 8px!important;font-size:.78rem!important;margin-top:6px!important}}
+@media(max-width:650px){#progress .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.side{gap:0}.nav{padding:8px 2px;font-size:11px;min-width:0}}
+</style>
+<script id="ascend61Script">
+(function(){'use strict';
+const tr=(en,ar)=>document.documentElement.lang==='ar'?ar:en;
+const native=()=>!!window.SteadyDayNative;
+const $=id=>document.getElementById(id);
+
+/* ---------- Toast ---------- */
+let toastTimer=null;
+function toast(msg){let el=$('ascend61Toast');if(!el){el=document.createElement('div');el.id='ascend61Toast';el.className='ascend61-toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.append(el)}el.textContent=msg;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.hidden=true},4200)}
+window.ascendToast=toast;
+
+/* ---------- Saving files (Android needs the native picker; blob links are ignored by WebView) ---------- */
+let pendingSave=null;
+window.ascendSaveFile=function(name,mime,text,onSaved){
+ if(native()&&typeof SteadyDayNative.saveFile==='function'){pendingSave={name,onSaved};SteadyDayNative.saveFile(name,mime,text);return 'native'}
+ const url=URL.createObjectURL(new Blob([text],{type:mime+';charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+ toast(tr('File prepared: ','تم تجهيز الملف: ')+name);if(onSaved)onSaved();return 'browser'};
+
+/* ---------- Events from Android ---------- */
+window.ascendNativeEvent=function(type,value){
+ if(type==='saved'){const p=pendingSave;pendingSave=null;
+  if(value==='ok'){toast(tr('Saved: ','تم الحفظ: ')+(p?p.name:''));if(p&&p.onSaved)p.onSaved()}
+  else if(value==='cancelled')toast(tr('Save cancelled. Nothing was written.','أُلغي الحفظ. لم يُكتب أي ملف.'));
+  else toast(tr('Could not save the file. Try another folder.','تعذر حفظ الملف. جرّب مجلدًا آخر.'))}
+ if(type==='permission')toast(value==='granted'?tr('Notifications allowed.','تم السماح بالإشعارات.'):tr('Notifications are blocked. Reminders cannot appear until you allow them.','الإشعارات محظورة. لن تظهر التذكيرات حتى تسمح بها.'));
+ if(type==='permission'||type==='resume')drawReminderStatus();
+};
+function nativeStatus(){if(!native()||typeof SteadyDayNative.status!=='function')return null;try{return JSON.parse(SteadyDayNative.status()||'{}')}catch(e){return null}}
+
+/* ---------- Backup: one validated format, accepts older exports, never half-restores ---------- */
+const PREF_KEYS=['steadyday_lang','steadyday_calendar','steadyday-theme','steadyday-reminders-v1'];
+const DATE_RE=/^\d{4}-\d{2}-\d{2}$/,TIME_RE=/^([01]\d|2[0-3]):[0-5]\d$/;
+const isObj=v=>v&&typeof v==='object'&&!Array.isArray(v);
+function normalize(raw){
+ const bad=m=>{throw Error(m)};
+ if(!isObj(raw))bad(tr('This file is not an Ascend backup.','هذا الملف ليس نسخة احتياطية من أسيند.'));
+ ['habits','goals','tasks'].forEach(k=>{if(raw[k]===undefined)raw[k]=[];if(!Array.isArray(raw[k]))bad(tr('Backup section is damaged: ','قسم تالف في النسخة: ')+k)});
+ if(raw.journal===undefined)raw.journal={};if(!isObj(raw.journal))bad(tr('Backup journal is damaged.','قسم المذكرات تالف.'));
+ const out={...raw},seen=new Set();
+ const fixId=o=>{let v=o.id==null?'':String(o.id);if(!v||seen.has(v))v=id();seen.add(v);o.id=v};
+ const named=(x,k)=>{if(!isObj(x)||typeof x.name!=='string'||!x.name.trim())bad(tr('A backup item has no name in: ','عنصر بلا اسم في: ')+k)};
+ out.habits=raw.habits.map(h=>{named(h,'habits');const x={...h};fixId(x);let days=Array.isArray(x.days)?[...new Set(x.days.map(Number).filter(n=>Number.isInteger(n)&&n>=0&&n<=6))]:[];x.days=days.length?days:[0,1,2,3,4,5,6];x.log=isObj(x.log)?Object.fromEntries(Object.entries(x.log).filter(([d,v])=>DATE_RE.test(d)&&v)):{};x.type=x.type==='negative'?'negative':'positive';return x});
+ out.goals=raw.goals.map(g=>{named(g,'goals');const x={...g};fixId(x);let t=Number(x.target),v=Number(x.value);x.target=Number.isFinite(t)&&t>=1?t:1;x.value=Number.isFinite(v)&&v>=0?Math.min(v,x.target):0;return x});
+ out.tasks=raw.tasks.map(t=>{named(t,'tasks');const x={...t};fixId(x);x.name=x.name.slice(0,200);x.date=typeof x.date==='string'&&DATE_RE.test(x.date)?x.date:'';x.time=typeof x.time==='string'&&TIME_RE.test(x.time)?x.time:'';const p=String(x.priority||'Normal').toLowerCase();x.priority=['high','urgent','critical'].includes(p)?'High':p==='low'?'Low':'Normal';x.done=x.done===true||x.status==='done'||x.status==='completed';x.cancelled=x.cancelled===true||x.status==='cancelled';if(x.cancelled)x.done=false;x.emoji=typeof x.emoji==='string'?x.emoji.slice(0,12):'';return x});
+ out.journal=Object.fromEntries(Object.entries(raw.journal).filter(([d,v])=>DATE_RE.test(d)&&typeof v==='string').map(([d,v])=>[d,v.slice(0,100000)]));
+ if(raw.focusHistory!==undefined)out.focusHistory=Array.isArray(raw.focusHistory)?raw.focusHistory.filter(e=>isObj(e)&&typeof e.at==='string'&&Number.isFinite(Date.parse(e.at))).slice(-250):[];
+ out.dark=!!raw.dark;
+ return out;
+}
+window.ascendNormalizeData=normalize;
+function counts(d){return{habits:d.habits.length,tasks:d.tasks.length,goals:d.goals.length,journal:Object.values(d.journal).filter(v=>v.trim()).length,focus:Array.isArray(d.focusHistory)?d.focusHistory.length:0}}
+window.ascendBuildBackup=function(){
+ save();const preferences={};PREF_KEYS.forEach(k=>{const v=localStorage.getItem(k);if(v!==null)preferences[k]=v});
+ return{format:'ascend-backup',version:1,app:'Ascend',appVersion:'61',createdAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(data)),preferences};
+};
+window.ascendPrepareRestore=function(payload){
+ let part,prefs={};
+ if(isObj(payload)&&payload.format==='ascend-backup'){
+  if(payload.version!==1)throw Error(tr('This backup was made by a newer Ascend. Update the app first.','هذه النسخة من إصدار أحدث من أسيند. حدّث التطبيق أولًا.'));
+  part=payload.data;prefs=isObj(payload.preferences)?payload.preferences:{};
+ }else part=payload; // backups from the original Settings "Export backup (JSON)" button
+ const clean=normalize(JSON.parse(JSON.stringify(part)));
+ const okPrefs={};PREF_KEYS.forEach(k=>{const v=prefs[k];if(typeof v!=='string'||v.length>200000)return;if(k==='steadyday-reminders-v1'){try{if(!isObj(JSON.parse(v)))return}catch(e){return}}okPrefs[k]=v});
+ return{data:clean,prefs:okPrefs,counts:counts(clean)};
+};
+window.ascendApplyRestore=function(r){
+ const before=localStorage.getItem(KEY);
+ window.__ascendFrozen=true; // stop any pending render/save from writing the old data back
+ try{
+  if(before!==null)localStorage.setItem('ascend-before-import-latest',before);
+  Object.keys(localStorage).filter(k=>/^ascend-before-import-\d+$/.test(k)).forEach(k=>localStorage.removeItem(k));
+  const text=JSON.stringify(r.data);localStorage.setItem(KEY,text);
+  if(localStorage.getItem(KEY)!==text)throw Error('verify');
+  Object.entries(r.prefs).forEach(([k,v])=>localStorage.setItem(k,v));
+ }catch(e){
+  if(before!==null)try{localStorage.setItem(KEY,before)}catch(_){}
+  window.__ascendFrozen=false;throw Error(tr('Restore failed; your current data was kept.','فشلت الاستعادة؛ تم الإبقاء على بياناتك الحالية.'));
+ }
+ location.reload();
+};
+function summaryText(c){return tr(`Habits: ${c.habits}\nTasks & appointments: ${c.tasks}\nGoals: ${c.goals}\nJournal entries: ${c.journal}\nFocus sessions: ${c.focus}`,`العادات: ${c.habits}\nالمهام والمواعيد: ${c.tasks}\nالأهداف: ${c.goals}\nالمذكرات: ${c.journal}\nجلسات التركيز: ${c.focus}`)}
+window.ascendImportBackupFile=async function(file,statusEl){
+ const say=m=>{if(statusEl)statusEl.textContent=m;toast(m)};
+ if(!file)return;
+ try{
+  if(file.size>5*1024*1024)throw Error(tr('File too large (5 MB limit).','الملف كبير جدًا (الحد ٥ ميغابايت).'));
+  let payload;try{payload=JSON.parse(await file.text())}catch(e){throw Error(tr('This file is not valid JSON.','هذا الملف ليس JSON صالحًا.'))}
+  const r=ascendPrepareRestore(payload);
+  if(!confirm(tr('This backup contains:\n\n','تحتوي هذه النسخة على:\n\n')+summaryText(r.counts)+tr('\n\nIt will REPLACE all current Ascend data on this device. A copy of the current data is kept for one undo. Continue?','\n\nستحل محل جميع بيانات أسيند الحالية على هذا الجهاز. ستُحفظ نسخة من البيانات الحالية للتراجع مرة واحدة. هل تريد المتابعة؟')))return;
+  say(tr('Restoring…','جارٍ الاستعادة…'));ascendApplyRestore(r);
+ }catch(e){say(tr('Import failed: ','فشل الاستيراد: ')+e.message)}
+};
+window.ascendUndoRestore=function(){const prev=localStorage.getItem('ascend-before-import-latest');if(!prev)return;if(!confirm(tr('Return to the data you had before the last import?','العودة إلى البيانات التي كانت قبل آخر استيراد؟')))return;try{ascendApplyRestore({data:normalize(JSON.parse(prev)),prefs:{}})}catch(e){toast(e.message)}};
+window.ascendExportBackup=function(){
+ try{const b=ascendBuildBackup();const text=JSON.stringify(b,null,2);
+  ascendSaveFile('Ascend-backup-'+today()+'.json','application/json',text,()=>{try{localStorage.setItem('ascend-last-backup',new Date().toISOString())}catch(e){}});
+ }catch(e){toast(tr('Export failed: ','فشل التصدير: ')+e.message)}
+};
+/* Proves a backup made now can be read back without loss. Changes nothing. */
+function backupRoundTrip(){
+ const b=ascendBuildBackup();const parsed=JSON.parse(JSON.stringify(b,null,2));const r=ascendPrepareRestore(parsed);
+ const a=JSON.stringify(normalize(JSON.parse(JSON.stringify(data))));const z=JSON.stringify(r.data);
+ return{ok:a===z,counts:r.counts,bytes:new TextEncoder().encode(JSON.stringify(b)).length};
+}
+window.ascendBackupRoundTrip=backupRoundTrip;
+
+/* ---------- Five-tab layout ---------- */
+function layout(){
+ const dash=$('dashboard'),progress=$('progress');if(!dash||!progress||progress.dataset.ready)return;progress.dataset.ready='1';
+ [['habits','progress-habits'],['goals','progress-goals'],['insights','progress-insights']].forEach(([src,id])=>{const s=$(src);if(!s)return;const g=document.createElement('div');g.id=id;g.className='ascend61-group';while(s.firstChild)g.append(s.firstChild);progress.append(g)});
+ const chart=$('chart')?.closest('.panel');if(chart)$('progress-insights')?.prepend(chart);
+ // Today: hero → quick capture & plan → stats → habits | goals + weekly review
+ const cols=dash.querySelector('.columns');const review=$('ascend54-review');
+ if(cols){const right=cols.children[1];const goals=$('dashGoals')?.closest('.panel');if(right&&goals)right.append(goals);if(right&&review)right.append(review)}
+ const tp=$('tasksPage'),focus=$('ascend45Focus');if(tp&&focus)tp.append(focus);
+ const order=[dash.querySelector('.hero'),$('ascend61Today'),dash.querySelector('.stats'),cols];order.forEach(n=>{if(n)dash.append(n)});
+ // Settings: appearance → reminders → backup → exports → reliability → privacy → about
+ const st=$('settings');if(st){const panels=[...st.querySelectorAll(':scope > .panel')];const appearance=panels[0],reminders=$('reminderSettings'),backup=$('ascendDataSafety'),exp=$('ascend57Tools'),rel=$('ascend60Reliability');const privacy=panels.find(p=>p.querySelector('h2')?.textContent.match(/Data and privacy|البيانات والخصوصية/));const about=panels.find(p=>p.querySelector('h2')?.textContent.match(/About Ascend|حول أسيند/));[appearance,reminders,backup,exp,rel,privacy,about].forEach(n=>{if(n)st.append(n)});[exp,rel].forEach(n=>n&&n.classList.add('panel'))}
+}
+const aliases={habits:['progress','progress-habits'],goals:['progress','progress-goals'],insights:['progress','progress-insights'],planner:['tasksPage']};
+const basePage=window.page;
+window.page=function(p){const a=aliases[p];basePage(a?a[0]:p);if(a&&a[1]){const t=$(a[1]);if(t)setTimeout(()=>t.scrollIntoView({block:'start'}),0)}};
+
+/* ---------- Android back button ---------- */
+window.ascendHandleBack=function(){
+ const guide=$('ascend58-guide');if(guide&&!guide.hidden){$('ascend58-skip')?.click();return true}
+ const art=document.querySelector('.ascend53-overlay:not([hidden])');if(art){art.querySelector('.ascend53-close')?.click();return true}
+ const del=$('ascendDeleteDialog');if(del){del.remove();return true}
+ if($('modalBack')?.classList.contains('show')){closeModal();return true}
+ const rt=$('reminderToast');if(rt){rt.remove();return true}
+ const active=document.querySelector('.section.active');if(active&&active.id!=='dashboard'){page('dashboard');return true}
+ return false};
+
+/* ---------- System bar colour follows the theme ---------- */
+function chrome(){
+ if(!native()||typeof SteadyDayNative.setChrome!=='function')return;
+ const dark=document.body.classList.contains('dark');
+ let c=getComputedStyle(document.body).backgroundColor;const m=c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/);
+ let hex=null;if(m&&(m[4]===undefined||Number(m[4])>0.5))hex='#'+[m[1],m[2],m[3]].map(n=>Number(n).toString(16).padStart(2,'0')).join('');
+ if(!hex)hex=dark?'#121927':({'modern-colorful':'#f1e8ff'}[document.body.dataset.theme]||'#edf5ed');
+ if(window.__ascendChrome===hex+dark)return;window.__ascendChrome=hex+dark;try{SteadyDayNative.setChrome(hex,dark)}catch(e){}
+}
+const baseTheme=window.setSteadyTheme;if(typeof baseTheme==='function')window.setSteadyTheme=function(t){baseTheme(t);chrome()};
+
+/* ---------- Android reminder status inside Reminder settings ---------- */
+function badge(kind){const map={pass:tr('Passed','ناجح'),warn:tr('Warning','تنبيه'),fail:tr('Failed','فشل'),na:tr('Not supported','غير مدعوم'),untested:tr('Not tested','لم يُختبر')};const b=document.createElement('span');b.className='badge '+kind;b.textContent=map[kind];return b}
+function row(list,kind,title,detail,action){const li=document.createElement('li');const b=document.createElement('b');b.textContent=title;const d=document.createElement('span');d.className='detail';d.textContent=detail;li.append(badge(kind),b,d);if(action){const btn=document.createElement('button');btn.type='button';btn.textContent=action[0];btn.onclick=action[1];li.append(btn)}list.append(li)}
+function reminderCfg(){try{return JSON.parse(localStorage.getItem('steadyday-reminders-v1')||'{}')||{}}catch(e){return{}}}
+function androidChecks(list,st){
+ const cfg=reminderCfg();
+ if(!st){row(list,'na',tr('Android reminders','تذكيرات أندرويد'),tr('Only available inside the Android app.','متاح فقط داخل تطبيق أندرويد.'));return}
+ const allowed=st.permission&&st.notificationsEnabled&&!st.channelBlocked;
+ row(list,allowed?'pass':'fail',tr('Notification permission','إذن الإشعارات'),allowed?tr('Allowed. Volume, Do Not Disturb and vibration settings on the device still apply.','مسموح. ما زالت إعدادات الصوت وعدم الإزعاج والاهتزاز في الجهاز سارية.'):st.channelBlocked?tr('This reminder style is turned off in Android notification settings.','نمط التذكير هذا معطل في إعدادات إشعارات أندرويد.'):tr('Blocked. Reminders cannot appear.','محظور. لن تظهر التذكيرات.'),allowed?null:[tr('Allow notifications','السماح بالإشعارات'),()=>st.permission?SteadyDayNative.openNotificationSettings():SteadyDayNative.requestPermission()]);
+ if(cfg.enabled&&(cfg.mode||'inapp')==='inapp')row(list,'warn',tr('Notification style','طريقة التنبيه'),tr('In-app only: Android shows nothing when Ascend is closed. Choose Sound, Vibration or Sound + vibration.','داخل التطبيق فقط: لا يظهر شيء عند إغلاق أسيند. اختر الصوت أو الاهتزاز أو كليهما.'));
+ row(list,st.exactAlarms?'pass':'warn',tr('On-time delivery','الوصول في الموعد'),st.exactAlarms?tr('Alarms & reminders access is on.','إذن المنبهات والتذكيرات مفعّل.'):tr('Android may deliver reminders several minutes late. Turn on “Alarms & reminders” for Ascend.','قد يؤخر أندرويد التذكيرات عدة دقائق. فعّل «المنبهات والتذكيرات» لأسيند.'),st.exactAlarms||st.sdk<31?null:[tr('Open setting','فتح الإعداد'),()=>SteadyDayNative.openExactAlarmSettings()]);
+ row(list,st.batteryUnrestricted?'pass':'warn',tr('Battery restrictions','قيود البطارية'),st.batteryUnrestricted?tr('Ascend is not battery-optimized.','أسيند غير مقيد بتحسين البطارية.'):tr('Some phones block reminders from optimized apps. Set Ascend to “Unrestricted” if reminders go missing.','بعض الأجهزة تمنع تذكيرات التطبيقات المقيدة. اجعل أسيند «غير مقيد» إذا لم تصل التذكيرات.'),st.batteryUnrestricted?null:[tr('Battery settings','إعدادات البطارية'),()=>SteadyDayNative.openBatterySettings()]);
+ const next=st.nextAt?new Date(st.nextAt).toLocaleString(document.documentElement.lang==='ar'?'ar-SA':'en-US',{weekday:'short',hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'}):'';
+ row(list,st.scheduled?'pass':(cfg.enabled?'warn':'na'),tr('Scheduled reminders','التذكيرات المجدولة'),st.scheduled?tr(`${st.scheduled} scheduled · next: ${next}`,`${st.scheduled} مجدولة · التالي: ${next}`):cfg.enabled?tr('None scheduled. Turn on reminders for a habit or an upcoming task below.','لا توجد تذكيرات مجدولة. فعّل التذكير لعادة أو مهمة قادمة أدناه.'):tr('Reminders are off.','التذكيرات متوقفة.'));
+}
+function drawReminderStatus(){
+ const panel=$('reminderSettings');if(!panel)return;let box=$('ascend61ReminderStatus');
+ if(!box){box=document.createElement('div');box.id='ascend61ReminderStatus';const items=$('rItems');const h=items?items.previousElementSibling:null;panel.insertBefore(box,h||null)}
+ box.replaceChildren();const h=document.createElement('h3');h.textContent=tr('Android reminder status','حالة تذكيرات أندرويد');const list=document.createElement('ul');list.className='ascend61-status';box.append(h,list);androidChecks(list,nativeStatus());
+}
+function watchReminders(){const panel=$('reminderSettings');if(!panel)return;new MutationObserver(()=>{if(!$('ascend61ReminderStatus'))drawReminderStatus()}).observe(panel,{childList:true});drawReminderStatus();
+ document.addEventListener('change',e=>{if(e.target.closest&&e.target.closest('#reminderSettings'))setTimeout(drawReminderStatus,400)})}
+
+/* ---------- Offline Reliability Center (truthful: passed / warning / failed / not supported / not tested) ---------- */
+function buildReliability(){
+ const st=$('settings');if(!st||$('ascend60Reliability'))return;
+ const box=document.createElement('section');box.id='ascend60Reliability';box.className='panel';
+ const h=document.createElement('h2');const p=document.createElement('p');p.className='muted';const run=document.createElement('button');run.type='button';run.className='btn ascend61-run';const list=document.createElement('ul');list.className='ascend61-status';list.setAttribute('aria-live','polite');const undo=document.createElement('button');undo.type='button';undo.className='btn secondary';undo.style.marginTop='8px';
+ box.append(h,p,run,list,undo);st.append(box);
+ const label=()=>{h.textContent=tr('Offline reliability center','مركز موثوقية العمل دون اتصال');p.textContent=tr('Real checks run on this device. Nothing is sent anywhere.','فحوص حقيقية تُجرى على هذا الجهاز. لا يُرسل أي شيء.');run.textContent=tr('Run checks','بدء الفحص');undo.textContent=tr('Undo last backup import','التراجع عن آخر استيراد');undo.hidden=!localStorage.getItem('ascend-before-import-latest')};
+ run.onclick=async()=>{list.replaceChildren();
+  try{const k='ascend61-probe',v=String(Date.now());localStorage.setItem(k,v);const ok=localStorage.getItem(k)===v;localStorage.removeItem(k);row(list,ok?'pass':'fail',tr('Local storage','التخزين المحلي'),ok?tr('Writable and readable.','قابل للكتابة والقراءة.'):tr('Values did not read back.','لم تُقرأ القيم كما كُتبت.'))}catch(e){row(list,'fail',tr('Local storage','التخزين المحلي'),tr('Blocked or full.','محظور أو ممتلئ.'))}
+  try{const raw=localStorage.getItem(KEY);if(!raw)row(list,'warn',tr('Planner data','بيانات المخطط'),tr('Nothing saved yet.','لا توجد بيانات محفوظة بعد.'));else{const c=counts(normalize(JSON.parse(raw)));row(list,'pass',tr('Planner data','بيانات المخطط'),tr(`Readable: ${c.tasks} tasks, ${c.habits} habits, ${c.goals} goals, ${c.journal} journal entries.`,`قابلة للقراءة: ${c.tasks} مهام، ${c.habits} عادات، ${c.goals} أهداف، ${c.journal} مذكرات.`))}}catch(e){row(list,'fail',tr('Planner data','بيانات المخطط'),tr('Saved data could not be read. Do not erase anything; export a backup and contact support.','تعذرت قراءة البيانات. لا تمسح شيئًا؛ صدّر نسخة احتياطية.'))}
+  try{const r=backupRoundTrip();row(list,r.ok?'pass':'fail',tr('Backup round-trip','اختبار النسخة الاحتياطية'),r.ok?tr(`A backup made now restores every item (${Math.ceil(r.bytes/1024)} KB).`,`نسخة تُصنع الآن تستعيد كل العناصر (${Math.ceil(r.bytes/1024)} ك.ب).`):tr('A backup made now would not restore identically.','النسخة المصنوعة الآن لن تُستعاد مطابقة.'))}catch(e){row(list,'fail',tr('Backup round-trip','اختبار النسخة الاحتياطية'),e.message)}
+  try{let used=0;for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);used+=(k.length+(localStorage.getItem(k)||'').length)*2}const mb=used/1048576;row(list,mb<3.5?'pass':'warn',tr('Storage space','مساحة التخزين'),tr(`${mb.toFixed(2)} MB of about 5 MB used.`,`${mb.toFixed(2)} م.ب مستخدمة من نحو ٥ م.ب.`))}catch(e){}
+  const last=localStorage.getItem('ascend-last-backup');const age=last?(Date.now()-Date.parse(last))/864e5:Infinity;row(list,age<=14?'pass':'warn',tr('Last backup','آخر نسخة احتياطية'),last?tr(`${Math.floor(age)} day(s) ago.`,`قبل ${Math.floor(age)} يوم.`)+(age>14?tr(' Export a new backup.',' صدّر نسخة جديدة.'):''):tr('No backup saved from this device yet.','لم تُحفظ أي نسخة من هذا الجهاز بعد.'),age<=14?null:[tr('Export backup now','تصدير نسخة الآن'),()=>ascendExportBackup()]);
+  const remote=(performance.getEntriesByType?performance.getEntriesByType('resource'):[]).filter(e=>/^https?:/i.test(e.name));row(list,remote.length?'fail':'pass',tr('Offline privacy','الخصوصية دون اتصال'),remote.length?tr(`${remote.length} network request(s) were made.`,`تم إجراء ${remote.length} طلب شبكة.`):tr('No network requests made by Ascend in this session.','لم يُجرِ أسيند أي طلب شبكة في هذه الجلسة.'));
+  androidChecks(list,nativeStatus());
+  row(list,'untested',tr('Scheduled delivery','وصول التذكيرات المجدولة'),tr('Cannot be verified automatically. Use “Test reminder”, then set a reminder a few minutes ahead and close the app to confirm on this device.','لا يمكن التحقق تلقائيًا. استخدم «تجربة التذكير» ثم اضبط تذكيرًا بعد دقائق وأغلق التطبيق للتأكد على هذا الجهاز.'));
+  label()};
+ undo.onclick=()=>ascendUndoRestore();
+ label();new MutationObserver(label).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+}
+
+/* ---------- Small localisation gaps ---------- */
+function localizeBits(){const lab=document.querySelector('label[for="ascendSearch"]'),inp=$('ascendSearch');if(lab)lab.textContent=tr('Search calendar','بحث في التقويم');if(inp)inp.placeholder=tr('Search tasks and appointments…','ابحث في المهام والمواعيد…')}
+
+/* ---------- Wire up ---------- */
+function init(){
+ buildReliability();layout();watchReminders();
+ const r=window.render;window.render=function(){const out=r.apply(this,arguments);chrome();localizeBits();return out};
+ chrome();
+ // Re-apply heading/nav translation now that tabs changed.
+ if(typeof render==='function')render();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
 </body></html>

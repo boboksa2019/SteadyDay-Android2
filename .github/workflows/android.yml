@@ -1,4 +1,4 @@
-name: Build SteadyDay APK
+name: Build Ascend APK
 
 on:
   push:
@@ -16,8 +16,25 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+      # Stable signing key (recommended). Add these repository secrets once:
+      # ASCEND_KEYSTORE_BASE64, ASCEND_KEYSTORE_PASSWORD, ASCEND_KEY_ALIAS, ASCEND_KEY_PASSWORD
+      - name: Restore signing key
+        env:
+          KEY_B64: ${{ secrets.ASCEND_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEY_B64" ]; then
+            echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/ascend.jks"
+            echo "ASCEND_KEYSTORE_FILE=$RUNNER_TEMP/ascend.jks" >> "$GITHUB_ENV"
+            echo "Signing with the Ascend key."
+          else
+            echo "::warning::No ASCEND_KEYSTORE_BASE64 secret. Using a throwaway debug key; this APK cannot update one signed by a different key."
+          fi
       - run: gradle assembleDebug
+        env:
+          ASCEND_KEYSTORE_PASSWORD: ${{ secrets.ASCEND_KEYSTORE_PASSWORD }}
+          ASCEND_KEY_ALIAS: ${{ secrets.ASCEND_KEY_ALIAS }}
+          ASCEND_KEY_PASSWORD: ${{ secrets.ASCEND_KEY_PASSWORD }}
       - uses: actions/upload-artifact@v4
         with:
-          name: SteadyDay-APK
+          name: Ascend-APK
           path: app/build/outputs/apk/debug/*.apk

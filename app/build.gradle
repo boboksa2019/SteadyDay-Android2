@@ -1,5 +1,27 @@
 plugins { id 'com.android.application' }
-android { namespace 'com.steadyday.app'; compileSdk 35
- defaultConfig { applicationId 'com.steadyday.app'; minSdk 26; targetSdk 35; versionCode 1; versionName '5.2-test' }
+
+// Stable signing: the same key must sign every build, or Android refuses the update and the
+// only way forward is uninstalling (which erases on-device data). Key comes from CI secrets.
+def ks = System.getenv('ASCEND_KEYSTORE_FILE')
+def hasReleaseKey = ks != null && new File(ks).exists()
+
+android {
+ namespace 'com.steadyday.app'
+ compileSdk 35
+ defaultConfig { applicationId 'com.steadyday.app'; minSdk 26; targetSdk 35; versionCode 61; versionName '61' }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+ signingConfigs {
+  if (hasReleaseKey) {
+   ascend {
+    storeFile file(ks)
+    storePassword System.getenv('ASCEND_KEYSTORE_PASSWORD')
+    keyAlias System.getenv('ASCEND_KEY_ALIAS')
+    keyPassword System.getenv('ASCEND_KEY_PASSWORD')
+   }
+  }
+ }
+ buildTypes {
+  debug { if (hasReleaseKey) signingConfig signingConfigs.ascend }
+  release { minifyEnabled false; if (hasReleaseKey) signingConfig signingConfigs.ascend }
+ }
 }
