@@ -8,7 +8,7 @@ def hasReleaseKey = ks != null && new File(ks).exists()
 android {
  namespace 'com.steadyday.app'
  compileSdk 35
- defaultConfig { applicationId 'com.steadyday.app'; minSdk 26; targetSdk 35; versionCode 61; versionName '61' }
+ defaultConfig { applicationId 'com.steadyday.app'; minSdk 26; targetSdk 35; versionCode 62; versionName '62' }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
  signingConfigs {
   if (hasReleaseKey) {

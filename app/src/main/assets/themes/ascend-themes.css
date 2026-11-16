@@ -1,0 +1,124 @@
+/* Ascend Theme Studio — applies the active theme's palette and artwork to the whole app.
+   Variables are set on <body> by ascend-themes.js; this sheet loads last on purpose. */
+html body.at{background:var(--at-bg)!important;color:var(--at-ink)!important;background-image:none!important}
+body.at .main{position:relative;isolation:isolate}
+body.at #atArt{position:absolute;inset:0 0 auto 0;height:clamp(190px,30vw,250px);background:var(--at-art) center bottom/cover no-repeat;z-index:-1;-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent);pointer-events:none;transition:height .25s}
+body.at[data-page="dashboard"] #atArt{height:clamp(330px,52vw,470px)}
+@media(min-width:651px){body.at #atArt{border-radius:0 0 28px 28px}}
+body.at .top h1,body.at .top #heading{color:var(--at-art-ink)!important;text-shadow:0 1px 10px color-mix(in srgb,var(--at-top) 70%,transparent)}
+body.at .top .muted,body.at #today{color:var(--at-art-ink)!important;opacity:.92;text-shadow:0 1px 8px color-mix(in srgb,var(--at-top) 80%,transparent)}
+body.at .langtools button:not(.btn){background:var(--at-surface)!important;background:color-mix(in srgb,var(--at-surface) 78%,transparent)!important;color:var(--at-ink)!important;border:1px solid color-mix(in srgb,var(--at-border) 70%,transparent)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+
+/* Today hero: ring + three rows, like the Theme Studio mock-up */
+body.at #dashboard>.hero,body.at #dashboard>.stats{display:none!important}
+#atHero{display:grid;gap:14px;margin:8px 0 18px}
+#atHero .at-ring{position:relative;width:124px;height:124px;border-radius:50%;background:var(--at-surface);background:color-mix(in srgb,var(--at-surface) 80%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 30px #0000001f;margin-top:clamp(20px,9vw,70px)}
+#atHero .at-ring>svg{position:absolute;inset:0}
+#atHero .at-ring>div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+#atHero .at-ring b{font-size:27px;line-height:1;color:var(--at-ink);font-variant-numeric:tabular-nums}
+#atHero .at-ring small{font-size:10.5px;color:var(--at-muted);margin-top:4px;max-width:80px}
+#atHero .at-rows{display:grid;gap:9px}
+#atHero .at-rows button{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:12px;min-height:54px;padding:12px 16px;border-radius:16px;border:1px solid color-mix(in srgb,var(--at-border) 70%,transparent)!important;background:var(--at-surface)!important;background:color-mix(in srgb,var(--at-surface) 86%,transparent)!important;color:var(--at-ink)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 6px 18px #0000000f;font-weight:700;text-align:start}
+#atHero .at-rows button b{font-weight:600;font-size:.88rem;color:var(--at-muted)}
+#atHero .at-rows svg{width:22px;height:22px;fill:none;stroke:var(--at-accent-text);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#atHero .at-rows button:active{transform:scale(.99)}
+@media(min-width:900px){#atHero{grid-template-columns:150px 1fr;align-items:end}#atHero .at-ring{width:140px;height:140px}}
+
+/* Surfaces */
+html body.at .panel,html body.at .stat,html body.at .modal,html body.at .ascend47-panel,html body.at #ascend54-review,html body.at .ascend45-focus,html body.at #ascend57Tools,html body.at #ascend60Reliability,html body.at .ascend-dialog,html body.at #ascend58-guide .ascend58-panel,html body.at .ascend53-dialog{background:var(--at-surface)!important;color:var(--at-ink)!important;border-color:var(--at-border)!important;box-shadow:0 8px 26px #00000012!important}
+html body.at .ascend51-plan,html body.at .ascend52-workload,html body.at .ascend48-summary>div,html body.at #ascend54-review .a54-stat,html body.at .ascend-day-journal,html body.at .ascend20-summary,html body.at #ascend57Stats div,html body.at .ascend-result-card,html body.at .reminder-item,html body.at #ascend43BackupOverview .ascend43-count,html body.at .ascend61-status li,html body.at .ascend-calendar-summary{background:var(--at-surface2)!important;color:var(--at-ink)!important;border-color:var(--at-border)!important}
+html body.at #dashHabits .entry{background:var(--at-surface2)!important;border-color:var(--at-border)!important}
+html body.at .entry{border-color:var(--at-border)!important}
+html body.at h1,html body.at h2,html body.at h3,html body.at h4,html body.at .panel b,html body.at .details b,html body.at label{color:var(--at-ink)}
+html body.at .muted,html body.at small,html body.at .entry small,html body.at .details small,html body.at .footer,html body.at .emptymsg,html body.at .cal-sub,html body.at .ascend47-muted,html body.at .reminder-note,html body.at .a54-sub,html body.at p{color:var(--at-muted)}
+html body.at .ascend-search-count,html body.at .ascend-empty{color:var(--at-muted)!important}
+
+/* Navigation */
+html body.at .side{background:var(--at-surface)!important;background:color-mix(in srgb,var(--at-surface) 90%,transparent)!important;border-color:var(--at-border)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+html body.at .brand{color:var(--at-accent-text)!important}
+html body.at .nav{color:var(--at-muted)!important;background:transparent!important}
+html body.at .nav.active{background:var(--at-btn)!important;color:var(--at-on)!important;box-shadow:none!important}
+
+/* Buttons */
+html body.at .btn:not(.secondary):not(.danger),html body.at .ascend47-form button,html body.at .ascend51-item button,html body.at .ascend48-actions button:first-child,html body.at #ascend57Export,html body.at #ascend58-guide button.primary,html body.at .ascend-journal-footer button,html body.at .at-btn.primary{background:var(--at-btn)!important;color:var(--at-on)!important;border-color:var(--at-btn)!important;box-shadow:none!important}
+html body.at .btn.secondary,html body.at .iconbtn,html body.at .calendar-actions button,html body.at .ascend-task-actions button:not(.ascend-delete),html body.at .ascend48-actions button:not(:first-child),html body.at #ascend54-review button,html body.at .reminder-actions button,html body.at #ascend59CalendarExport,html body.at .ascend61-status li button,html body.at #ascend58-guide button.secondary,html body.at .ascend53-view-art,html body.at .ascend55-undo button,html body.at .ascend56-duplicate{background:var(--at-chip)!important;color:var(--at-chip-text)!important;border:1px solid transparent!important}
+html body.at .btn:disabled,html body.at .at-btn:disabled{opacity:.7;cursor:default}
+
+/* Fields */
+html body.at .field,html body.at input:not([type=checkbox]):not([type=radio]),html body.at select,html body.at textarea,html body.at #reminderSettings select,html body.at #reminderSettings input:not([type=checkbox]),html body.at .reminder-grid select,html body.at .reminder-grid input{background:var(--at-input)!important;color:var(--at-ink)!important;border:1px solid var(--at-border)!important;color-scheme:light}
+html body.at.at-dark .field,html body.at.at-dark input,html body.at.at-dark select,html body.at.at-dark textarea{color-scheme:dark}
+html body.at input::placeholder,html body.at textarea::placeholder{color:var(--at-muted);opacity:.85}
+html body.at .tick,html body.at input[type=checkbox]{accent-color:var(--at-accent)}
+
+/* Progress & charts */
+html body.at .progress,html body.at .ascend20-track,html body.at .ascend45-progress,html body.at #ascend54-review .a54-meter,html body.at .ascend-milestone-track,html body.at .ascend52-track{background:var(--at-track)!important}
+html body.at .progress>div,html body.at .ascend20-track>div,html body.at .ascend45-progress span,html body.at #ascend54-review .a54-fill,html body.at .ascend-milestone-fill,html body.at .ascend46-bar,html body.at .ascend52-bar,html body.at .bar{background:var(--at-accent)!important}
+html body.at .ascend51-plan progress{accent-color:var(--at-accent)}
+html body.at .chip,html body.at .reminder-pill{background:var(--at-chip)!important;color:var(--at-chip-text)!important}
+
+/* Calendar (priority and completion colours keep their meaning; neutral cells follow the theme) */
+html body.at .day{background:var(--at-surface2);color:var(--at-ink)}
+html body.at .day.head{background:none!important;color:var(--at-muted)!important}
+html body.at .day.empty{background:transparent!important}
+html body.at .day.today{outline-color:var(--at-accent)!important}
+html body.at #calendar [data-ascend-date].ascend-selected{outline:3px solid var(--at-accent)!important}
+html body.at .ascend-cal-secondary-day{color:var(--at-muted)}
+
+/* Theme Studio */
+.at-studio-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:6px 0 10px}
+.at-studio-head h3{margin:0 0 2px;font-size:1.15rem}
+.at-seg{display:inline-flex;padding:4px;border-radius:14px;background:var(--at-surface2,#eef1ee);border:1px solid var(--at-border,#ddd)}
+.at-seg button{min-height:40px;padding:6px 14px;border-radius:10px;background:transparent;color:var(--at-muted,#555);font-weight:700}
+.at-seg button[aria-pressed="true"]{background:var(--at-btn,#355);color:var(--at-on,#fff)}
+.at-note{font-size:.86rem;padding:10px 12px;border-radius:12px;background:var(--at-surface2,#f3f3f3);color:var(--at-ink)!important;margin:8px 0}
+.at-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.at-card{min-width:0;display:flex;flex-direction:column;gap:5px;padding:8px;border-radius:20px;border:2px solid transparent;background:var(--at-surface2,#f6f6f6)}
+.at-card.is-active{border-color:var(--at-accent)}
+.at-card.is-preview{border-color:var(--at-accent);border-style:dashed}
+.at-phone{position:relative;aspect-ratio:9/15;border-radius:16px;overflow:hidden;background:var(--c-bg) center top/cover no-repeat;box-shadow:inset 0 0 0 1px #00000014;padding:10px 8px;display:flex;flex-direction:column;gap:6px}
+.at-phone::after{content:"";position:absolute;inset:auto 0 0 0;height:52%;background:linear-gradient(transparent,var(--c-bg) 45%);z-index:0}
+.at-phone>*{position:relative;z-index:1}
+html body.at .at-card .at-mini-top b{font-size:13px;color:var(--c-art-ink);text-shadow:0 1px 6px #0003}
+.at-mini-ring{position:relative;width:46px;height:46px;border-radius:50%;background:var(--c-surface);background:color-mix(in srgb,var(--c-surface) 85%,transparent);margin-top:6px}
+.at-mini-ring svg{position:absolute;inset:0}.at-mini-ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:10.5px;font-weight:800;color:var(--c-ink)}
+.at-mini-rows{margin-top:auto;display:grid;gap:4px}
+.at-mini-rows i{display:flex;justify-content:space-between;font-style:normal;font-size:9.5px;font-weight:700;padding:5px 7px;border-radius:7px;background:var(--c-surface);background:color-mix(in srgb,var(--c-surface) 92%,transparent);color:var(--c-ink)}
+.at-mini-rows i span:last-child{color:var(--c-muted);font-weight:600}
+.at-card h4{margin:4px 2px 0;font-size:.9rem;line-height:1.25;color:var(--at-ink)}
+.at-badge{align-self:flex-start;font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:20px;margin-inline-start:2px}
+.at-badge.free{background:#2f7a4a;color:#fff}.at-badge.premium{background:#f6d77a;color:#4a3300}
+.at-card p{margin:0 2px;font-size:.76rem;line-height:1.35}
+.at-sw{display:flex;gap:5px;margin:2px}.at-sw i{width:15px;height:15px;border-radius:50%;box-shadow:inset 0 0 0 1px #0002}
+.at-actions{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:auto;padding-top:4px}
+.at-btn{min-height:40px;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.82rem;background:var(--at-chip,#e8eee8);color:var(--at-chip-text,#234)}
+.at-btn.ghost{background:transparent;border:1px solid var(--at-border,#ccc);color:var(--at-ink)}
+@media(min-width:700px){.at-grid{grid-template-columns:repeat(auto-fill,minmax(175px,1fr))}}
+#ascendPremiumPanel .at-benefits{list-style:none;padding:0;margin:12px 0;display:grid;gap:8px}
+#ascendPremiumPanel .at-benefits li{display:grid;gap:2px;padding:12px;border-radius:14px;background:var(--at-surface2)}
+#ascendPremiumPanel .at-benefits span{font-size:.86rem;color:var(--at-muted)}
+/* Old controls replaced by the Studio */
+#settings label[for="sdTheme"],#sdTheme,#settings button[onclick="toggleTheme()"]{display:none!important}
+
+/* Preview bar */
+#atPreviewBar{position:fixed;top:10px;white-space:nowrap;overflow:hidden;left:50%;transform:translateX(-50%);z-index:9000;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 20px);padding:8px 8px 8px 16px;border-radius:30px;background:var(--at-ink);color:var(--at-bg);box-shadow:0 10px 30px #0004;font-weight:700;font-size:.86rem}
+#atPreviewBar button{min-height:38px;padding:6px 14px;border-radius:20px;background:var(--at-bg);color:var(--at-ink);font-weight:800}
+body.at-previewing .main{padding-top:58px}
+#atPreviewBar span{overflow:hidden;text-overflow:ellipsis}
+
+/* Full artwork viewer */
+#atViewer[hidden]{display:none}
+#atViewer{position:fixed;inset:0;z-index:99990;background:#050a0ee6;display:grid;place-items:center;padding:14px}
+#atViewer .at-viewer-box{width:min(96vw,900px);background:#141a1f;color:#fff;border-radius:18px;padding:14px}
+#atViewer header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#atViewer h3{margin:0;color:#fff}#atViewer p{color:#d8e0e6!important;margin:10px 0 0;font-size:.85rem}
+#atViewer img{display:block;width:100%;height:auto;border-radius:12px}
+#atViewer .at-close{min-width:44px;min-height:44px;border-radius:10px;background:#fff;color:#141a1f;font-size:1.3rem}
+@media(prefers-reduced-motion:reduce){body.at #atArt{transition:none}}
+
+/* Text inside fixed-colour overlays stays readable in every theme */
+html body.at .reminder-toast p,html body.at .reminder-toast b{color:#fff!important}
+html body.at #ascend58-guide h2,html body.at #ascend58-guide .ascend58-kicker{color:var(--at-ink)!important}
+html body.at #ascend58-guide p{color:var(--at-muted)!important}
+html body.at #ascend58-guide .ascend58-progress span{background:var(--at-track)!important}
+html body.at #ascend58-guide .ascend58-progress span.active{background:var(--at-accent)!important}
+html body.at .ascend61-toast{background:var(--at-ink);color:var(--at-bg)}
