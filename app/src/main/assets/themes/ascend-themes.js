@@ -32,8 +32,11 @@ const ar=()=>document.documentElement.lang==='ar';const tr=(en,a)=>ar()?a:en;
    Ascend is built twice: "full" (everything unlocked) and "free". The edition is fixed when the APK is
    built (Android product flavour) and read from the app — never from storage the user could edit.
    A future store purchase would also unlock here, from a verified purchase only. */
-const EDITION=(()=>{try{return window.SteadyDayNative&&typeof SteadyDayNative.edition==='function'&&SteadyDayNative.edition()==='full'?'full':'free'}catch(e){return'free'}})();
-window.AscendPremium={edition:EDITION,isUnlocked:()=>EDITION==='full'};
+const EDITION=(()=>{try{const e=window.SteadyDayNative&&typeof SteadyDayNative.edition==='function'?SteadyDayNative.edition():'';return e==='full'||e==='play'?e:'free'}catch(e){return'free'}})();
+// Play edition: unlocked only by a Google Play purchase, checked by the app (cached offline once verified).
+const storeState=()=>{try{return JSON.parse(SteadyDayNative.premium()||'{}')}catch(e){return{}}};
+const OWNED=EDITION==='full'||(EDITION==='play'&&storeState().owned===true);
+window.AscendPremium={edition:EDITION,isUnlocked:()=>OWNED,store:storeState};
 const PREVIEW_SECONDS=8;
 const ACCENTS=['#2f7a5a','#1a6ab8','#6a4cd0','#b0367a','#c0482e','#a86a12','#0f8a8a','#4a5a6a','#8a3ab8','#d0477a','#3a8a2a','#24315e'];
 const accentPref=()=>{const a=localStorage.getItem('ascend-accent');return AscendPremium.isUnlocked()&&/^#[0-9a-f]{6}$/i.test(a||'')?a:null};
@@ -92,7 +95,7 @@ window.ascendThemeChrome=()=>{const t=current(),p=palette(t,t.darkOnly||wantDark
 function choose(id){const t=byId[id];if(!t)return;if(!unlocked(t)){startPreview(id);return}preview=null;saved=id;try{localStorage.setItem(KEY,id)}catch(e){}apply();drawStudio();toastMsg(tr('Theme applied: ','تم تطبيق السمة: ')+t.name[ar()?1:0])}
 let previewTimer=null,previewLeft=0;
 function startPreview(id){clearInterval(previewTimer);preview=id;previewLeft=PREVIEW_SECONDS;apply();drawStudio();window.scrollTo({top:0,behavior:'smooth'});
- previewTimer=setInterval(()=>{previewLeft--;if(previewLeft<=0){endPreview();toastMsg(tr('Preview ended. Premium themes are included in Ascend Full.','انتهت المعاينة. السمات المميزة متاحة في أسيند الكامل.'))}else drawBanner()},1000)}
+ previewTimer=setInterval(()=>{previewLeft--;if(previewLeft<=0){endPreview();toastMsg(tr('Preview ended. Premium themes are included in Ascend Premium.','انتهت المعاينة. السمات المميزة متاحة في أسيند المميز.'))}else drawBanner()},1000)}
 function endPreview(){clearInterval(previewTimer);previewTimer=null;preview=null;apply();drawStudio()}
 window.ascendSetTheme=choose;window.ascendPreviewTheme=startPreview;window.ascendEndPreview=endPreview;
 window.ascendCurrentTheme=()=>({saved,preview});
@@ -181,15 +184,25 @@ const BENEFITS=[
 window.AscendBenefits=BENEFITS;
 function drawPremium(){
  const host=document.getElementById('ascendPremiumPanel');if(!host)return;
- const on=AscendPremium.isUnlocked(),A=ar()?1:0;
- host.innerHTML=`<h2>♛ ${on?tr('Ascend Full','أسيند الكامل'):tr('Ascend Premium','أسيند المميز')}</h2>
- <p class="muted">${on?tr('Everything is unlocked in this edition.','كل الميزات مفتوحة في هذا الإصدار.'):tr('Included in Ascend Full · no subscription · no ads','متاح في أسيند الكامل · بدون اشتراك · بدون إعلانات')}</p>
- <ul class="at-benefits">${BENEFITS.map(b=>`<li class="${on?'on':'off'}"><b>${on?'✓':'🔒'} ${b[A]}</b><span>${b[2+A]}</span></li>`).join('')}</ul>
- ${on?'':`<p class="at-note">${tr('You can preview premium themes for '+PREVIEW_SECONDS+' seconds. The full features come with the Ascend Full app.','يمكنك معاينة السمات المميزة لمدة '+PREVIEW_SECONDS+' ثوانٍ. الميزات الكاملة تأتي مع تطبيق أسيند الكامل.')}</p>`}`;
+ const on=AscendPremium.isUnlocked(),A=ar()?1:0,st=EDITION==='play'?storeState():{};
+ const title=EDITION==='full'?tr('Ascend Full','أسيند الكامل'):tr('Ascend Premium','أسيند المميز');
+ const sub=on?(EDITION==='full'?tr('Everything is unlocked in this edition.','كل الميزات مفتوحة في هذا الإصدار.'):tr('Unlocked. Thank you for supporting Ascend!','مفعّل. شكرًا لدعمك أسيند!')):tr('One-time purchase · no subscription · no ads','شراء لمرة واحدة · بدون اشتراك · بدون إعلانات');
+ let action='';
+ if(!on&&EDITION==='play'){
+  const ready=st.state==='ready'&&st.price;
+  action=`<div class="at-buy"><button type="button" class="btn" data-buy ${ready?'':'disabled'}>${ready?tr('Unlock Ascend Premium · ','افتح أسيند المميز · ')+st.price:st.state==='unavailable'?tr('Google Play unavailable','متجر Google Play غير متاح'):tr('Loading price…','جارٍ تحميل السعر…')}</button><button type="button" class="btn secondary" data-restore>${tr('Restore purchase','استعادة الشراء')}</button></div>
+  ${st.state==='unavailable'?`<p class="at-note">${tr('Purchases work when Ascend is installed from Google Play and you are signed in to the Play Store.','يعمل الشراء عندما يكون أسيند مثبتًا من Google Play وأنت مسجّل الدخول في المتجر.')}</p>`:''}
+  <p class="at-note">${tr('Already bought it on another phone? Tap Restore purchase with the same Google account.','اشتريته على جهاز آخر؟ اضغط «استعادة الشراء» بنفس حساب Google.')}</p>`;
+ } else if(!on){action=`<p class="at-note">${tr('Ascend Premium is available in the Google Play version of Ascend.','أسيند المميز متاح في نسخة أسيند على Google Play.')}</p>`}
+ host.innerHTML=`<h2>♛ ${title}</h2><p class="muted">${sub}</p>
+ <ul class="at-benefits">${BENEFITS.map(b=>`<li class="${on?'on':'off'}"><b>${on?'✓':'🔒'} ${b[A]}</b><span>${b[2+A]}</span></li>`).join('')}</ul>${action}
+ ${on?'':`<p class="at-note">${tr('You can preview premium themes for '+PREVIEW_SECONDS+' seconds before buying.','يمكنك معاينة السمات المميزة لمدة '+PREVIEW_SECONDS+' ثوانٍ قبل الشراء.')}</p>`}`;
+ host.querySelector('[data-buy]')?.addEventListener('click',()=>{try{SteadyDayNative.buy()}catch(e){}});
+ host.querySelector('[data-restore]')?.addEventListener('click',()=>{toastMsg(tr('Checking your purchases…','جارٍ التحقق من مشترياتك…'));try{SteadyDayNative.restore()}catch(e){}});
 }
 function studioClicks(e){
  const ac=e.target.closest('[data-accent]');
- if(ac){if(!AscendPremium.isUnlocked()){toastMsg(tr('Custom accent colours are part of Ascend Full.','ألوان التمييز المخصصة متاحة في أسيند الكامل.'));return}
+ if(ac){if(!AscendPremium.isUnlocked()){toastMsg(tr('Custom accent colours are part of Ascend Premium.','ألوان التمييز المخصصة متاحة في أسيند المميز.'));return}
   if(ac.dataset.accent)localStorage.setItem('ascend-accent',ac.dataset.accent);else localStorage.removeItem('ascend-accent');apply();drawStudio();return}
  const u=e.target.closest('[data-use]'),pv=e.target.closest('[data-preview]'),a=e.target.closest('[data-art]'),m=e.target.closest('[data-mode]');
  if(u)choose(u.dataset.use);else if(pv)startPreview(pv.dataset.preview);else if(a)openArt(byId[a.dataset.art]);
@@ -197,7 +210,14 @@ function studioClicks(e){
 }
 
 /* ---------- Wire up ---------- */
+function onStore(type,value){
+ if(type==='store'){drawPremium();return}
+ const msg={owned:tr('Thank you! Ascend Premium is unlocked.','شكرًا لك! تم تفعيل أسيند المميز.'),pending:tr('Payment pending. Premium unlocks as soon as Google Play confirms it.','الدفع قيد المعالجة. سيُفعَّل المميز فور تأكيد Google Play.'),cancelled:tr('Purchase cancelled.','أُلغي الشراء.'),error:tr('The purchase did not complete. Please try again.','لم يكتمل الشراء. حاول مرة أخرى.'),unavailable:tr('Google Play is not ready yet. Try again in a moment.','متجر Google Play غير جاهز بعد. حاول بعد لحظات.'),revoked:tr('Ascend Premium is no longer active on this Google account.','لم يعد أسيند المميز مفعّلًا على حساب Google هذا.'),none:tr('No previous purchase was found for this Google account.','لم يُعثر على شراء سابق لحساب Google هذا.')}[value];
+ if(msg)toastMsg(msg);
+ if((value==='owned'&&!OWNED&&EDITION==='play')||(value==='revoked'&&OWNED&&EDITION==='play'))setTimeout(()=>location.reload(),1400);
+}
 function init(){
+ const prevEv=window.ascendNativeEvent;window.ascendNativeEvent=function(t,v){if(prevEv)prevEv(t,v);if(t==='purchase'||t==='restore'||t==='store')onStore(t,v)};
  const studio=document.getElementById('ascendThemeStudio');
  if(studio){studio.addEventListener('click',studioClicks);const panel=studio.closest('.panel');if(panel&&!document.getElementById('ascendPremiumPanel')){const pp=document.createElement('section');pp.id='ascendPremiumPanel';pp.className='panel';panel.after(pp)}}
  const art=document.createElement('div');art.id='atArt';art.setAttribute('aria-hidden','true');document.querySelector('.main')?.prepend(art);

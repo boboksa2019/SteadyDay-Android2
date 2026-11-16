@@ -1,4 +1,4 @@
-name: Build Ascend APK
+name: Build Ascend
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.9'
+          gradle-version: '8.13'
       # Stable signing key (recommended). Add these repository secrets once:
       # ASCEND_KEYSTORE_BASE64, ASCEND_KEYSTORE_PASSWORD, ASCEND_KEY_ALIAS, ASCEND_KEY_PASSWORD
       - name: Restore signing key
@@ -29,21 +29,33 @@ jobs:
           else
             echo "::warning::No ASCEND_KEYSTORE_BASE64 secret. Using a throwaway debug key; this APK cannot update one signed by a different key."
           fi
-      - run: gradle assembleDebug
+      - name: Build apps
+        run: |
+          # Full edition (for friends) and a Play test APK
+          gradle assembleFullDebug assemblePlayDebug
+          # Google Play upload bundle (needs the signing key)
+          if [ -n "$ASCEND_KEYSTORE_FILE" ]; then gradle bundlePlayRelease; fi
         env:
           ASCEND_KEYSTORE_PASSWORD: ${{ secrets.ASCEND_KEYSTORE_PASSWORD }}
           ASCEND_KEY_ALIAS: ${{ secrets.ASCEND_KEY_ALIAS }}
           ASCEND_KEY_PASSWORD: ${{ secrets.ASCEND_KEY_PASSWORD }}
-      - name: Name the APKs
+          ASCEND_PLAY_KEY: ${{ secrets.ASCEND_PLAY_KEY }}
+      - name: Collect files
         run: |
           mkdir -p out
           cp app/build/outputs/apk/full/debug/*.apk out/Ascend-Full.apk
-          cp app/build/outputs/apk/free/debug/*.apk out/Ascend-Free.apk
+          cp app/build/outputs/apk/play/debug/*.apk out/Ascend-Play-test.apk
+          if ls app/build/outputs/bundle/playRelease/*.aab >/dev/null 2>&1; then cp app/build/outputs/bundle/playRelease/*.aab out/Ascend-GooglePlay.aab; fi
       - uses: actions/upload-artifact@v4
         with:
           name: Ascend-Full-APK
           path: out/Ascend-Full.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: Ascend-Free-APK
-          path: out/Ascend-Free.apk
+          name: Ascend-Play-test-APK
+          path: out/Ascend-Play-test.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ascend-GooglePlay-AAB
+          path: out/Ascend-GooglePlay.aab
+          if-no-files-found: warn

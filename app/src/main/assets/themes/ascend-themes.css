@@ -171,3 +171,5 @@ html body.at.at-dark #ascendReminderAlert{background:#4a3a10;border-color:#8a6a1
 .ascend-upcoming li{display:grid;gap:2px;padding:10px 12px;border-radius:12px;background:var(--at-surface2);border:1px solid var(--at-border)}
 .ascend-upcoming li span{font-size:.84rem;color:var(--at-muted)}
 #ascendTestMinute{min-height:44px}
+
+.at-buy{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}.at-buy .btn{min-height:48px}.at-buy .btn[data-buy]{flex:1 1 220px;font-size:1rem}

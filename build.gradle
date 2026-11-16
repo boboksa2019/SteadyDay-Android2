@@ -1,3 +1,4 @@
 plugins {
-    id 'com.android.application' version '8.7.3' apply false
+    // AGP 8.11 supports Android 16 (API 36), required by Google Play for new apps.
+    id 'com.android.application' version '8.11.1' apply false
 }

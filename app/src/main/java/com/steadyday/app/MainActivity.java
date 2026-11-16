@@ -72,6 +72,9 @@ public class MainActivity extends Activity {
   if (b != null) web.restoreState(b);
   else web.loadUrl("file:///android_asset/index.html");
   ReminderScheduler.cleanOldChannels(this);
+  Store.init(this);
+  // Android 13+ (and required on Android 16): Back goes through OnBackInvokedCallback, not onBackPressed().
+  if (Build.VERSION.SDK_INT >= 33) getOnBackInvokedDispatcher().registerOnBackInvokedCallback(android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT, this::handleBack);
   // Ask for notification permission once on first launch (Android 13+); later the app shows a clear fix button.
   if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
       && !getSharedPreferences(ReminderScheduler.PREF, 0).getBoolean("askedNotify", false)) {
@@ -180,7 +183,11 @@ public class MainActivity extends Activity {
    if (!notificationsAllowed()) { runOnUiThread(() -> requestPermission()); return 0; }
    return ReminderScheduler.scheduleTest(MainActivity.this, language);
   }
-  /** "full" or "free" — fixed at build time by the product flavour. */
+  /** Premium status for the app UI: {state, owned, price}. */
+  @JavascriptInterface public String premium() { return Store.state(MainActivity.this); }
+  @JavascriptInterface public void buy() { runOnUiThread(() -> Store.buy(MainActivity.this)); }
+  @JavascriptInterface public void restore() { runOnUiThread(() -> Store.restore(MainActivity.this)); }
+  /** "full" or "play" — fixed at build time by the product flavour. */
   @JavascriptInterface public String edition() { return getString(R.string.ascend_edition); }
   /** Plays a reminder sound so the user can choose one. */
   @JavascriptInterface public void previewSound(String name) {
@@ -276,13 +283,16 @@ public class MainActivity extends Activity {
  @Override protected void onResume() {
   super.onResume();
   ReminderScheduler.schedule(this);
+  Store.init(this);
   if (web != null) js("window.ascendNativeEvent&&ascendNativeEvent('resume','')");
  }
 
  // Back closes dialogs and returns to Today before leaving the app.
- @Override public void onBackPressed() {
+ void handleBack() {
   web.evaluateJavascript("(window.ascendHandleBack&&window.ascendHandleBack())?'1':'0'", v -> {
-   if (!"\"1\"".equals(v)) MainActivity.super.onBackPressed();
+   if (!"\"1\"".equals(v)) finish();
   });
  }
+ /** Only used on Android 12 and older; newer versions use the callback registered in onCreate. */
+ @Override public void onBackPressed() { handleBack(); }
 }

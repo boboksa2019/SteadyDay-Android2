@@ -2,18 +2,30 @@ plugins { id 'com.android.application' }
 
 // Stable signing: the same key must sign every build, or Android refuses the update and the
 // only way forward is uninstalling (which erases on-device data). Key comes from CI secrets.
+// For Google Play this key is the "upload key"; Google re-signs the app for users.
 def ks = System.getenv('ASCEND_KEYSTORE_FILE')
 def hasReleaseKey = ks != null && new File(ks).exists()
 
 android {
- namespace 'com.steadyday.app'
- compileSdk 35
- defaultConfig { applicationId 'com.steadyday.app'; minSdk 26; targetSdk 35; versionCode 65; versionName '65' }
- // Two editions from one codebase. Same app id + same signing key, so Full installs over Free and keeps data.
+ namespace 'com.steadyday.app'   // internal Java package; users and Google Play see applicationId
+ compileSdk 36
+ defaultConfig {
+  applicationId 'com.ascend.planner'
+  minSdk 26
+  targetSdk 36
+  versionCode 66
+  versionName '66'
+ }
  flavorDimensions 'edition'
  productFlavors {
-  free { dimension 'edition' }
-  full { dimension 'edition'; versionNameSuffix ' Full' }
+  // Google Play: free download, "Ascend Premium" is a one-time in-app purchase.
+  play {
+   dimension 'edition'
+   // Google Play public licence key (optional, from the ASCEND_PLAY_KEY secret) used to check purchase signatures.
+   resValue 'string', 'ascend_play_key', (System.getenv('ASCEND_PLAY_KEY') ?: '')
+  }
+  // Everything unlocked, shared directly with friends. Separate app id so it never clashes with the Play version.
+  full { dimension 'edition'; applicationIdSuffix '.full'; versionNameSuffix ' Full' }
  }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
  signingConfigs {
@@ -30,4 +42,9 @@ android {
   debug { if (hasReleaseKey) signingConfig signingConfigs.ascend }
   release { minifyEnabled false; if (hasReleaseKey) signingConfig signingConfigs.ascend }
  }
+}
+
+dependencies {
+ // Google Play Billing Library 9 (Google requires 8 or later for new apps and updates).
+ playImplementation 'com.android.billingclient:billing:9.1.0'
 }

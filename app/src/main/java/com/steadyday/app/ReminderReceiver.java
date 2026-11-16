@@ -47,7 +47,7 @@ public class ReminderReceiver extends BroadcastReceiver {
  static final String[] SOUNDS = {"chime", "bell", "marimba", "harp", "sparkle", "bowl", "default"};
  static final String[] FREE_SOUNDS = {"chime", "default"};
  static boolean SOUNDS_CONTAINS(String s) { return s != null && java.util.Arrays.asList(SOUNDS).contains(s); }
- static boolean full(Context c) { return "full".equals(c.getString(R.string.ascend_edition)); }
+ static boolean full(Context c) { return Premium.owned(c); }
  /** The sound actually used: unknown values fall back to the Ascend chime; premium sounds need the Full edition. */
  static String sound(Context c, String s) {
   if (s == null || !java.util.Arrays.asList(SOUNDS).contains(s)) return "chime";

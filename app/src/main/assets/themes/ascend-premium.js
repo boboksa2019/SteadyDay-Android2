@@ -1,11 +1,11 @@
-/* Ascend premium features (unlocked in the Ascend Full edition). Everything is calculated from the
+/* Ascend premium features (Ascend Premium on Google Play; always on in the Full edition). Everything is calculated from the
    user's own data on the device; nothing here is sample or placeholder data. */
 (function(){'use strict';
 const ar=()=>document.documentElement.lang==='ar';const tr=(en,a)=>ar()?a:en;
 const full=()=>window.AscendPremium&&AscendPremium.isUnlocked();
 const $=id=>document.getElementById(id);
 const toast=m=>window.ascendToast&&ascendToast(m);
-const locked=what=>toast(tr(what+' is part of Ascend Full.',what+' متاح في أسيند الكامل.'));
+const locked=what=>toast(tr(what+' is part of Ascend Premium.',what+' متاح في أسيند المميز.'));
 const iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
 const day=(n,base)=>{const d=base?new Date(base):new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return d};
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n};
@@ -36,7 +36,7 @@ function focusRow(){
  const L=ascendFocusLengths();const row=el('div','ascend-focus-len');row.id='ascendFocusLen';
  const mk=(id,label,list,val,unit)=>{const w=el('label');w.append(el('span',null,label));const s=el('select');s.id=id;list.forEach(m=>{const o=el('option',null,m+' '+unit);o.value=m;s.append(o)});s.value=val;s.disabled=!full();w.append(s);return[w,s]};
  const [a,fs]=mk('ascendFocusMin',tr('Focus','التركيز'),FOCUS,L.focus,tr('min','د'));const [b,bs]=mk('ascendBreakMin',tr('Break','الاستراحة'),BREAK,L.brk,tr('min','د'));
- row.append(a,b);if(!full()){const lk=el('button','ascend-lock',tr('🔒 Custom lengths: Ascend Full','🔒 مدد مخصصة: أسيند الكامل'));lk.type='button';lk.onclick=()=>locked(tr('Focus Pro','التركيز المتقدم'));row.append(lk)}
+ row.append(a,b);if(!full()){const lk=el('button','ascend-lock',tr('🔒 Custom lengths: Ascend Premium','🔒 مدد مخصصة: أسيند المميز'));lk.type='button';lk.onclick=()=>locked(tr('Focus Pro','التركيز المتقدم'));row.append(lk)}
  const save=()=>{localStorage.setItem('ascend-focus-lengths',JSON.stringify({focus:+fs.value,brk:+bs.value}));const start=$('ascend45Start');if(start&&!/Pause|إيقاف/.test(start.textContent))$('ascend45Reset')?.click()};
  fs.onchange=save;bs.onchange=save;
  const clock=$('ascend45Clock');(clock?clock.previousElementSibling:root.firstChild).before(row);
@@ -49,7 +49,7 @@ function insightsPro(){
  const host=$('progress');if(!host||typeof data!=='object')return;let box=$('ascendInsightsPro');
  if(!box){box=el('section','panel');box.id='ascendInsightsPro';(($('progress-insights'))||host).after(box)}
  box.replaceChildren();const head=el('div','ascend-pro-head');head.append(el('h2',null,tr('Insights Pro','إحصاءات متقدمة')),el('span','ascend-pro-badge',full()?'♛':'🔒'));box.append(head);
- if(!full()){box.append(el('p','muted',tr('30-day habit heatmaps, best streaks, a daily completion trend, your most productive weekday and focus totals — calculated from your own data. Included in Ascend Full.','خرائط العادات لـ٣٠ يومًا، أفضل السلاسل، اتجاه الإنجاز اليومي، أكثر أيامك إنتاجًا ومجموع التركيز — من بياناتك أنت. متاح في أسيند الكامل.')));return}
+ if(!full()){box.append(el('p','muted',tr('30-day habit heatmaps, best streaks, a daily completion trend, your most productive weekday and focus totals — calculated from your own data. Included in Ascend Premium.','خرائط العادات لـ٣٠ يومًا، أفضل السلاسل، اتجاه الإنجاز اليومي، أكثر أيامك إنتاجًا ومجموع التركيز — من بياناتك أنت. متاح في أسيند المميز.')));return}
  const days=Array.from({length:30},(_,i)=>day(i-29));const tasks=(data.tasks||[]).filter(t=>!t.cancelled),habits=data.habits||[];
  // daily completion trend
  const pct=days.map(d=>{const k=iso(d),hs=habits.filter(h=>h.days.includes(d.getDay())),ts=tasks.filter(t=>t.date===k);const tot=hs.length+ts.length;return tot?Math.round((hs.filter(h=>h.log&&h.log[k]).length+ts.filter(t=>t.done).length)/tot*100):null});
