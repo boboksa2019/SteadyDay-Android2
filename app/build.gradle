@@ -13,8 +13,8 @@ android {
   applicationId 'com.ascend.planner'
   minSdk 26
   targetSdk 36
-  versionCode 67
-  versionName '67'
+  versionCode 68
+  versionName '68'
  }
  flavorDimensions 'edition'
  productFlavors {

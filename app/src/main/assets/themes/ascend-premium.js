@@ -87,7 +87,7 @@ function journalButton(){
  b.onclick=()=>{if(!full()){locked(tr('Journal export','تصدير المذكرات'));return}
   const entries=Object.entries(data.journal||{}).filter(([,v])=>String(v).trim()).sort(([a],[b])=>a.localeCompare(b));
   if(!entries.length){toast(tr('Your journal is empty.','مذكراتك فارغة.'));return}
-  const text='﻿'+tr('Ascend journal','مذكرات أسيند')+'\r\n'+tr('Exported ','تاريخ التصدير ')+(typeof today==='function'?today():iso(new Date()))+'\r\n\r\n'+entries.map(([d,v])=>{let h='';try{h=new Intl.DateTimeFormat(ar()?'ar-SA-u-ca-islamic-umalqura':'en-US-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(new Date(d+'T12:00:00'))}catch(e){}return'=== '+d+(h?' · '+h:'')+' ===\r\n'+String(v).replace(/\r?\n/g,'\r\n')}).join('\r\n\r\n')+'\r\n';
+  const text='﻿'+tr('Ascend journal','مذكرات أسيند')+'\r\n'+tr('Exported ','تاريخ التصدير ')+(typeof today==='function'?today():iso(new Date()))+'\r\n\r\n'+entries.map(([d,v])=>{let h='';try{h=window.ascendHijriFmt?window.ascendHijriFmt(new Date(d+'T12:00:00'),ar()?'ar':'en',{day:'numeric',month:'long',year:'numeric'}):''}catch(e){}return'=== '+d+(h?' · '+h:'')+' ===\r\n'+String(v).replace(/\r?\n/g,'\r\n')}).join('\r\n\r\n')+'\r\n';
   ascendSaveFile('Ascend-journal-'+(typeof today==='function'?today():iso(new Date()))+'.txt','text/plain',text)};
  const anchor=$('ascend59CalendarHelp')||$('ascend59CalendarExport');(anchor||tools.lastChild).after(b);
 }
